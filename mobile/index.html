@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Мобильное приложение · Платформа «Ноев Ковчег»</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/doc.css">
+<style>
+  .modules{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1rem;margin:1.6rem 0 2rem}
+  .mod{
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:1.3rem 1.4rem;
+  }
+  .mod .mod-num{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-2);font-weight:600;margin-bottom:.4rem}
+  .mod .mod-ttl{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:.5rem;line-height:1.25}
+  .mod .mod-desc{font-size:.9rem;color:var(--ink-2);line-height:1.55}
+  .cta{
+    display:inline-flex;align-items:center;gap:.7rem;
+    background:linear-gradient(135deg, rgba(95,163,233,.18), rgba(212,168,87,.12));
+    border:1px solid var(--line-2);border-radius:12px;
+    padding:1rem 1.6rem;color:var(--ink);text-decoration:none;font-weight:600;
+    margin-top:.8rem;transition:all .15s;
+  }
+  .cta:hover{border-color:var(--accent);text-decoration:none;transform:translateY(-2px)}
+  .cta .arr{color:var(--accent)}
+</style>
+</head>
+<body>
+<nav class="docbar">
+  <a class="back" href="../index.html">← к хабу</a>
+  <span><b>Платформа «Ноев Ковчег»</b> · <span style="letter-spacing:.16em">Мобильное приложение</span></span>
+  <span>2026</span>
+</nav>
+
+<article>
+  <h1>Мобильное приложение «Ноев Ковчег»</h1>
+  <p class="lead">Кросс-платформенное приложение iOS / Android для трёх типов пользователей: собственников залоговой недвижимости (РА + диаспора), инвесторов и регулятора-наблюдателя (ЦБ РА). Фазированная архитектура: Phase 1 — PWA, Phase 2 — React Native с native-модулями.</p>
+
+  <a class="cta" href="pwa/" target="_blank" rel="noopener">
+    Открыть рабочее PWA-демо
+    <span class="arr">→</span>
+  </a>
+
+  <h2>10 модулей приложения</h2>
+
+  <div class="modules">
+    <div class="mod">
+      <div class="mod-num">00</div>
+      <div class="mod-ttl">Design spec и продукт-стратегия</div>
+      <div class="mod-desc">UX-концепт (Арарат + золото + пергамент), персоны, journey-карты, KPI Phase 1.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">M1</div>
+      <div class="mod-ttl">Showcase и калькулятор</div>
+      <div class="mod-desc">Витрина проектов платформы, расчёт доходности для собственника и инвестора, ввод в воронку.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">M2</div>
+      <div class="mod-ttl">Кабинет собственника</div>
+      <div class="mod-desc">Заведение объекта, KYC, e-подпись Декларации об отказе от прав, статус по фазам, купоны и страховка.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">M3</div>
+      <div class="mod-ttl">Кабинет инвестора</div>
+      <div class="mod-desc">Senior- и Junior-токены, портфель, выплаты, KYC / AML, налоговая документация по юрисдикции инвестора.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">M4</div>
+      <div class="mod-ttl">Регулятор-портал</div>
+      <div class="mod-desc">Read-only доступ ЦБ РА к ключевым метрикам пула, NAV, риск-аналитике, аудит-трейлу.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">05</div>
+      <div class="mod-ttl">API-спецификация</div>
+      <div class="mod-desc">OpenAPI 3.1, контракты между приложением и платформой, схемы данных, оркестрация custody / KYC / NAV.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">06</div>
+      <div class="mod-ttl">Working PWA</div>
+      <div class="mod-desc">Запускаемая Progressive Web App: HTML/CSS/JS + manifest + service-worker, оффлайн-кэш ключевых экранов.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">07</div>
+      <div class="mod-ttl">React Native source</div>
+      <div class="mod-desc">App.tsx + src/, Expo / EAS-сборка, готова к публикации в App Store и Google Play (Phase 2).</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">08</div>
+      <div class="mod-ttl">Marketing / store assets</div>
+      <div class="mod-desc">Иконки 1024×1024, скриншоты экранов под все требуемые форматы магазинов, описания.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">09</div>
+      <div class="mod-ttl">Deployment и submission</div>
+      <div class="mod-desc">Чек-листы EAS-сборки, App Store Connect, Google Play Console, политика конфиденциальности.</div>
+    </div>
+  </div>
+
+  <h2>Текущий статус</h2>
+  <ul>
+    <li><strong>Phase 1 (PWA)</strong> — рабочее демо доступно по ссылке выше; полный source — в репо проекта.</li>
+    <li><strong>Phase 2 (React Native)</strong> — исходный код App.tsx + src/ + EAS-конфиг подготовлен; продакшн-сборка ожидает MVP-cut по бэкенду платформы.</li>
+    <li><strong>Backend</strong> — описан в C-2 Технической архитектуре и API-спецификации (модуль 05). MVP-имплементация — следующий блок дорожной карты после G1.</li>
+  </ul>
+
+  <h2>Связанные документы</h2>
+  <ul>
+    <li><a href="../docs/C_Техническая_архитектура.html">Техническая архитектура платформы (C-2)</a> — backend, custody, KYC, NAV-engine</li>
+    <li><a href="../docs/A_Концепт.html">Концепт платформы (A)</a> — продуктовое позиционирование</li>
+    <li><a href="../B_HTML_прототип_Ноев_Ковчег.html">HTML-прототип веб-кабинетов</a> — desktop-аналог тех же сценариев</li>
+  </ul>
+</article>
+
+<footer class="docfoot">
+  <span>Aslan Kaa · aslankaa@yandex.ru · aslankaa.com</span>
+  <span>© 2026 · Платформа «Ноев Ковчег»</span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Концепт платформы · Платформа «Ноев Ковчег»</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/doc.css">
+</head>
+<body>
+<nav class="docbar">
+  <a class="back" href="../index.html">← к хабу</a>
+  <span><b>Платформа «Ноев Ковчег»</b> · <span style="letter-spacing:.16em">Документ A</span></span>
+  <span>2026-05-11</span>
+</nav>
+<article>
+<p>© Кагиров Абдул-Хаким Ахмадович, 2026. Все права защищены. Watermark
+· © Kagirov A-Kh. A. · 2026 · ALL RIGHTS RESERVED · Universal Copyright
+Convention, Geneva 1952</p>
+<hr />
+<h1
+id="концепт-спецификация-платформа-ноев-ковчег">КОНЦЕПТ-СПЕЦИФИКАЦИЯ:
+ПЛАТФОРМА «НОЕВ КОВЧЕГ»</h1>
+<h2 id="адаптация-модели-рсфср-под-республику-армения">Адаптация модели
+РСФСР под Республику Армения</h2>
+<hr />
+<p><strong>Документ № NK-CONCEPT-001/2026</strong>
+<strong>Дата:</strong> 1 мая 2026 г.</p>
+<p><strong>Автор и правообладатель:</strong> <strong>Кагиров Абдул-Хаким
+Ахмадович</strong> (Аслан Каа) - 🌐 www.aslankaa.com - 📧
+aslankaa@yandex.ru · aslankaa@yandex.ru - 📱 +7 (969) 795-55-55 · +7
+(925) 203-77-77 - 💬 Telegram <span class="citation"
+data-cites="aslan_kaa">@aslan_kaa</span> · Instagram <span
+class="citation" data-cites="aslan_kaa">@aslan_kaa</span> · VK
+id453725994 · Facebook aslan.kaa · X <span class="citation"
+data-cites="aslanofff">@aslanofff</span></p>
+<p><strong>Источник-прототип:</strong> Презентация «Платформа РСФСР —
+Российский Сервис Финансирования Социального Развития», Москва, апрель
+2025 г. (файл <code>РСФСР_6.pptx</code>).</p>
+<p><strong>Регуляторная база:</strong> Закон РА «О криптоактивах»
+HO-159-N от 29.05.2025 (вступил в силу 04.07.2025) + Регламенты ЦБ РА
+7/01, 7/02, 7/04, 7/05 (вступили в силу 31.01.2026). Полная сводка — см.
+сопроводительный документ «Сводка регулирования ЦФА в Армении».</p>
+<hr />
+<h2 id="executive-summary">EXECUTIVE SUMMARY</h2>
+<p>«Ноев Ковчег» — двухфазная платформа социально-инфраструктурного
+финансирования Республики Армения, построенная на токенизации залоговой
+недвижимости физических и юридических лиц (резидентов РА и армянской
+диаспоры).</p>
+<p><strong>Фаза 1</strong> (мес 6–24, в действующем правовом поле
+HO-159-N): СП «Платформа Ноев Ковчег» (Аслан Каа 60% + армянский банк
+40%) как лицензированный CASP принимает в свой кастоди-пул
+пледжированную недвижимость, выпускает обеспеченные ею двухтраншевые
+токены (Senior долговая бумага под бюджетной гарантией Минфина РА +
+Junior asset-referenced token под HO-159-N) и продаёт их 3 группам
+инвесторов: Минфину РА (якорь), армянской диаспоре (ядро по образцу
+Israel Bonds), международным институционалам (ЕБРР/ВБ/IFC). Деньги идут
+в специальный Фонд «Ноев Ковчег», финансирующий национальные проекты
+РА.</p>
+<p><strong>Фаза 2</strong> (мес 24–60, после пакета поправок через НС
+РА): ЦБ РА получает право принимать пулы asset-referenced активов в
+обеспечение и эмитировать драм под них в Казначейство РА — как в
+оригинальной модели РСФСР. Это закрывает финансовый разрыв и
+масштабирует платформу до €1B+ годового оборота.</p>
+<p><strong>Уникальное предложение для собственника актива:</strong>
+соц-пакет (купон 2.75% + бесплатная страховка + 0% налога на имущество)
++ бонус 7–8% в конце цикла + статус «Соинвестор Армении» + право выкупа
+CFA нового объекта.</p>
+<p><strong>Уникальное предложение для государства РА:</strong>
+ускоренная реализация национальных проектов без увеличения внешнего
+долга и без бюджетной нагрузки сверх заложенной гарантии.</p>
+<p><strong>Уникальное предложение для диаспоры:</strong> 0% налога на
+крипто-прирост капитала + эмоциональный мотив инвестирования в Родину +
+конкурентная доходность.</p>
+<p><strong>Хард-гейт запуска Фазы 1:</strong> наличие Постановления
+Правительства РА о бюджетной гарантии Минфина на Senior tranche.</p>
+<hr />
+<h2 id="архитектура-стороны-роли-капитал">1. АРХИТЕКТУРА: СТОРОНЫ, РОЛИ,
+КАПИТАЛ</h2>
+<h3 id="важное-замечание-после-правового-re-audit-2026-05-11">1.0 Важное
+замечание после правового re-audit 2026-05-11</h3>
+<p>По итогам правового re-audit (Audit_4) внесены два структурных
+уточнения:</p>
+<ol type="1">
+<li><strong>Российская холдинговая структура заменена
+армянской.</strong> Center Group Company как corporate vehicle Кагирова
+Абдул-Хакима Ахмадовича реструктурируется через <strong>Armenian Holding
+Company (RA-Holdco)</strong> — для прохождения qualifying shareholder
+approval со стороны ЦБ РА (требование Регламента 7/01). Российский
+акционер (Кагиров как физлицо) удерживает 100% RA-Holdco; RA-Holdco
+владеет 60% СП «Платформа Ноев Ковчег».</li>
+<li><strong>IP-вклад в уставный капитал заменён на лицензионное
+соглашение + IP-pledge.</strong> Прямой вклад IP в УК создаёт налоговый
+риск $12–14M (двойное налогообложение при оценке IP + выкупе) и
+потенциальный конфликт с Регламентом 7/02. Вместо этого: Center Group
+Company / RA-Holdco предоставляет СП <strong>эксклюзивную
+лицензию</strong> на использование IP под рыночный royalty (1.5–2% от
+revenue платформы) + закладывает IP-портфель банку-партнёру под
+кредитную линию.</li>
+</ol>
+<p>Целевая оценка IP-портфеля (см. ниже) сохраняется как референс для
+размера royalty и кредитной линии, но <strong>не используется как
+вкладываемая стоимость в УК</strong>.</p>
+<h3 id="семь-сторон-конструкции">1.1 Семь сторон конструкции</h3>
+<pre><code>┌──────────────────────────────────────────────────────────────────┐
+│  СП «ПЛАТФОРМА НОЕВ КОВЧЕГ» (CASP-оператор)                     │
+│  • Кагиров А-Х. А. через RA-Holdco — 60%                       │
+│    (вклад: эксклюзивная лицензия на IP-портфель + кэш)         │
+│    Размер royalty: 1.5–2% от revenue платформы                 │
+│    IP-pledge в пользу банка-партнёра под кредитную линию       │
+│  • Армянский банк-партнёр — 40% (кэш + in-kind инфраструктура  │
+│    + кредитная линия СП под залог IP-портфеля)                 │
+│  • Лицензии CASP по Регл. 7/01: трейд-платформа + кастоди +    │
+│    эмиссия ART. Капитал: 320 млн AMD (~$830k)                  │
+└──────────────────────────────────────────────────────────────────┘
+       ▲             ▲              ▲              ▲
+       │             │              │              │
+┌──────┴────┐  ┌─────┴─────┐  ┌─────┴─────┐  ┌────┴──────┐
+│СОБСТВЕННИК│  │ ИНВЕСТОРЫ │  │ГОСУДАРСТВО│  │СТРАХОВЩИК │
+│ актива    │  │ 3-х типов │  │ РА        │  │ армянский │
+│ (резидент │  │           │  │ (Минфин,  │  │           │
+│ РА или    │  │           │  │ Казначей- │  │           │
+│ диаспора) │  │           │  │ ство)     │  │           │
+└───────────┘  └───────────┘  └───────────┘  └───────────┘
+                     ▲                            ▲
+                     │                            │
+              ┌──────┴──────┐              ┌──────┴──────┐
+              │ ЦБ РА       │              │ ЛИЦЕНЗИРО-  │
+              │ Фаза 1:     │              │ ВАННЫЙ      │
+              │   надзор    │              │ ОЦЕНЩИК     │
+              │ Фаза 2:     │              │ (армянский) │
+              │   контр-    │              │             │
+              │   агент     │              │             │
+              └─────────────┘              └─────────────┘</code></pre>
+<h3 id="юридическое-позиционирование-на-стыке-трёх-рамок">1.2
+Юридическое позиционирование (на стыке трёх рамок)</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Деятельность</th>
+<th>Закон/регламент</th>
+<th>Лицензия</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Эмиссия и обращение CFA1 (utility-токен собственника)</td>
+<td>HO-159-N ст. 3, 16; Регл. 7/04</td>
+<td>CASP «размещение»</td>
+</tr>
+<tr>
+<td>Эмиссия Junior tranche (ART)</td>
+<td>HO-159-N ст. 16; Регл. 7/04</td>
+<td>CASP «эмитент ART» (200 млн AMD)</td>
+</tr>
+<tr>
+<td>Кастоди пула CFA</td>
+<td>HO-159-N ст. 16(3); Регл. 7/02</td>
+<td>CASP «кастоди» (50 млн AMD)</td>
+</tr>
+<tr>
+<td>Трейдинг-платформа вторичного рынка</td>
+<td>HO-159-N ст. 16(1); Регл. 7/01</td>
+<td>CASP «оператор платформы» (70 млн AMD)</td>
+</tr>
+<tr>
+<td>Эмиссия Senior tranche (долговой токен)</td>
+<td>Закон РА «О рынке ценных бумаг»</td>
+<td>Лицензия проф. участника РЦБ</td>
+</tr>
+<tr>
+<td>Обременение пула в Кадастре РА</td>
+<td>ГК РА + закон о госреестре</td>
+<td>Регистрация в Кадастре</td>
+</tr>
+<tr>
+<td>Страхование</td>
+<td>Закон РА «О страховании»</td>
+<td>Договор партнёрства</td>
+</tr>
+<tr>
+<td>Бюджетная гарантия Минфина</td>
+<td>Закон РА «О бюджетной системе»</td>
+<td><strong>Постановление Правительства РА</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="стартовый-капитал-фазы-1">1.3 Стартовый капитал Фазы 1</h3>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>Статья</th>
+<th style="text-align: right;">Сумма AMD</th>
+<th style="text-align: right;">≈ USD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Капитал CASP (трейд + кастоди + ART)</td>
+<td style="text-align: right;">320 000 000</td>
+<td style="text-align: right;">830 000</td>
+</tr>
+<tr>
+<td>Лицензионные сборы + аудит + юр. сопровождение</td>
+<td style="text-align: right;">~25 000 000</td>
+<td style="text-align: right;">65 000</td>
+</tr>
+<tr>
+<td>Комплаенс, IT-инфра, безопасность (год)</td>
+<td style="text-align: right;">~80 000 000</td>
+<td style="text-align: right;">210 000</td>
+</tr>
+<tr>
+<td>Дизайн + whitepaper + маркетинг</td>
+<td style="text-align: right;">~40 000 000</td>
+<td style="text-align: right;">105 000</td>
+</tr>
+<tr>
+<td><strong>ИТОГО</strong></td>
+<td style="text-align: right;"><strong>~465 млн AMD</strong></td>
+<td style="text-align: right;"><strong>~$1.2M</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Источники: вклад банка-партнёра (кэш + in-kind) + заёмная линия под
+IP-капитал Аслана (кратно превышающий потребность).</p>
+<hr />
+<h2 id="жизненный-цикл-актива-и-денег-21-шаг-фазы-1">2. ЖИЗНЕННЫЙ ЦИКЛ
+АКТИВА И ДЕНЕГ (21 ШАГ ФАЗЫ 1)</h2>
+<h3 id="этап-накопление-пула-48-мес">2.1 Этап «Накопление пула» (4–8
+мес)</h3>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Шаг</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">01</td>
+<td>Регистрация собственника</td>
+<td>Через ID РА или e-passport диаспоры</td>
+</tr>
+<tr>
+<td style="text-align: center;">02</td>
+<td>KYC/AML</td>
+<td>Банк-партнёр выполняет процедуру (Регл. ЦБ РА о ПОД/ФТ)</td>
+</tr>
+<tr>
+<td style="text-align: center;">03</td>
+<td>Декларация актива</td>
+<td>Загрузка правоустанавливающих документов</td>
+</tr>
+<tr>
+<td style="text-align: center;">04</td>
+<td>Оценка</td>
+<td>Лицензированный армянский оценщик; за счёт платформы</td>
+</tr>
+<tr>
+<td style="text-align: center;">05</td>
+<td>Страхование</td>
+<td>Армянский страховщик; бесплатно для собственника</td>
+</tr>
+<tr>
+<td style="text-align: center;">06</td>
+<td>Выпуск CFA1</td>
+<td>Utility-токен по HO-159-N ст. 3 (1 CFA1 = 1 AMD оценочной
+стоимости)</td>
+</tr>
+<tr>
+<td style="text-align: center;">07</td>
+<td>Кастоди + обременение</td>
+<td>CFA1 в пул-эскроу; обременение в Кадастре РА на 7–10 лет</td>
+</tr>
+<tr>
+<td style="text-align: center;">08</td>
+<td>Старт купона</td>
+<td>2.75% годовых ежемесячно в драмах</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Целевой размер первого пилота:</strong>
+<strong>€100M</strong> (~40 млрд AMD).</p>
+<h3 id="этап-выпуск-траншей-12-мес">2.2 Этап «Выпуск траншей» (1–2
+мес)</h3>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Шаг</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">09</td>
+<td>Whitepaper</td>
+<td>Публикация по Регл. ЦБ 7/04 (структура, риски, юр-рамка,
+финмодель)</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td>Подтверждение ЦБ РА</td>
+<td>Надзорный регулятор не блокирует выпуск</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td>Senior tranche (70%)</td>
+<td>Токенизированная инфра-облигация. Купон 5.5%/год. Срок 7 лет.
+<strong>Бюджетная гарантия Минфина РА (хард-гейт).</strong> Покупатели:
+Минфин 20% + ЕБРР/ВБ/IFC 40% + диаспора 40%</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td>Junior tranche (30%)</td>
+<td>ART по HO-159-N. Цена привязана к NAV пула. Целевая доходность
+10.5–13.5%. Покупатели: крипто-диаспора + спекулятивные фонды + частные
+инвесторы РА</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td>Зачисление в Фонд</td>
+<td>Спец. эскроу под двойным контролем (Минфин РА + независимый
+трасти)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="этап-реализация-проектов-37-лет">2.3 Этап «Реализация проектов»
+(3–7 лет)</h3>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Шаг</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">14</td>
+<td>Финансирование</td>
+<td>Минфин финансирует нац. проекты по программе НС РА</td>
+</tr>
+<tr>
+<td style="text-align: center;">15</td>
+<td>Стройка + аудит</td>
+<td>Под контролем платформы и независимого аудитора</td>
+</tr>
+<tr>
+<td style="text-align: center;">16</td>
+<td>Возврат cash flow</td>
+<td>Часть коммерчески окупаемых объектов → cash flow в Фонд для
+купонов</td>
+</tr>
+<tr>
+<td style="text-align: center;">17</td>
+<td>Обновление NAV</td>
+<td>Ежеквартально, с учётом построенных объектов</td>
+</tr>
+</tbody>
+</table>
+<h3 id="этап-закрытие-цикла-год-7">2.4 Этап «Закрытие цикла» (год
+7+)</h3>
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Шаг</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">18</td>
+<td>Погашение Senior</td>
+<td>Минфин РА + cash flow проектов выкупают долговые токены</td>
+</tr>
+<tr>
+<td style="text-align: center;">19</td>
+<td>Выкуп Junior</td>
+<td>CASP выкупает ART по NAV у желающих выйти</td>
+</tr>
+<tr>
+<td style="text-align: center;">20</td>
+<td>Снятие обременения</td>
+<td>Возврат активов собственникам + бонус 7–8% + статус
+«Соинвестор-Ветеран»</td>
+</tr>
+<tr>
+<td style="text-align: center;">21</td>
+<td>Реинвестирование</td>
+<td>Опциональное продление в новый цикл (revolving fund)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="обработка-сбоев">2.5 Обработка сбоев</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Сбой</th>
+<th>Покрытие</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Форс-мажор / разрушение актива</td>
+<td>Армянская страховая → выпускает свой CFA1 в пул</td>
+</tr>
+<tr>
+<td><strong>Проект не завершён в срок</strong></td>
+<td><strong>СТРАХОВКА «Construction Completion Insurance» с
+предусмотренным условием выплаты при недострое + ДОПОЛНИТЕЛЬНО
+гос-гарантия Минфина РА. Резервный фонд платформы НЕ
+задействуется.</strong></td>
+</tr>
+<tr>
+<td>Падение цены недвижимости РА &gt;30%</td>
+<td>Отдельный страховой продукт «Value Preservation Insurance»</td>
+</tr>
+<tr>
+<td>Смерть собственника / наследование</td>
+<td>CFA1 → наследникам через Кадастр РА</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="финансовая-модель">3. ФИНАНСОВАЯ МОДЕЛЬ</h2>
+<h3 id="капитализация-сп-с-ip-вкладом">3.1 Капитализация СП (с
+IP-вкладом)</h3>
+<pre><code>УСТАВНЫЙ КАПИТАЛ СП
+═══════════════════════
+Аслан Каа (60%)
+  ├── Интеллектуальная собственность по международной IP-оценке
+  │     • Модель и методология РСФСР→Ноев Ковчег
+  │     • Авторские права на 21-шаговый процесс
+  │     • Бренд «Ноев Ковчег» + домены + товарные знаки
+  │     • Whitepaper + юр-маппинг + финмодели + смарт-контракты
+  │   Целевая оценка: $100M (требует подтверждения международной независимой оценкой)
+  │   (оценщик: Duff &amp; Phelps / Kroll / Houlihan Lokey / 
+  │    KPMG-Valuation / EY-VME — финальный выбор по тендеру)
+
+Банк-партнёр (40%)
+  ├── Кэш на старт (~$300–400k)
+  ├── In-kind: KYC-системы, банковские счета, форекс, комплаенс (~$200k экв.)
+  └── Заёмная линия под IP-залог УК ($1–3M на оборотку, может быть кратно
+      больше при оценке IP в $100M)</code></pre>
+<p><strong>Финансовая стратегия:</strong> Аслан вносит IP (без
+выкладывания кэша); высокая оценка IP даёт залог под заёмное
+финансирование Банка-партнёра. Решает «проблему первого миллиона».</p>
+<h3 id="юнит-экономика-пилотного-пула-100m-7-лет">3.2 Юнит-экономика
+пилотного пула €100M (7 лет)</h3>
+<table>
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr>
+<th>Статья</th>
+<th style="text-align: right;">EUR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Пул залоговой недвижимости</td>
+<td style="text-align: right;">100 000 000</td>
+</tr>
+<tr>
+<td>Senior tranche (70%) с купоном 5.5% × 7 лет</td>
+<td style="text-align: right;">70 000 000 + 26 950 000 купонов</td>
+</tr>
+<tr>
+<td>Junior tranche (30%) с целевой доходностью ~12%</td>
+<td style="text-align: right;">30 000 000 + ~25 000 000 NAV-апсайд</td>
+</tr>
+<tr>
+<td>Купоны собственникам (2.75% × 7 × 100M)</td>
+<td style="text-align: right;">-19 250 000</td>
+</tr>
+<tr>
+<td>Бонус собственникам (7.5% × 100M)</td>
+<td style="text-align: right;">-7 500 000</td>
+</tr>
+<tr>
+<td>Страховые премии (CCI + force-majeure + value-preservation)</td>
+<td style="text-align: right;">-8 000 000</td>
+</tr>
+<tr>
+<td>Налог на имущество за собственников (0.6% × 7 × 100M)</td>
+<td style="text-align: right;">-4 200 000</td>
+</tr>
+</tbody>
+</table>
+<h3 id="доходы-платформы">3.3 Доходы платформы</h3>
+<table>
+<thead>
+<tr>
+<th>Источник</th>
+<th>Размер</th>
+<th>Когда</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Issuance fee CFA1</td>
+<td>0.5% от стоимости актива</td>
+<td>Год 0</td>
+</tr>
+<tr>
+<td>Issuance fee Senior</td>
+<td>1.5% от объёма</td>
+<td>Год 1 (€1.05M с пилота)</td>
+</tr>
+<tr>
+<td>Issuance fee Junior</td>
+<td>2.5% от объёма</td>
+<td>Год 1 (€750k с пилота)</td>
+</tr>
+<tr>
+<td>Custody fee</td>
+<td>0.3% годовых от NAV</td>
+<td>Год 1–7 (~€2.4M)</td>
+</tr>
+<tr>
+<td>Trading fee на вторичном рынке ART</td>
+<td>0.2% за сделку</td>
+<td>Год 1+</td>
+</tr>
+<tr>
+<td>Advisory + страх. программа</td>
+<td>Фикс.</td>
+<td>Год 0+</td>
+</tr>
+<tr>
+<td><strong>Итого с пилота за 7 лет</strong></td>
+<td><strong>~€7–9M</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="юнит-экономика-собственника-пример-квартира-200k">3.4
+Юнит-экономика собственника (пример: квартира €200k)</h3>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>Что получает за 7 лет</th>
+<th style="text-align: right;">EUR</th>
+<th style="text-align: right;">%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Купон 2.75% годовых</td>
+<td style="text-align: right;">38 500</td>
+<td style="text-align: right;">19.25%</td>
+</tr>
+<tr>
+<td>Бесплатная страховка (рыночная цена ~0.4% × 7)</td>
+<td style="text-align: right;">5 600</td>
+<td style="text-align: right;">2.8%</td>
+</tr>
+<tr>
+<td>Налог на имущество за период (0.6% × 7)</td>
+<td style="text-align: right;">8 400</td>
+<td style="text-align: right;">4.2%</td>
+</tr>
+<tr>
+<td>Бонус 7.5% единоразово</td>
+<td style="text-align: right;">15 000</td>
+<td style="text-align: right;">7.5%</td>
+</tr>
+<tr>
+<td><strong>ИТОГО</strong></td>
+<td style="text-align: right;"><strong>~67 500</strong></td>
+<td style="text-align: right;"><strong>33.75% за 7 лет ≈ 4.4% годовых
+сверх альтернатив</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Сравнение для диаспорального собственника:</strong> аренда
+квартиры в Гюмри даёт 5–7% с хлопотами; Ноев Ковчег даёт ~4.4% сверху
+без хлопот + сохраняется владение + страховка + статус соинвестора
+Родины + апсайд при реинвестировании.</p>
+<h3 id="налоговая-модель-фаза-1-по-нк-ра-2026">3.5 Налоговая модель
+(Фаза 1, по НК РА 2026)</h3>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th>Сторона</th>
+<th>Налог</th>
+<th style="text-align: right;">Ставка</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Собственник-физлицо нерезидент (диаспора)</td>
+<td>На купон</td>
+<td style="text-align: right;">10% withholding (5–0% по DTA)</td>
+</tr>
+<tr>
+<td>Собственник-физлицо резидент РА</td>
+<td>На купон</td>
+<td style="text-align: right;">0%</td>
+</tr>
+<tr>
+<td>Платформа (СП)</td>
+<td>Корп. налог</td>
+<td style="text-align: right;">18%</td>
+</tr>
+<tr>
+<td>Платформа</td>
+<td>НДС на комиссии</td>
+<td style="text-align: right;">20%</td>
+</tr>
+<tr>
+<td>Senior tranche инвестор-нерезидент</td>
+<td>Купон</td>
+<td style="text-align: right;">10% withholding</td>
+</tr>
+<tr>
+<td>Junior tranche физ-нерезидент</td>
+<td>Прирост NAV</td>
+<td style="text-align: right;">0%</td>
+</tr>
+<tr>
+<td>Junior tranche юрлицо РА</td>
+<td>Прирост</td>
+<td style="text-align: right;">18%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Драйвер диаспоральной воронки:</strong> 0% на крипто-прирост
+для физ. нерезидентов — преимущество перед Грузией, Кипром, ОАЭ.</p>
+<hr />
+<h2 id="юр-маппинг-каждого-шага-изменения-для-фазы-2">4. ЮР-МАППИНГ
+КАЖДОГО ШАГА + ИЗМЕНЕНИЯ ДЛЯ ФАЗЫ 2</h2>
+<h3 id="сквозной-маппинг-21-шага">4.1 Сквозной маппинг 21 шага</h3>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">Шаг</th>
+<th>Закон/Регламент/Статья</th>
+<th style="text-align: center;">Фаза 1</th>
+<th style="text-align: center;">Фаза 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">01</td>
+<td>HO-159-N ст. 3, 32; Регл. 7/01 п. 4–6</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">02</td>
+<td>Закон РА «О ПОД/ФТ»; Регл. 7/01 п. 7–9; FATF Travel Rule</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">03</td>
+<td>ГК РА ст. 130–141; Закон «О гос. кадастре» ст. 17</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">04</td>
+<td>Закон РА «Об оценочной деятельности»; Регл. ЦБ о третьих
+сторонах</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">05</td>
+<td>Закон РА «О страховании»; CASP-страховщик договор</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">+ новый продукт CCI</td>
+</tr>
+<tr>
+<td style="text-align: center;">06</td>
+<td>HO-159-N ст. 3, 16(5); <strong>Регл. 7/04</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">07</td>
+<td>HO-159-N ст. 16(3); <strong>Регл. 7/01 + 7/02</strong> (50 млн AMD
+кастоди); ГК РА ст. 244–249; Закон «О кадастре» ст. 27</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">08</td>
+<td>НК РА ст. 134; HO-159-N (выплаты CASP)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">+ 0% на купон до €10k/год (через
+L5)</td>
+</tr>
+<tr>
+<td style="text-align: center;">09</td>
+<td>HO-159-N ст. 5–14; <strong>Регл. 7/04 целиком</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td>HO-159-N ст. 6 (надзор); Регл. 7/01 п. 30+</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">+ пред-одобрение для пула &gt;€100M</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td><strong>НЕ HO-159-N</strong>; Закон РА «О РЦБ»; Закон «О ЦБ РА»
+(надзор на РЦБ)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">+ ЦБ РА может выкупать (поправка
+L1)</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td>HO-159-N ст. 16(5–6); Регл. 7/04; Регл. 7/02 (200 млн AMD)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">+ Infrastructure ART категория с
+льготным капиталом 100 млн AMD (L2)</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td>Закон РА «О бюджетной системе»; <strong>Постановление Правительства
+о Фонде</strong></td>
+<td style="text-align: center;">Постановление</td>
+<td style="text-align: center;">+ полноценный закон о Фонде (L5)</td>
+</tr>
+<tr>
+<td style="text-align: center;">14</td>
+<td>Закон РА «О публичных закупках»; бюджетное право</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">15</td>
+<td>Закон «О градостроительстве»; Закон «Об аудите»; IFRS</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">16</td>
+<td>Концессионное право; договоры PPP</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">+ автоматизация смарт-контрактом</td>
+</tr>
+<tr>
+<td style="text-align: center;">17</td>
+<td>HO-159-N ст. 21 (требования к ART-эмитенту); IFRS 13</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">18</td>
+<td>Закон «О РЦБ»; ГК РА ст. 408+</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">+ погашение цифровым драмом (L1)</td>
+</tr>
+<tr>
+<td style="text-align: center;">19</td>
+<td>HO-159-N ст. 22 (право выкупа ART); Регл. 7/04</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">20</td>
+<td>Закон «О кадастре» ст. 28; ГК РА ст. 250</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">без изм.</td>
+</tr>
+<tr>
+<td style="text-align: center;">21</td>
+<td>HO-159-N ст. 16(5); договорное право РА</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">+ автоматизация (Ноев Ковчег v2)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="пакет-законодательных-изменений-фазы-2">4.2 Пакет
+законодательных изменений Фазы 2</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th>Закон</th>
+<th>Изменение</th>
+<th>Цель</th>
+<th style="text-align: center;">Сложность</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>L1</strong></td>
+<td>Закон РА «О ЦБ РА» ст. 4, 31</td>
+<td>ЦБ РА вправе принимать в обеспечение портфели asset-referenced
+crypto-активов и эмитировать драм для бюджета</td>
+<td>Восстановить элегантность РСФСР</td>
+<td style="text-align: center;"><strong>Высокая</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>L2</strong></td>
+<td>HO-159-N ст. 16, 17</td>
+<td>Под-категория «Issuer of Infrastructure ART» с льготным капиталом
+100 млн AMD при пуле &gt;€100M</td>
+<td>Снизить барьер входа</td>
+<td style="text-align: center;"><strong>Средняя</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>L3</strong></td>
+<td>HO-159-N + новый Регл. 7/06</td>
+<td>Стандарт «Real Estate Backed CASP»</td>
+<td>Чёткие правила</td>
+<td style="text-align: center;"><strong>Низкая</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>L5</strong></td>
+<td><strong>Новый закон РА «О Фонде Ноев Ковчег»</strong></td>
+<td>Статус Фонда + налоговые льготы (0% налог на имущество для пула, 0%
+на купон собственника до €10k, 5% withholding для диаспоры) + порядок
+бюджетной гарантии</td>
+<td>Институционализация + налоговая обвязка одним законом</td>
+<td style="text-align: center;"><strong>Средняя</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>L6</strong></td>
+<td>Закон РА «О страховании»</td>
+<td>Признать CCI и Value Preservation Insurance как обязательные
+продукты для CASP-инфраплатформ</td>
+<td>Легальная рамка для страховщиков</td>
+<td style="text-align: center;"><strong>Низкая</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Примечание:</strong> L4 (отдельные поправки в НК РА)
+<strong>свёрнут внутрь L5</strong> — закон о Фонде содержит налоговую
+обвязку. Это упрощает Фазу 2 (один пакет вместо двух).</p>
+</blockquote>
+<p><strong>Стратегия:</strong> L1+L2+L3+L5+L6 = единый пакет поправок
+через НС РА в один цикл; L6 (страховой) — параллельно через ЦБ РА
+(страх. надзор) и Минфин.</p>
+<p><strong>Реалистичный таймлайн Фазы 2:</strong> 18–30 мес. от старта
+пилота Фазы 1 (нужна доказательная база — успешный €100M пилот).</p>
+<h3 id="что-нужно-даже-в-фазе-1-вне-ho-159-n">4.3 Что нужно даже в Фазе
+1 (вне HO-159-N)</h3>
+<ul>
+<li><strong>Постановление Правительства РА о бюджетной гарантии Минфина
+на Senior</strong> — <strong>хард-гейт</strong>, без него Фаза 1 не
+запускается</li>
+<li>Маркетинговый статус «Соинвестор Армении» — без юр-силы (юр-статус —
+в L5)</li>
+<li>Налог 0% на имущество в пуле — временно через постановление
+Правительства до принятия L5</li>
+</ul>
+<hr />
+<h2 id="дорожная-карта-проекта-и-сопроводительных-документов">5.
+ДОРОЖНАЯ КАРТА ПРОЕКТА И СОПРОВОДИТЕЛЬНЫХ ДОКУМЕНТОВ</h2>
+<h3 id="макро-дорожная-карта-проекта-4-фазы">5.1 Макро-дорожная карта
+проекта (4 фазы)</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">Фаза</th>
+<th style="text-align: center;">Месяцы</th>
+<th>Содержание</th>
+<th>Хард-гейт перехода</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>0</strong> Подготовка</td>
+<td style="text-align: center;">0–6</td>
+<td>Учреждение СП, международная IP-оценка, подготовка комплекта
+проектной документации, политическая подготовка с Минфином и ЦБ РА</td>
+<td><strong>Постановление Правительства о бюджетной гарантии</strong>
+<em>(возможна коррекция)</em></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1</strong> Пилот €100M</td>
+<td style="text-align: center;">6–24</td>
+<td>Получение лицензии CASP, накопление пула, выпуск двух траншей,
+финансирование 5–10 национальных проектов</td>
+<td><strong>&gt;80% проектов сданы в срок, &gt;90% Senior выкуплено, NAV
+пула вырос &gt;15%</strong> <em>(возможна коррекция)</em></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2</strong>
+Институционализация</td>
+<td style="text-align: center;">24–60</td>
+<td>Принятие пакета L1+L2+L3+L5+L6, ЦБ РА в качестве контрагента,
+эмиссия цифрового драма под пул, привлечение институциональных
+инвесторов €1B+</td>
+<td><strong>Принят пакет L1+L2+L3+L5+L6; ЦБ РА провёл первую эмиссию под
+пул</strong> <em>(возможна коррекция)</em></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3</strong> Масштаб и тираж</td>
+<td style="text-align: center;">60+</td>
+<td>Распространение на движимое имущество, IP, акции; региональный тираж
+(Грузия, Казахстан, страны ЕС, ЕАЭС); револьвинг 2-го и 3-го циклов</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="состав-проектной-документации">5.2 Состав проектной
+документации</h3>
+<p>Полный комплект документов проекта подразделяется на следующие
+позиции:</p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 27%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr>
+<th>Позиция</th>
+<th>Назначение</th>
+<th style="text-align: center;">Состояние</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. Концепт-спецификация</strong> (настоящий документ)</td>
+<td>Утверждённая модель, юр-маппинг, финмодель, дорожная карта</td>
+<td style="text-align: center;">Готов</td>
+</tr>
+<tr>
+<td><strong>B. HTML-прототип «Ноев Ковчег»</strong></td>
+<td>Адаптивный сайт-приложение с 21-шаговым демонстрационным флоу для
+пользователей; мобильная и планшетная вёрстка</td>
+<td style="text-align: center;">В разработке</td>
+</tr>
+<tr>
+<td><strong>C. Техническая архитектура</strong></td>
+<td>Software Architecture Document, диаграммы C4
+(Context/Container/Component/Code), выбор DLT, спецификация
+смарт-контрактов, политика информационной безопасности, план DevOps,
+мобильная архитектура</td>
+<td style="text-align: center;">В разработке</td>
+</tr>
+<tr>
+<td><strong>D. Юридическая документация</strong></td>
+<td>Расширенный юр-маппинг, проект whitepaper по Регл. 7/04, проект
+Устава СП, проект Постановления Правительства о бюджетной гарантии,
+проект пакета законодательных поправок L1+L2+L3+L5+L6, IP-стратегия</td>
+<td style="text-align: center;">В разработке</td>
+</tr>
+<tr>
+<td><strong>E. Финансовая модель + инвестиционная
+презентация</strong></td>
+<td>Excel-модель пилота €100M с кэш-флоу по годам, расчёт NPV/IRR по
+траншам, чувствительность по 5 драйверам, сравнение с Israel Bonds, EIB
+Project Bonds, World Bank IBRD, инвестиционный pitch deck</td>
+<td style="text-align: center;">В разработке</td>
+</tr>
+<tr>
+<td><strong>F. Большая презентация проекта</strong></td>
+<td>HTML-презентация с дизайном, иллюстрациями, 3D-визуализацией,
+анимацией, storytelling «зачем это Армении»</td>
+<td style="text-align: center;">В разработке</td>
+</tr>
+</tbody>
+</table>
+<h3 id="сопроводительные-документы-готовы">5.3 Сопроводительные
+документы (готовы)</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Документ</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Декларация об отсутствии прав третьих лиц на проект</td>
+<td>Подтверждение единоличного авторства Кагирова А.-Х. А.</td>
+</tr>
+<tr>
+<td>Пояснительная записка</td>
+<td>Юридическое обоснование проекта со ссылками на законы и регламенты
+для адресатов в Минфине, ЦБ РА, инвесторских кругах</td>
+</tr>
+<tr>
+<td>Спичрайт устной презентации</td>
+<td>12–15 минутная речь с акцентом на преимущества и эксклюзивность</td>
+</tr>
+<tr>
+<td>Одностраничник с основными тезисами</td>
+<td>Самый сжатый вариант для первичного знакомства</td>
+</tr>
+<tr>
+<td>Сводный аналитический обзор регуляторики РА в области
+криптоактивов</td>
+<td>Справочный материал по HO-159-N и Регламентам ЦБ</td>
+</tr>
+</tbody>
+</table>
+<h3 id="принцип-единого-источника-правды">5.4 Принцип «единого источника
+правды»</h3>
+<p>Каждое утверждение в позициях B, C, D, E, F <strong>обязано опираться
+на настоящую концепт-спецификацию A</strong>. При расхождениях —
+изменения вносятся <strong>сначала</strong> в концепт A,
+<strong>затем</strong> распространяются на остальные документы. Это
+исключает дрейф проектной документации.</p>
+<hr />
+<h2 id="вклад-автора-и-обязательное-авторство">6. ВКЛАД АВТОРА И
+ОБЯЗАТЕЛЬНОЕ АВТОРСТВО</h2>
+<p>Все артефакты подпроектов B–F <strong>обязаны</strong> содержать: -
+<strong>Автор и правообладатель:</strong> Кагиров Абдул-Хаким Ахмадович
+(Аслан Каа) - <strong>Сайт:</strong> www.aslankaa.com -
+<strong>Email:</strong> aslankaa@yandex.ru, aslankaa@yandex.ru -
+<strong>Телефоны:</strong> +7 (969) 795-55-55, +7 (925) 203-77-77 -
+<strong>Соцсети:</strong> Telegram <span class="citation"
+data-cites="aslan_kaa">@aslan_kaa</span> · Instagram <span
+class="citation" data-cites="aslan_kaa">@aslan_kaa</span> · VK
+id453725994 · Facebook aslan.kaa · X <span class="citation"
+data-cites="aslanofff">@aslanofff</span></p>
+<p>В HTML-артефактах — в футере каждой страницы. В юр. документах — в
+шапке. В финмоделях — в листе «Об авторе». В презентациях — на финальном
+слайде «Контакты».</p>
+<hr />
+<h2 id="источники-и-референсы">7. ИСТОЧНИКИ И РЕФЕРЕНСЫ</h2>
+<p><strong>Регуляторные:</strong> - Закон РА HO-159-N «О криптоактивах»
+(29.05.2025): https://www.arlis.am/hy/acts/210999 (англ.) / …/210998
+(рус.) / …/208599 (арм.) - Регламент ЦБ РА 7/01 «Лицензирование» —
+Решение 227-N: https://www.cba.am/en/board-documents/9430 - Регламент ЦБ
+РА 7/02 «Минимальный капитал» — Решение 228-N:
+https://www.cba.am/en/board-documents/9434 - Регламент ЦБ РА 7/04
+«Whitepaper» — Решение 226-N: https://www.cba.am/en/board-documents/9426
+- Регламент ЦБ РА 7/05 «Регистрация управляющих» — Решение 229-N:
+https://www.cba.am/en/board-documents/9436</p>
+<p><strong>Аналитические:</strong> - Library of Congress: Armenia New
+Crypto-Assets Framework (2025):
+https://www.loc.gov/item/global-legal-monitor/2025-09-19/… - MB Legal —
+Crypto Regulations in Armenia 2026 (Part 1):
+https://mblegal.am/armenia-crypto-guide/ - Armenian Lawyer — CASP
+Licensing:
+https://armenian-lawyer.com/business-immigration/armenia-casp-license-crypto-company-formation/
+- ArmLegal — Регулирование криптовалют в Армении:
+https://armlegal.am/regulirovanie-kriptovalyut-v-armenii/</p>
+<p><strong>Прототип-источник:</strong> - Презентация «Платформа РСФСР»,
+Москва, апрель 2025 г. (<code>РСФСР_6.pptx</code>)</p>
+<p><strong>Документы в составе проекта:</strong> - Сводка регулирования
+ЦФА в Армении (<code>00_Сводка_Регулирование_ЦФА_Армения_RU.md</code>) -
+Официальные тексты Закона HO-159-N на трёх языках
+(<code>01_Закон_О_Криптоактивах_РА_HO-159_*.html</code>) - Официальные
+регламенты ЦБ РА 7/01, 7/02, 7/04, 7/05
+(<code>02–05_Регламент_ЦБ_*.pdf</code>) - Декларация об отсутствии прав
+третьих лиц (<code>B_Декларация_об_отказе_от_прав.md</code>) -
+Пояснительная записка (<code>C_Пояснительная_записка.md</code>) -
+Спичрайт устной презентации
+(<code>D_Спичрайт_устной_презентации.md</code>) - Одностраничник с
+основными тезисами
+(<code>E_Одностраничник_основные_тезисы.md</code>)</p>
+<hr />
+<p><strong>Подпись правообладателя:</strong> _______________________
+<strong>Кагиров А.-Х. А.</strong> (Аслан Каа) <strong>Дата:</strong>
+«<strong><em>» </em></strong>______ 2026 г.</p>
+<hr />
+<p>© Кагиров Абдул-Хаким Ахмадович, 2026. Документ NK-CONCEPT-001/2026.
+Все права защищены в соответствии с Всемирной конвенцией об авторском
+праве (Женева, 1952) и Бернской конвенцией (1886). Воспроизведение и
+распространение запрещены без письменного согласия правообладателя.</p>
+
+</article>
+<footer class="docfoot">
+  <span>Aslan Kaa · aslankaa@yandex.ru · aslankaa.com</span>
+  <span>© 2026 · Платформа «Ноев Ковчег»</span>
+</footer>
+</body>
+</html>

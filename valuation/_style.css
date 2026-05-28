@@ -1,0 +1,678 @@
+/* ECHELON Valuation Advisors — Premium Report Stylesheet
+   Светлая / Адаптивная / Тёмная темы · Responsive · RTL-aware
+   Палитра: тёмно-синий #0B2545, золотой акцент #C5A572, фон #FAFAF7 */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ============ Цветовые переменные ============ */
+
+:root {
+  --bg-page:          #FAFAF7;
+  --bg-card:          #FFFFFF;
+  --text:             #1A2B4A;
+  --text-soft:        #4B5563;
+  --text-mute:        #6B7280;
+  --heading:          #0B2545;
+  --accent:           #C5A572;
+  --accent-strong:    #B8945F;
+  --accent-dark:      #0B2545;
+  --border:           #E5E7EB;
+  --border-soft:      #F3F4F6;
+  --table-head-bg:    linear-gradient(180deg, #0B2545 0%, #142F5C 100%);
+  --table-head-text:  #FFFFFF;
+  --table-head-bd:    #0B2545;
+  --row-odd:          #FAFAF7;
+  --row-even:         #FFFFFF;
+  --row-final-bd:     #C5A572;
+  --bq-bg:            #FAF7F0;
+  --bq-text:          #4A5670;
+  --bq-strong:        #0B2545;
+  --code-bg:          #F3F4F6;
+  --code-text:        #0B2545;
+  --pre-bg:           #0B2545;
+  --pre-text:         #E5E7EB;
+  --em-color:         #1A2B4A;
+  --link:             #0B2545;
+  --link-hover:       #C5A572;
+  --shadow-card:      0 0 30px rgba(11, 37, 69, 0.08);
+  --shadow-fab:       0 4px 16px rgba(11, 37, 69, 0.25), 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-fab-hov:   0 8px 24px rgba(11, 37, 69, 0.35), 0 4px 8px rgba(0,0,0,0.15);
+  --shadow-pop:       0 16px 48px rgba(0, 0, 0, 0.18);
+  --overlay:          rgba(11, 37, 69, 0.55);
+  --watermark:        rgba(197, 165, 114, 0.04);
+  color-scheme: light;
+}
+
+/* Тёмная тема (явный выбор) */
+html[data-theme="dark"] {
+  --bg-page:          #0A1224;
+  --bg-card:          #0F1A33;
+  --text:             #E2E8F0;
+  --text-soft:        #94A3B8;
+  --text-mute:        #64748B;
+  --heading:          #F5F1E8;
+  --accent:           #D4B582;
+  --accent-strong:    #C5A572;
+  --accent-dark:      #1E3A5F;
+  --border:           #1E3A5F;
+  --border-soft:      #142139;
+  --table-head-bg:    linear-gradient(180deg, #C5A572 0%, #B8945F 100%);
+  --table-head-text:  #0A1224;
+  --table-head-bd:    #B8945F;
+  --row-odd:          #142139;
+  --row-even:         #0F1A33;
+  --row-final-bd:     #D4B582;
+  --bq-bg:            rgba(197, 165, 114, 0.08);
+  --bq-text:          #CBD5E1;
+  --bq-strong:        #F5F1E8;
+  --code-bg:          #1E3A5F;
+  --code-text:        #D4B582;
+  --pre-bg:           #142139;
+  --pre-text:         #E2E8F0;
+  --em-color:         #E2E8F0;
+  --link:             #D4B582;
+  --link-hover:       #F5F1E8;
+  --shadow-card:      0 0 40px rgba(0, 0, 0, 0.45);
+  --shadow-fab:       0 4px 16px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0,0,0,0.3);
+  --shadow-fab-hov:   0 8px 24px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0,0,0,0.3);
+  --shadow-pop:       0 16px 48px rgba(0, 0, 0, 0.55);
+  --overlay:          rgba(0, 0, 0, 0.7);
+  --watermark:        rgba(197, 165, 114, 0.025);
+  color-scheme: dark;
+}
+
+/* Адаптивная — следует системе */
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] {
+    --bg-page:          #0A1224;
+    --bg-card:          #0F1A33;
+    --text:             #E2E8F0;
+    --text-soft:        #94A3B8;
+    --text-mute:        #64748B;
+    --heading:          #F5F1E8;
+    --accent:           #D4B582;
+    --accent-strong:    #C5A572;
+    --accent-dark:      #1E3A5F;
+    --border:           #1E3A5F;
+    --border-soft:      #142139;
+    --table-head-bg:    linear-gradient(180deg, #C5A572 0%, #B8945F 100%);
+    --table-head-text:  #0A1224;
+    --table-head-bd:    #B8945F;
+    --row-odd:          #142139;
+    --row-even:         #0F1A33;
+    --row-final-bd:     #D4B582;
+    --bq-bg:            rgba(197, 165, 114, 0.08);
+    --bq-text:          #CBD5E1;
+    --bq-strong:        #F5F1E8;
+    --code-bg:          #1E3A5F;
+    --code-text:        #D4B582;
+    --pre-bg:           #142139;
+    --pre-text:         #E2E8F0;
+    --em-color:         #E2E8F0;
+    --link:             #D4B582;
+    --link-hover:       #F5F1E8;
+    --shadow-card:      0 0 40px rgba(0, 0, 0, 0.45);
+    --shadow-fab:       0 4px 16px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0,0,0,0.3);
+    --shadow-fab-hov:   0 8px 24px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0,0,0,0.3);
+    --shadow-pop:       0 16px 48px rgba(0, 0, 0, 0.55);
+    --overlay:          rgba(0, 0, 0, 0.7);
+    --watermark:        rgba(197, 165, 114, 0.025);
+    color-scheme: dark;
+  }
+}
+
+/* ============ @page (печать → PDF, всегда светлая) ============ */
+@page {
+  size: A4;
+  margin: 2cm 1.8cm 2cm 1.8cm;
+  @bottom-left {
+    content: "Кагиров А-Х. А. (Аслан Каа) · Center Group Company";
+    font-family: 'Inter', sans-serif;
+    font-size: 8pt;
+    color: #6B7280;
+  }
+  @bottom-center {
+    content: "Оценка Платформы Ноев Ковчег · 11.05.2026 · Конфиденциально";
+    font-family: 'Inter', sans-serif;
+    font-size: 8pt;
+    color: #6B7280;
+  }
+  @bottom-right {
+    content: "стр. " counter(page) " / " counter(pages);
+    font-family: 'Inter', sans-serif;
+    font-size: 8pt;
+    color: #6B7280;
+  }
+  @top-right {
+    content: "ECHELON Valuation Advisors LLP";
+    font-family: 'Playfair Display', serif;
+    font-size: 8pt;
+    color: #C5A572;
+    font-style: italic;
+  }
+}
+
+/* ============ База ============ */
+html, body {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11pt;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg-page);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 50px 60px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* ============ Заголовки ============ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  color: var(--heading);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 1.4em;
+  margin-bottom: 0.6em;
+}
+
+h1 {
+  font-size: 28pt;
+  text-align: center;
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 0.4em;
+  margin-top: 0.4em;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 20pt;
+  padding-bottom: 0.25em;
+  border-bottom: 2px solid var(--accent);
+  page-break-before: always;
+  margin-top: 1.2em;
+}
+h2:first-of-type { page-break-before: avoid; }
+
+h3 {
+  font-size: 15pt;
+  color: var(--heading);
+  border-left: 4px solid var(--accent);
+  padding-left: 12px;
+  margin-top: 1.6em;
+}
+html[dir="rtl"] h3 { border-left: none; border-right: 4px solid var(--accent); padding-left: 0; padding-right: 12px; }
+
+h4 {
+  font-size: 12.5pt;
+  color: var(--text);
+  margin-top: 1.2em;
+}
+
+h5, h6 {
+  font-size: 11pt;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+/* ============ Параграфы ============ */
+p {
+  margin: 0.5em 0 0.7em 0;
+  text-align: justify;
+  hyphens: auto;
+}
+html[dir="rtl"] p { text-align: right; }
+
+/* ============ Списки ============ */
+ul, ol {
+  margin: 0.6em 0 0.9em 0;
+  padding-left: 1.6em;
+}
+html[dir="rtl"] ul, html[dir="rtl"] ol { padding-left: 0; padding-right: 1.6em; }
+li { margin-bottom: 0.25em; }
+
+/* ============ Таблицы ============ */
+.nk-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1em 0 1.2em 0;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0 1.2em 0;
+  font-size: 10pt;
+  font-family: 'Inter', sans-serif;
+  page-break-inside: avoid;
+  box-shadow: 0 1px 3px rgba(11, 37, 69, 0.06);
+  background: var(--bg-card);
+}
+.nk-table-wrap > table { margin: 0; }
+
+thead tr {
+  background: var(--table-head-bg);
+  color: var(--table-head-text);
+}
+
+thead th {
+  font-weight: 600;
+  text-align: left;
+  padding: 9px 12px;
+  border: 1px solid var(--table-head-bd);
+  font-size: 9.5pt;
+  letter-spacing: 0.02em;
+  color: var(--table-head-text);
+}
+html[dir="rtl"] thead th { text-align: right; }
+
+tbody td {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text);
+}
+
+tbody tr:nth-child(odd) td  { background: var(--row-odd); }
+tbody tr:nth-child(even) td { background: var(--row-even); }
+
+tbody tr:last-child td {
+  font-weight: 600;
+  border-bottom: 2px solid var(--row-final-bd);
+}
+
+/* Правое выравнивание для числовых колонок */
+th[align="right"], td[align="right"] { text-align: right; }
+
+/* ============ Цитаты ============ */
+blockquote {
+  border-left: 4px solid var(--accent);
+  background: var(--bq-bg);
+  padding: 12px 18px;
+  margin: 1em 0;
+  font-style: italic;
+  color: var(--bq-text);
+  font-size: 10.5pt;
+}
+html[dir="rtl"] blockquote { border-left: none; border-right: 4px solid var(--accent); }
+blockquote p { margin: 0.3em 0; }
+blockquote strong { color: var(--bq-strong); font-style: normal; }
+
+/* ============ Код ============ */
+code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 10pt;
+  background: var(--code-bg);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--code-text);
+}
+
+pre {
+  background: var(--pre-bg);
+  color: var(--pre-text);
+  padding: 14px 18px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  border-left: 4px solid var(--accent);
+}
+pre code {
+  background: transparent;
+  color: var(--pre-text);
+  padding: 0;
+}
+
+/* ============ Выделение ============ */
+strong { color: var(--heading); font-weight: 700; }
+em     { color: var(--em-color); }
+
+/* ============ Линки ============ */
+a {
+  color: var(--link);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent);
+}
+a:hover { color: var(--link-hover); }
+
+/* ============ Разделитель ============ */
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+  margin: 2em 0;
+}
+
+/* ============ Watermark на cover ============ */
+.cover-watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 80pt;
+  color: var(--watermark);
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ============ Адаптив ============ */
+@media (max-width: 1024px) {
+  body { padding: 40px 40px; }
+  h1 { font-size: 24pt; }
+  h2 { font-size: 18pt; }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 28px 22px;
+    max-width: 100%;
+    box-shadow: none;
+  }
+  h1 { font-size: 19pt; }
+  h2 { font-size: 15.5pt; }
+  h3 { font-size: 13pt; }
+  h4 { font-size: 11.5pt; }
+  table { font-size: 9pt; }
+  thead th, tbody td { padding: 6px 8px; }
+  blockquote { padding: 10px 14px; }
+  pre { padding: 10px 12px; font-size: 9pt; }
+  p { text-align: left; hyphens: none; }
+  html[dir="rtl"] p { text-align: right; }
+}
+
+@media (max-width: 480px) {
+  body { padding: 16px 14px; font-size: 10.5pt; }
+  h1 { font-size: 16pt; padding-bottom: 0.3em; }
+  h2 { font-size: 13.5pt; }
+  h3 { font-size: 12pt; }
+  table { font-size: 8.5pt; }
+  thead th, tbody td { padding: 5px 6px; }
+}
+
+/* ============ Печать ============ */
+@media print {
+  body {
+    box-shadow: none;
+    padding: 0;
+    background: #FFFFFF !important;
+    max-width: none;
+  }
+  html { background: #FFFFFF !important; }
+  h2 { page-break-before: always; }
+  table, blockquote, pre { page-break-inside: avoid; }
+  thead { display: table-header-group; }
+}
+
+/* ===================================================================
+   КОНТРОЛЫ (Theme · Language · Home · Share) — скрыты при печати
+=================================================================== */
+
+#nk-fab-group {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 12px;
+  z-index: 9998;
+}
+html[dir="rtl"] #nk-fab-group { right: auto; left: 24px; }
+
+.nk-fab {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+  color: var(--accent-dark);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-fab);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  font-family: 'Inter', sans-serif;
+  text-decoration: none;
+  position: relative;
+}
+.nk-fab:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: var(--shadow-fab-hov);
+}
+.nk-fab:active { transform: translateY(0) scale(1.0); }
+.nk-fab svg { display: block; width: 22px; height: 22px; }
+.nk-fab[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--heading);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+html[dir="rtl"] .nk-fab[data-tooltip]::after { right: auto; left: calc(100% + 10px); }
+.nk-fab:hover[data-tooltip]::after { opacity: 1; }
+
+/* ---------- Popup (theme / language) ---------- */
+.nk-popup {
+  position: fixed;
+  bottom: 24px;
+  right: 92px;
+  background: var(--bg-card);
+  border-radius: 10px;
+  box-shadow: var(--shadow-pop);
+  padding: 8px;
+  min-width: 180px;
+  z-index: 9999;
+  display: none;
+  border: 1px solid var(--border);
+  animation: nk-pop-in 0.15s ease;
+}
+html[dir="rtl"] .nk-popup { right: auto; left: 92px; }
+.nk-popup.open { display: block; }
+@keyframes nk-pop-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.nk-popup button, .nk-popup a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11pt;
+  font-family: inherit;
+  color: var(--text);
+  text-align: left;
+  text-decoration: none;
+  transition: background 0.12s;
+  box-sizing: border-box;
+}
+html[dir="rtl"] .nk-popup button, html[dir="rtl"] .nk-popup a { text-align: right; }
+.nk-popup button:hover, .nk-popup a:hover {
+  background: var(--border-soft);
+  color: var(--heading);
+}
+.nk-popup button.active {
+  background: var(--accent);
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+.nk-popup .nk-popup-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Share modal ---------- */
+#nk-share-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--overlay);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: nk-fade 0.18s ease;
+}
+#nk-share-modal.open { display: flex; }
+@keyframes nk-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.nk-share-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 32px 32px 24px;
+  max-width: 440px;
+  width: 100%;
+  border-top: 4px solid var(--accent);
+  box-shadow: var(--shadow-pop);
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+}
+html[dir="rtl"] .nk-share-card { text-align: right; }
+
+.nk-share-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 22pt;
+  color: var(--heading);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.3px;
+  border: none;
+  padding: 0;
+}
+
+.nk-share-hint {
+  color: var(--text-soft);
+  font-size: 10.5pt;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.nk-share-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-mute);
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+.nk-share-close:hover { color: var(--heading); background: var(--border-soft); }
+html[dir="rtl"] .nk-share-close { right: auto; left: 16px; }
+
+.nk-share-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.nk-share-btn {
+  display: block;
+  padding: 12px 16px;
+  background: var(--accent-dark);
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+  border: none !important;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11pt;
+  font-weight: 500;
+  font-family: inherit;
+  text-align: left;
+  transition: filter 0.15s, transform 0.1s;
+  width: 100%;
+  box-sizing: border-box;
+}
+html[dir="rtl"] .nk-share-btn { text-align: right; }
+.nk-share-btn:hover { filter: brightness(1.15); transform: translateX(2px); }
+html[dir="rtl"] .nk-share-btn:hover { transform: translateX(-2px); }
+.nk-share-btn:active { transform: translateX(0); }
+
+.nk-share-wa { background: #25D366; }
+.nk-share-tg { background: #229ED9; }
+.nk-share-em { background: #6B7280; }
+
+.nk-share-file {
+  padding: 10px 12px;
+  background: var(--border-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 9.5pt;
+  color: var(--text-soft);
+}
+.nk-share-file-label { font-weight: 600; margin-right: 6px; }
+html[dir="rtl"] .nk-share-file-label { margin-right: 0; margin-left: 6px; }
+.nk-share-file-name {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 9pt;
+  word-break: break-all;
+  color: var(--heading);
+}
+
+/* ---------- Адаптив для FAB ---------- */
+@media (max-width: 768px) {
+  #nk-fab-group { bottom: 16px; right: 16px; gap: 10px; }
+  html[dir="rtl"] #nk-fab-group { left: 16px; right: auto; }
+  .nk-fab { width: 46px; height: 46px; }
+  .nk-fab svg { width: 19px; height: 19px; }
+  .nk-fab[data-tooltip]::after { display: none; }
+  .nk-popup { right: 72px; min-width: 160px; }
+  html[dir="rtl"] .nk-popup { left: 72px; }
+  .nk-share-card { padding: 24px 20px 18px; }
+  .nk-share-card h3 { font-size: 18pt; }
+}
+
+@media (max-width: 480px) {
+  .nk-popup {
+    right: 16px;
+    left: 16px;
+    bottom: 72px;
+    min-width: 0;
+  }
+  html[dir="rtl"] .nk-popup { right: 16px; left: 16px; }
+}
+
+@media print {
+  #nk-fab-group, .nk-popup, #nk-share-modal { display: none !important; }
+}

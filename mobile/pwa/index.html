@@ -1,0 +1,2354 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="auto">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a1628" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#faf6ec" media="(prefers-color-scheme: light)" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Ноев Ковчег" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="application-name" content="Ноев Ковчег" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="description" content="Платформа Ноев Ковчег · Республика Армения · Цифровая платформа финансирования национальных проектов через токенизацию залоговой недвижимости." />
+<meta name="author" content="Кагиров Абдул-Хаким Ахмадович (Аслан Каа)" />
+<meta name="copyright" content="© Кагиров Абдул-Хаким Ахмадович, 2026. Все права защищены." />
+<meta name="robots" content="noindex" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" sizes="192x192" href="assets/icons/icon-192.svg" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230a1628'/><path d='M10,75 L30,45 L40,55 L55,25 L70,40 L85,30 L90,75 Z' fill='%23c89b3c'/></svg>" />
+<title>Ноев Ковчег · Платформа</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,800;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,400;0,500;0,700;1,400&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Armenian:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ──────────────────────────────────────────────────────────────────
+   ПЛАТФОРМА «НОЕВ КОВЧЕГ» · МОБИЛЬНОЕ ПРИЛОЖЕНИЕ M1 (PWA)
+   © Кагиров Абдул-Хаким Ахмадович, 2026
+   ────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* DARK тема (по умолчанию для midnight-эстетики) */
+  --c-bg: #0a1628;
+  --c-bg-elev: #1a2438;
+  --c-bg-card: rgba(244,237,224,0.05);
+  --c-text: #f4ede0;
+  --c-text-soft: rgba(244,237,224,0.75);
+  --c-text-dim: rgba(244,237,224,0.55);
+  --c-gold: #c89b3c;
+  --c-gold-light: #e0bc6a;
+  --c-gold-deep: #8b6818;
+  --c-wine: #8b1538;
+  --c-haze: #3d4f6b;
+  --c-divider: rgba(200,155,60,0.25);
+  --c-input-bg: rgba(244,237,224,0.06);
+  --c-input-border: rgba(200,155,60,0.3);
+
+  --font-display: 'Bodoni Moda', 'Times New Roman', serif;
+  --font-sub: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Spectral', Georgia, serif;
+  --font-ui: 'Manrope', system-ui, sans-serif;
+  --font-arm: 'Noto Sans Armenian', 'Bodoni Moda', serif;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  --top-bar-h: 56px;
+  --bottom-nav-h: 64px;
+}
+
+[data-theme="light"] {
+  --c-bg: #faf6ec;
+  --c-bg-elev: #f4ede0;
+  --c-bg-card: rgba(10,22,40,0.04);
+  --c-text: #1a2438;
+  --c-text-soft: rgba(26,36,56,0.75);
+  --c-text-dim: rgba(26,36,56,0.55);
+  --c-divider: rgba(139,104,24,0.25);
+  --c-input-bg: rgba(10,22,40,0.04);
+  --c-input-border: rgba(139,104,24,0.3);
+}
+
+@media (prefers-color-scheme: light) {
+  [data-theme="auto"] {
+    --c-bg: #faf6ec;
+    --c-bg-elev: #f4ede0;
+    --c-bg-card: rgba(10,22,40,0.04);
+    --c-text: #1a2438;
+    --c-text-soft: rgba(26,36,56,0.75);
+    --c-text-dim: rgba(26,36,56,0.55);
+    --c-divider: rgba(139,104,24,0.25);
+    --c-input-bg: rgba(10,22,40,0.04);
+    --c-input-border: rgba(139,104,24,0.3);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--c-text);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+[data-lang="hy"] body, [data-lang="hy"] {
+  font-family: var(--font-arm);
+}
+
+/* Зерно-текстура поверх всего */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 1000;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--c-text);
+}
+[data-lang="hy"] h1, [data-lang="hy"] h2, [data-lang="hy"] h3, [data-lang="hy"] h4 {
+  font-family: var(--font-arm);
+  font-weight: 700;
+}
+h1 { font-size: 2.2rem; font-weight: 800; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-family: var(--font-sub); font-size: 1.05rem; font-weight: 600; }
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.eyebrow::before { content: ''; width: 1.2rem; height: 1px; background: currentColor; }
+
+.italic { font-family: var(--font-sub); font-style: italic; font-weight: 400; }
+[data-lang="hy"] .italic { font-family: var(--font-arm); font-style: normal; font-weight: 500; }
+
+p { font-size: 0.95rem; line-height: 1.6; color: var(--c-text-soft); }
+strong { color: var(--c-text); font-weight: 600; }
+
+a { color: var(--c-gold); text-decoration: none; }
+
+/* === LAYOUT === */
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+}
+
+/* Top bar */
+.top-bar {
+  height: calc(var(--top-bar-h) + var(--safe-top));
+  padding: var(--safe-top) 16px 0;
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-divider);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--c-text);
+}
+.brand-mark {
+  width: 28px; height: 28px;
+  background: var(--c-text);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-mark svg { width: 16px; height: 16px; fill: var(--c-gold); }
+
+.top-actions { display: flex; gap: 4px; }
+.icon-btn {
+  width: 40px; height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--c-text-soft);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.15s, color 0.15s;
+}
+.icon-btn:active { background: var(--c-bg-card); color: var(--c-gold); }
+.icon-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+.lang-pill {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 6px 10px;
+  border: 1px solid var(--c-divider);
+  border-radius: 14px;
+  color: var(--c-text);
+  background: transparent;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+/* Content area */
+main {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: calc(var(--bottom-nav-h) + var(--safe-bottom) + 16px);
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.screen { display: none; min-height: 100%; padding: 24px 20px; }
+.screen.active { display: block; animation: fadeIn 0.25s ease; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Bottom navigation */
+.bottom-nav {
+  height: calc(var(--bottom-nav-h) + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: var(--c-bg);
+  border-top: 1px solid var(--c-divider);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  color: var(--c-text-dim);
+  cursor: pointer;
+  padding: 6px 4px;
+  transition: color 0.15s;
+}
+.nav-item.active { color: var(--c-gold); }
+.nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+.nav-item-label { font-family: var(--font-ui); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.02em; }
+
+/* === SCREEN: HERO / HOME === */
+.hero {
+  position: relative;
+  padding: 32px 0 40px;
+  text-align: center;
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--c-bg-elev), var(--c-bg));
+  margin-bottom: 24px;
+}
+.hero-celestial {
+  position: absolute;
+  top: 16px;
+  right: 18%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--c-gold-light), var(--c-gold) 60%, transparent 75%);
+  box-shadow: 0 0 40px 8px rgba(200,155,60,0.3);
+  z-index: 0;
+}
+.hero-ararat {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65%;
+  z-index: 0;
+}
+.hero-ararat svg { width: 100%; height: 100%; }
+.hero-ararat path { fill: var(--c-haze); opacity: 0.45; }
+.hero-content { position: relative; z-index: 1; padding: 12px 16px 0; }
+.hero h1 {
+  font-size: 2.2rem;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.hero h1 .accent {
+  display: block;
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--c-gold-light);
+}
+[data-lang="hy"] .hero h1 .accent { font-family: var(--font-arm); font-style: normal; font-weight: 500; }
+.hero-sub {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--c-text-soft);
+  margin: 12px auto 0;
+  max-width: 280px;
+}
+[data-lang="hy"] .hero-sub { font-family: var(--font-arm); font-style: normal; font-size: 0.95rem; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-divider);
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--c-gold);
+  line-height: 1;
+}
+.stat-label {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text-soft);
+  margin-top: 6px;
+}
+
+.cta-stack { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.cta {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.cta:active { transform: scale(0.98); }
+.cta-primary {
+  background: var(--c-gold);
+  color: var(--c-bg);
+}
+.cta-primary:active { background: var(--c-gold-light); }
+.cta-secondary {
+  background: transparent;
+  color: var(--c-text);
+  border: 1px solid var(--c-input-border);
+}
+.cta-secondary:active { background: var(--c-bg-card); }
+
+/* === SCREEN: ABOUT === */
+.section-block { margin-bottom: 28px; }
+.section-block h2 { margin-bottom: 12px; }
+.section-block .eyebrow { margin-bottom: 12px; }
+
+.problem-card {
+  background: var(--c-bg-card);
+  border-left: 3px solid var(--c-wine);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+}
+.problem-card-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--c-wine);
+  opacity: 0.6;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+.problem-card h3 { font-size: 1.05rem; margin-bottom: 6px; }
+.problem-card p { font-size: 0.88rem; }
+
+.triad-card {
+  background: var(--c-bg-card);
+  border-radius: 12px;
+  padding: 18px 16px;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--c-gold);
+}
+.triad-card:nth-child(2) { border-left-color: var(--c-wine); }
+.triad-card:nth-child(3) { border-left-color: var(--c-gold-light); }
+.triad-card .icon {
+  width: 36px; height: 36px;
+  border: 1px solid var(--c-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  color: var(--c-gold);
+}
+.triad-card .icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+.triad-card h3 { font-size: 1.15rem; margin-bottom: 4px; }
+.triad-card .subtitle {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--c-gold-light);
+  margin-bottom: 10px;
+}
+.triad-card ul { list-style: none; font-size: 0.88rem; line-height: 1.6; }
+.triad-card li { padding-left: 14px; position: relative; margin-bottom: 4px; color: var(--c-text-soft); }
+.triad-card li::before { content: '·'; position: absolute; left: 0; color: var(--c-gold); }
+
+/* === SCREEN: PROCESS (21 steps) === */
+.phase-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.phase-tab {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 8px 14px;
+  border: 1px solid var(--c-divider);
+  background: transparent;
+  color: var(--c-text-soft);
+  cursor: pointer;
+  border-radius: 18px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.phase-tab.active {
+  background: var(--c-text);
+  color: var(--c-bg);
+  border-color: var(--c-text);
+}
+
+.timeline-mob { padding-left: 0; }
+.step-mob {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.step-mob.hidden { display: none; }
+.step-mob::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 36px;
+  bottom: -16px;
+  width: 1px;
+  background: var(--c-divider);
+}
+.step-mob:last-child::before { display: none; }
+.step-marker-mob {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--c-bg);
+  border: 2px solid var(--c-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--c-text);
+  position: relative;
+  z-index: 2;
+}
+.step-mob.phase-1 .step-marker-mob { border-color: var(--c-text); color: var(--c-text); }
+.step-mob.phase-2 .step-marker-mob { border-color: var(--c-gold); color: var(--c-gold); }
+.step-mob.phase-3 .step-marker-mob { border-color: var(--c-wine); color: var(--c-wine); }
+.step-mob.phase-4 .step-marker-mob { border-color: var(--c-haze); color: var(--c-haze); }
+.step-card-mob {
+  background: var(--c-bg-card);
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--c-divider);
+}
+.step-phase-tag {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+  margin-bottom: 4px;
+}
+.step-title-mob { font-family: var(--font-display); font-weight: 600; font-size: 1rem; margin-bottom: 5px; }
+.step-desc-mob { font-size: 0.85rem; color: var(--c-text-soft); line-height: 1.5; }
+.step-legal-mob {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--c-divider);
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  color: var(--c-gold);
+}
+.step-legal-mob::before { content: '§ '; font-weight: 700; }
+
+/* === SCREEN: CALCULATOR === */
+.calc-mode-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-divider);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+.calc-mode-toggle button {
+  background: transparent;
+  border: none;
+  color: var(--c-text-soft);
+  padding: 10px;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.calc-mode-toggle button.active {
+  background: var(--c-gold);
+  color: var(--c-bg);
+}
+
+.input-group { margin-bottom: 16px; }
+.input-group label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-text-soft);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.input-group input[type="number"] {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--c-input-bg);
+  border: 1px solid var(--c-input-border);
+  color: var(--c-text);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  border-radius: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.input-group input[type="number"]:focus { outline: none; border-color: var(--c-gold); }
+.input-group input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--c-input-border);
+  border-radius: 2px;
+  outline: none;
+}
+.input-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--c-gold);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.input-group input[type="range"]::-moz-range-thumb {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--c-gold);
+  border: none;
+  cursor: pointer;
+}
+.input-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.input-readout {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--c-gold);
+  min-width: 50px;
+  text-align: right;
+}
+
+.currency-toggle {
+  display: inline-flex;
+  border: 1px solid var(--c-input-border);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.currency-toggle button {
+  background: transparent;
+  border: none;
+  color: var(--c-text-soft);
+  padding: 8px 14px;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.currency-toggle button.active {
+  background: var(--c-gold);
+  color: var(--c-bg);
+}
+
+.calc-results {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-divider);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 8px;
+}
+.calc-results h3 {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--c-gold-light);
+  margin-bottom: 12px;
+}
+[data-lang="hy"] .calc-results h3 { font-family: var(--font-arm); font-style: normal; }
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--c-divider);
+  font-size: 0.88rem;
+}
+.calc-row:last-of-type { border-bottom: none; }
+.calc-label { color: var(--c-text-soft); flex: 1; padding-right: 8px; }
+.calc-value {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--c-text);
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+.calc-pct {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--c-text-dim);
+  margin-left: 4px;
+}
+[data-lang="hy"] .calc-pct { font-family: var(--font-arm); font-style: normal; }
+
+.calc-total {
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: var(--c-gold);
+  color: var(--c-bg);
+  border-radius: 10px;
+}
+.calc-total .calc-label { color: var(--c-bg); font-weight: 600; text-transform: uppercase; font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.1em; }
+.calc-total .calc-value { color: var(--c-bg); font-size: 1.5rem; font-weight: 800; }
+.calc-total .calc-row { border-bottom-color: rgba(10,22,40,0.15); }
+
+.calc-note {
+  margin-top: 14px;
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--c-text-dim);
+  line-height: 1.5;
+}
+[data-lang="hy"] .calc-note { font-family: var(--font-arm); font-style: normal; }
+
+/* === SCREEN: ROADMAP === */
+.phase-card-mob {
+  background: var(--c-bg-card);
+  border-top: 3px solid var(--c-gold);
+  border-radius: 0 0 12px 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.phase-card-mob:nth-child(1) { border-top-color: var(--c-haze); }
+.phase-card-mob:nth-child(2) { border-top-color: var(--c-gold); }
+.phase-card-mob:nth-child(3) { border-top-color: var(--c-wine); }
+.phase-card-mob:nth-child(4) { border-top-color: var(--c-text); }
+.phase-num-mob {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-gold);
+  margin-bottom: 4px;
+}
+.phase-card-mob h3 { font-size: 1.15rem; margin-bottom: 4px; }
+.phase-card-mob .period {
+  font-family: var(--font-sub);
+  font-style: italic;
+  color: var(--c-text-dim);
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+.phase-card-mob ul { list-style: none; font-size: 0.85rem; line-height: 1.55; }
+.phase-card-mob li { padding-left: 12px; position: relative; margin-bottom: 4px; color: var(--c-text-soft); }
+.phase-card-mob li::before { content: '·'; position: absolute; left: 0; color: var(--c-gold); }
+.phase-gate-mob {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--c-divider);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  color: var(--c-wine);
+}
+.phase-gate-mob::before { content: '◆ '; color: var(--c-gold); }
+
+/* === SCREEN: TEAM/AUTHOR === */
+.author-portrait-mob {
+  width: 140px; height: 140px;
+  margin: 0 auto 16px;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-gold);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.author-portrait-mob::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(200,155,60,0.25), transparent 60%);
+  pointer-events: none;
+}
+.author-portrait-mob .ka {
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--c-gold);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  z-index: 1;
+}
+.author-portrait-mob .label {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--c-gold-light);
+  margin-top: 4px;
+  z-index: 1;
+}
+[data-lang="hy"] .author-portrait-mob .label { font-family: var(--font-arm); font-style: normal; }
+
+.author-info { text-align: center; margin-bottom: 24px; }
+.author-info h3 { font-size: 1.3rem; margin-bottom: 4px; }
+.author-info .role {
+  font-family: var(--font-sub);
+  font-style: italic;
+  color: var(--c-gold-light);
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+[data-lang="hy"] .author-info .role { font-family: var(--font-arm); font-style: normal; }
+.author-info p { font-size: 0.9rem; padding: 0 8px; }
+
+.contact-list { list-style: none; }
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 12px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-divider);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: var(--c-text);
+}
+.contact-item .ico {
+  width: 36px; height: 36px;
+  background: rgba(200,155,60,0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-gold);
+  flex-shrink: 0;
+}
+.contact-item .ico svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.contact-item .meta { flex: 1; min-width: 0; }
+.contact-item .label {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+  margin-bottom: 2px;
+}
+.contact-item .value {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--c-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.socials-mob {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+.social-mob {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 4px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-divider);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--c-text-soft);
+}
+.social-mob svg { width: 22px; height: 22px; fill: currentColor; }
+.social-mob .name { font-family: var(--font-ui); font-size: 0.6rem; letter-spacing: 0.05em; }
+
+/* === SCREEN: APPLY === */
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-text-soft);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--c-input-bg);
+  border: 1px solid var(--c-input-border);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  border-radius: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--c-gold); }
+
+.role-select {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.role-option {
+  background: var(--c-input-bg);
+  border: 1px solid var(--c-input-border);
+  padding: 12px 6px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--c-text-soft);
+  transition: all 0.15s;
+}
+.role-option.selected {
+  background: var(--c-gold);
+  color: var(--c-bg);
+  border-color: var(--c-gold);
+  font-weight: 700;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.checkbox-row input[type="checkbox"] {
+  width: 22px; height: 22px;
+  accent-color: var(--c-gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.checkbox-row label {
+  font-size: 0.82rem;
+  color: var(--c-text-soft);
+  line-height: 1.5;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.success-card {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-gold);
+  border-radius: 12px;
+  padding: 24px 20px;
+  text-align: center;
+  margin: 16px 0;
+}
+.success-card .ico {
+  width: 64px; height: 64px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: rgba(200,155,60,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.success-card .ico svg { width: 32px; height: 32px; stroke: var(--c-gold); fill: none; stroke-width: 2; }
+.success-card h3 { color: var(--c-gold); margin-bottom: 8px; }
+.success-card p { font-size: 0.9rem; }
+
+/* === SCREEN: SETTINGS === */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-divider);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+.setting-meta { flex: 1; min-width: 0; }
+.setting-meta .title { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; margin-bottom: 2px; }
+.setting-meta .desc { font-family: var(--font-body); font-size: 0.78rem; color: var(--c-text-dim); }
+
+.lang-options { display: flex; gap: 4px; }
+.lang-options button {
+  background: transparent;
+  border: 1px solid var(--c-divider);
+  color: var(--c-text-soft);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.lang-options button.active { background: var(--c-gold); color: var(--c-bg); border-color: var(--c-gold); }
+
+.theme-options { display: flex; gap: 4px; }
+.theme-options button {
+  background: transparent;
+  border: 1px solid var(--c-divider);
+  color: var(--c-text-soft);
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-options button.active { background: var(--c-gold); color: var(--c-bg); border-color: var(--c-gold); }
+.theme-options svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+.toggle-switch {
+  width: 44px; height: 26px;
+  background: var(--c-input-border);
+  border-radius: 13px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle-switch.on { background: var(--c-gold); }
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 20px; height: 20px;
+  background: var(--c-bg);
+  border-radius: 50%;
+  transition: left 0.2s;
+}
+.toggle-switch.on::after { left: 21px; }
+
+/* === SCREEN: LEGAL === */
+.legal-text {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-divider);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--c-text-soft);
+}
+.legal-text strong { color: var(--c-text); }
+.legal-text h4 { font-size: 0.95rem; margin-bottom: 6px; color: var(--c-text); }
+.legal-text p { font-size: 0.85rem; margin-bottom: 8px; }
+
+.legal-doc-mini {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-divider);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.legal-doc-id {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: var(--c-gold);
+  margin-bottom: 4px;
+}
+.legal-doc-mini h4 { font-size: 0.95rem; margin-bottom: 4px; }
+.legal-doc-mini p { font-size: 0.78rem; }
+
+/* === MENU DRAWER === */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,22,40,0.7);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -85%;
+  width: 85%;
+  max-width: 360px;
+  height: 100%;
+  background: var(--c-bg);
+  border-left: 1px solid var(--c-divider);
+  z-index: 300;
+  transition: right 0.25s ease;
+  padding: calc(var(--safe-top) + 16px) 16px calc(var(--safe-bottom) + 16px);
+  overflow-y: auto;
+}
+.drawer.open { right: 0; }
+.drawer-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--c-divider);
+}
+.drawer-list { list-style: none; }
+.drawer-item {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 12px;
+  background: transparent;
+  border: none;
+  color: var(--c-text);
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: background 0.15s;
+}
+.drawer-item:active { background: var(--c-bg-card); }
+.drawer-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; color: var(--c-gold); }
+
+/* === ONBOARDING === */
+.onboarding {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: var(--c-bg);
+  flex-direction: column;
+  padding: calc(var(--safe-top) + 32px) 24px calc(var(--safe-bottom) + 32px);
+}
+.onboarding.active { display: flex; }
+.onboarding-slides {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.onboarding-icon {
+  width: 96px; height: 96px;
+  border: 1px solid var(--c-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  background: var(--c-bg-card);
+}
+.onboarding-icon svg { width: 48px; height: 48px; fill: var(--c-gold); stroke: var(--c-gold); }
+.onboarding-slides h2 { margin-bottom: 12px; }
+.onboarding-slides p { font-size: 1rem; max-width: 320px; }
+
+.onboarding-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 20px 0;
+}
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--c-divider);
+  transition: all 0.2s;
+}
+.dot.active { background: var(--c-gold); width: 24px; border-radius: 4px; }
+
+.onboarding-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+.onboarding-skip {
+  background: transparent;
+  border: none;
+  color: var(--c-text-soft);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 12px 16px;
+}
+
+/* === SPLASH === */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  background: var(--c-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0s linear 0.8s;
+}
+.splash.hidden { opacity: 0; visibility: hidden; }
+.splash-logo {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: var(--c-bg-elev);
+  border: 2px solid var(--c-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  animation: logoIn 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes logoIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.splash-logo svg { width: 56px; height: 56px; fill: var(--c-gold); }
+.splash-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: var(--c-text);
+  margin-bottom: 6px;
+  animation: fadeUp 1s 0.3s both cubic-bezier(0.16, 1, 0.3, 1);
+}
+.splash-subtitle {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--c-gold-light);
+  animation: fadeUp 1s 0.5s both cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes fadeUp { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Watermark на экранах */
+.watermark {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+  text-align: center;
+  padding: 16px 8px;
+  margin-top: 32px;
+  border-top: 1px dashed var(--c-divider);
+}
+
+/* Утилиты */
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.mt-16 { margin-top: 16px; }
+.mb-16 { margin-bottom: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-24 { margin-bottom: 24px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Кастомный скроллбар */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-thumb { background: var(--c-gold-deep); border-radius: 2px; }
+</style>
+</head>
+
+<body>
+
+<!-- ─── SPLASH SCREEN ─── -->
+<div class="splash" id="splash">
+  <div class="splash-logo">
+    <svg viewBox="0 0 24 24"><path d="M2,16 Q6,12 12,14 T22,16 L22,18 Q18,20 12,18 T2,18 Z M5,14 Q6,8 12,8 Q18,8 19,14 L17,14 Q16,11 12,11 Q8,11 7,14 Z"/></svg>
+  </div>
+  <div class="splash-title" data-i18n="brand">Ноев Ковчег</div>
+  <div class="splash-subtitle" data-i18n="brand_sub">Платформа · Республика Армения</div>
+</div>
+
+<!-- ─── ONBOARDING ─── -->
+<div class="onboarding" id="onboarding">
+  <div class="onboarding-slides">
+    <div class="onboarding-icon" id="ob-icon">
+      <svg viewBox="0 0 24 24"><path d="M2,16 Q6,12 12,14 T22,16 L22,18 Q18,20 12,18 T2,18 Z M5,14 Q6,8 12,8 Q18,8 19,14 L17,14 Q16,11 12,11 Q8,11 7,14 Z"/></svg>
+    </div>
+    <h2 id="ob-title" data-i18n="onboarding_1_title">Спасение</h2>
+    <p id="ob-text" data-i18n="onboarding_1_text">Ноев Ковчег — символ сохранения главных сокровищ нации для будущих поколений.</p>
+  </div>
+  <div class="onboarding-dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <div class="onboarding-actions">
+    <button class="onboarding-skip" id="ob-skip" data-i18n="skip">Пропустить</button>
+    <button class="cta cta-primary" id="ob-next" data-i18n="next">Дальше →</button>
+  </div>
+</div>
+
+<!-- ─── MAIN APP ─── -->
+<div class="app">
+
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <a href="#home" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24"><path d="M2,16 Q6,12 12,14 T22,16 L22,18 Q18,20 12,18 T2,18 Z M5,14 Q6,8 12,8 Q18,8 19,14 L17,14 Q16,11 12,11 Q8,11 7,14 Z"/></svg>
+      </span>
+      <span data-i18n="brand_short">Ноев Ковчег</span>
+    </a>
+    <div class="top-actions">
+      <button class="lang-pill" id="lang-pill">RU</button>
+      <button class="icon-btn" id="theme-btn" aria-label="Theme">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12,2 L12,4 M12,20 L12,22 M2,12 L4,12 M20,12 L22,12 M5,5 L6.5,6.5 M17.5,17.5 L19,19 M5,19 L6.5,17.5 M17.5,6.5 L19,5"/></svg>
+      </button>
+      <button class="icon-btn" id="menu-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="main">
+
+    <!-- ═══════════════ SCREEN: HOME ═══════════════ -->
+    <section class="screen active" id="screen-home">
+      <div class="hero">
+        <div class="hero-celestial"></div>
+        <div class="hero-ararat">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="none">
+            <path d="M0,200 L40,150 L80,140 L130,90 L160,40 L185,15 L210,30 L240,90 L280,130 L320,100 L360,140 L400,150 L400,200 Z"/>
+          </svg>
+        </div>
+        <div class="hero-content">
+          <div class="eyebrow" style="justify-content: center;" data-i18n="hero_eyebrow">Цифровая платформа · 2026</div>
+          <h1>
+            <span data-i18n="brand">Ноев Ковчег</span>
+            <span class="accent" data-i18n="hero_subtitle">Платформа</span>
+          </h1>
+          <p class="hero-sub" data-i18n="hero_lead">Финансирование национальных проектов Республики Армения через токенизацию залоговой недвижимости</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">€100M</div>
+          <div class="stat-label" data-i18n="stat_pool">Размер пула</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">5.5%</div>
+          <div class="stat-label" data-i18n="stat_senior">Senior купон</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">13.5%</div>
+          <div class="stat-label" data-i18n="stat_junior">Junior до</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4.4%</div>
+          <div class="stat-label" data-i18n="stat_owner">Собственнику сверху</div>
+        </div>
+      </div>
+
+      <div class="cta-stack">
+        <button class="cta cta-primary" data-nav="about" data-i18n="cta_learn">Узнать о проекте →</button>
+        <button class="cta cta-secondary" data-nav="calculator" data-i18n="cta_calc">Открыть калькулятор</button>
+        <button class="cta cta-secondary" data-nav="apply" data-i18n="cta_apply">Оставить заявку</button>
+      </div>
+
+      <div class="watermark">
+        © Кагиров А-Х. А. · 2026 · UCC Geneva 1952<br>
+        Документ NK-PWA-001/2026
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCREEN: ABOUT ═══════════════ -->
+    <section class="screen" id="screen-about">
+      <div class="section-block">
+        <div class="eyebrow" data-i18n="about_eyebrow">Реальность сегодня</div>
+        <h2 data-i18n="about_title">Три ограничения Армении</h2>
+        <div class="problem-card">
+          <div class="problem-card-num">01</div>
+          <h3 data-i18n="problem_1_title">Бюджет ограничен</h3>
+          <p data-i18n="problem_1_text">Темпы национальных проектов сдерживаются объёмом бюджета и условиями международных кредиторов.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-num">02</div>
+          <h3 data-i18n="problem_2_title">Диаспора не вовлечена</h3>
+          <p data-i18n="problem_2_text">7 миллионов армян за рубежом с десятками миллиардов капитала — нет инструмента инвестировать в Родину.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-card-num">03</div>
+          <h3 data-i18n="problem_3_title">Спящие активы</h3>
+          <p data-i18n="problem_3_text">Сотни тысяч квартир и земельных участков в РА — спящий капитал, не работающий на экономику.</p>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="eyebrow" data-i18n="solution_eyebrow">Триединое решение</div>
+        <h2 data-i18n="solution_title">Все три стороны выигрывают</h2>
+
+        <div class="triad-card">
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M3,12 L12,4 L21,12 M5,10 L5,20 L19,20 L19,10"/></svg>
+          </div>
+          <h3 data-i18n="triad_owner">Собственник</h3>
+          <div class="subtitle" data-i18n="triad_owner_sub">≈ 4.4% годовых сверху без потери владения</div>
+          <ul>
+            <li data-i18n="triad_owner_1">Актив остаётся у владельца</li>
+            <li data-i18n="triad_owner_2">Купон 2.75% годовых в драмах</li>
+            <li data-i18n="triad_owner_3">Бесплатная страховка</li>
+            <li data-i18n="triad_owner_4">0% налога на имущество</li>
+            <li data-i18n="triad_owner_5">Бонус 7-8% в конце цикла</li>
+            <li data-i18n="triad_owner_6">Статус «Соинвестор Армении»</li>
+          </ul>
+        </div>
+
+        <div class="triad-card">
+          <div class="icon" style="border-color: var(--c-wine); color: var(--c-wine);">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12,3 L12,21 M3,12 L21,12"/></svg>
+          </div>
+          <h3 data-i18n="triad_investor">Инвестор</h3>
+          <div class="subtitle" data-i18n="triad_investor_sub">Самый защищённый цифровой актив региона</div>
+          <ul>
+            <li data-i18n="triad_investor_1">Senior — 5.5% купон + гарантия Минфина РА</li>
+            <li data-i18n="triad_investor_2">Junior (ART) — до 13.5% годовых</li>
+            <li data-i18n="triad_investor_3">Реальное обеспечение недвижимостью</li>
+            <li data-i18n="triad_investor_4">0% налога на крипто-прирост (нерезиденты)</li>
+            <li data-i18n="triad_investor_5">Прозрачность DLT в реальном времени</li>
+          </ul>
+        </div>
+
+        <div class="triad-card">
+          <div class="icon" style="border-color: var(--c-gold-light); color: var(--c-gold-light);">
+            <svg viewBox="0 0 24 24"><path d="M3,21 L21,21 M5,21 L5,9 L9,9 L9,21 M11,21 L11,5 L13,5 L13,21 M15,21 L15,11 L19,11 L19,21 M2,9 L12,3 L22,9"/></svg>
+          </div>
+          <h3 data-i18n="triad_state">Государство</h3>
+          <div class="subtitle" data-i18n="triad_state_sub">Долгосрочное стратегическое позиционирование РА</div>
+          <ul>
+            <li data-i18n="triad_state_1">До €1 млрд внебюджетного финансирования</li>
+            <li data-i18n="triad_state_2">Без увеличения внешнего госдолга</li>
+            <li data-i18n="triad_state_3">Ускорение нацпроектов на 5-7 лет</li>
+            <li data-i18n="triad_state_4">Финансовый суверенитет</li>
+            <li data-i18n="triad_state_5">РА становится региональным финансовым хабом</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCREEN: PROCESS (21 шаг) ═══════════════ -->
+    <section class="screen" id="screen-process">
+      <div class="eyebrow" data-i18n="process_eyebrow">Жизненный цикл актива</div>
+      <h2 class="mb-16" data-i18n="process_title">21 шаг — от регистрации до возврата</h2>
+
+      <div class="phase-tabs">
+        <button class="phase-tab active" data-phase="all" data-i18n="phase_all">Все 21</button>
+        <button class="phase-tab" data-phase="1" data-i18n="phase_1">Фаза 1</button>
+        <button class="phase-tab" data-phase="2" data-i18n="phase_2">Фаза 2</button>
+        <button class="phase-tab" data-phase="3" data-i18n="phase_3">Фаза 3</button>
+        <button class="phase-tab" data-phase="4" data-i18n="phase_4">Фаза 4</button>
+      </div>
+
+      <div class="timeline-mob" id="timeline-mob">
+        <!-- Шаги генерируются JS из i18n -->
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCREEN: CALCULATOR ═══════════════ -->
+    <section class="screen" id="screen-calculator">
+      <div class="eyebrow" data-i18n="calc_eyebrow">Калькулятор</div>
+      <h2 class="mb-16" data-i18n="calc_title">Расчёт доходности</h2>
+
+      <div class="calc-mode-toggle">
+        <button class="active" data-calc-mode="owner" data-i18n="calc_mode_owner">Собственник</button>
+        <button data-calc-mode="investor" data-i18n="calc_mode_investor">Инвестор</button>
+      </div>
+
+      <!-- Owner calculator -->
+      <div id="calc-owner">
+        <div class="currency-toggle">
+          <button class="active" data-currency="EUR">€ EUR</button>
+          <button data-currency="USD">$ USD</button>
+          <button data-currency="AMD">֏ AMD</button>
+        </div>
+
+        <div class="input-group">
+          <label data-i18n="calc_owner_value">Стоимость актива</label>
+          <input type="number" id="owner-value" value="200000" min="10000" step="1000" inputmode="numeric" />
+        </div>
+
+        <div class="input-group">
+          <label data-i18n="calc_owner_years">Срок цикла (лет)</label>
+          <div class="input-row">
+            <input type="range" id="owner-years" min="5" max="10" value="7" step="1" />
+            <span class="input-readout"><span id="owner-years-val">7</span></span>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label data-i18n="calc_owner_bonus">Бонус в конце (%)</label>
+          <div class="input-row">
+            <input type="range" id="owner-bonus" min="5" max="10" value="7.5" step="0.5" />
+            <span class="input-readout"><span id="owner-bonus-val">7.5</span>%</span>
+          </div>
+        </div>
+
+        <div class="calc-results">
+          <h3 data-i18n="calc_results_title">Доход за весь цикл</h3>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc_row_coupons">Купоны 2.75%</span>
+            <span class="calc-value" id="res-coupons">€38 500<span class="calc-pct">19.25%</span></span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc_row_insurance">Бесплатная страховка</span>
+            <span class="calc-value" id="res-insurance">€5 600<span class="calc-pct">2.80%</span></span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc_row_tax">Экономия на налоге</span>
+            <span class="calc-value" id="res-tax">€8 400<span class="calc-pct">4.20%</span></span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc_row_bonus">Бонус в конце</span>
+            <span class="calc-value" id="res-bonus">€15 000<span class="calc-pct">7.50%</span></span>
+          </div>
+          <div class="calc-total">
+            <div class="calc-row" style="padding: 0; border: none;">
+              <span class="calc-label" data-i18n="calc_total">Итого денежный эквивалент</span>
+              <span class="calc-value" id="res-total">€67 500</span>
+            </div>
+            <div class="calc-row" style="padding: 6px 0 0; border: none;">
+              <span class="calc-label" data-i18n="calc_annual">Годовая доходность сверху</span>
+              <span class="calc-value" id="res-annual" style="font-size: 1.1rem;">≈ 4.4%</span>
+            </div>
+          </div>
+          <div class="calc-note" data-i18n="calc_note_owner">Расчёт ориентировочный. Актив остаётся у собственника весь срок. Сравнение — с альтернативами (депозит, аренда), очищенными от издержек и рисков.</div>
+        </div>
+      </div>
+
+      <!-- Investor calculator -->
+      <div id="calc-investor" class="hidden">
+        <div class="currency-toggle">
+          <button class="active" data-currency-inv="EUR">€ EUR</button>
+          <button data-currency-inv="USD">$ USD</button>
+        </div>
+
+        <div class="calc-mode-toggle" style="grid-template-columns: 1fr 1fr;">
+          <button class="active" data-tranche="senior" data-i18n="tranche_senior">Senior 5.5%</button>
+          <button data-tranche="junior" data-i18n="tranche_junior">Junior до 13.5%</button>
+        </div>
+
+        <div class="input-group">
+          <label data-i18n="calc_investor_amount">Сумма инвестиции</label>
+          <input type="number" id="inv-amount" value="100000" min="10000" step="1000" inputmode="numeric" />
+        </div>
+
+        <div class="input-group">
+          <label data-i18n="calc_investor_years">Горизонт (лет)</label>
+          <div class="input-row">
+            <input type="range" id="inv-years" min="3" max="10" value="7" step="1" />
+            <span class="input-readout"><span id="inv-years-val">7</span></span>
+          </div>
+        </div>
+
+        <div class="calc-results">
+          <h3 data-i18n="calc_inv_results">Прогноз доходности</h3>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc_inv_coupon">Купонные выплаты</span>
+            <span class="calc-value" id="inv-coupons">€38 500</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc_inv_principal">Возврат тела</span>
+            <span class="calc-value" id="inv-principal">€100 000</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc_inv_irr">IRR (внутренняя доходность)</span>
+            <span class="calc-value" id="inv-irr">5.50%</span>
+          </div>
+          <div class="calc-total">
+            <div class="calc-row" style="padding: 0; border: none;">
+              <span class="calc-label" data-i18n="calc_total_inv">Итого получено</span>
+              <span class="calc-value" id="inv-total">€138 500</span>
+            </div>
+          </div>
+          <div class="calc-note" data-i18n="calc_note_investor">Senior транш: бюджетная гарантия Минфина РА. Junior: цена привязана к NAV пула, доходность через рост стоимости. Расчёт ориентировочный, не является инвест-рекомендацией.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCREEN: ROADMAP ═══════════════ -->
+    <section class="screen" id="screen-roadmap">
+      <div class="eyebrow" data-i18n="roadmap_eyebrow">Дорожная карта</div>
+      <h2 class="mb-16" data-i18n="roadmap_title">Четыре фазы проекта</h2>
+
+      <div class="phase-card-mob">
+        <div class="phase-num-mob" data-i18n="phase_0_num">Фаза 0 · мес 0-6</div>
+        <h3 data-i18n="phase_0_name">Подготовка</h3>
+        <div class="period" data-i18n="phase_0_period">первые 6 месяцев</div>
+        <ul>
+          <li data-i18n="phase_0_1">Учреждение СП с банком РА</li>
+          <li data-i18n="phase_0_2">Международная IP-оценка</li>
+          <li data-i18n="phase_0_3">Подготовка документации</li>
+          <li data-i18n="phase_0_4">Политическая подготовка с Минфином и ЦБ РА</li>
+        </ul>
+        <div class="phase-gate-mob" data-i18n="phase_0_gate">Постановление Правительства о бюджетной гарантии</div>
+      </div>
+
+      <div class="phase-card-mob">
+        <div class="phase-num-mob" data-i18n="phase_1_num">Фаза 1 · мес 6-24</div>
+        <h3 data-i18n="phase_1_name">Пилот €100M</h3>
+        <div class="period" data-i18n="phase_1_period">полтора года</div>
+        <ul>
+          <li data-i18n="phase_1_1">Получение лицензии CASP</li>
+          <li data-i18n="phase_1_2">Накопление пула из 500+ собственников</li>
+          <li data-i18n="phase_1_3">Выпуск двух траншей</li>
+          <li data-i18n="phase_1_4">Финансирование 5-10 нац. проектов</li>
+        </ul>
+        <div class="phase-gate-mob" data-i18n="phase_1_gate">&gt;80% сданы · &gt;90% выкуплено · NAV +15%</div>
+      </div>
+
+      <div class="phase-card-mob">
+        <div class="phase-num-mob" data-i18n="phase_2_num">Фаза 2 · мес 24-60</div>
+        <h3 data-i18n="phase_2_name">Институционализация</h3>
+        <div class="period" data-i18n="phase_2_period">три года</div>
+        <ul>
+          <li data-i18n="phase_2_1">Принятие пакета поправок L1+L2+L3+L5+L6</li>
+          <li data-i18n="phase_2_2">ЦБ РА в качестве контрагента</li>
+          <li data-i18n="phase_2_3">Эмиссия цифрового драма под пул</li>
+          <li data-i18n="phase_2_4">Институциональные инвесторы €1B+</li>
+        </ul>
+        <div class="phase-gate-mob" data-i18n="phase_2_gate">Пакет принят · ЦБ РА провёл эмиссию</div>
+      </div>
+
+      <div class="phase-card-mob">
+        <div class="phase-num-mob" data-i18n="phase_3_num">Фаза 3 · мес 60+</div>
+        <h3 data-i18n="phase_3_name">Масштаб и тираж</h3>
+        <div class="period" data-i18n="phase_3_period">долгосрочно</div>
+        <ul>
+          <li data-i18n="phase_3_1">Расширение на движимое имущество, IP, акции</li>
+          <li data-i18n="phase_3_2">Грузия, Казахстан, ЕАЭС, ЕС</li>
+          <li data-i18n="phase_3_3">Револьвинг 2-го и 3-го циклов</li>
+          <li data-i18n="phase_3_4">РА как региональный финансовый хаб</li>
+        </ul>
+        <div class="phase-gate-mob" data-i18n="phase_3_gate">Безграничные горизонты</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCREEN: TEAM/AUTHOR ═══════════════ -->
+    <section class="screen" id="screen-team">
+      <div class="eyebrow" data-i18n="team_eyebrow">Автор и команда</div>
+      <h2 class="mb-16" data-i18n="team_title">Контактная информация</h2>
+
+      <div class="author-portrait-mob">
+        <div class="ka">К</div>
+        <div class="label">Кагиров А-Х. А.</div>
+      </div>
+
+      <div class="author-info">
+        <h3 data-i18n="author_name">Кагиров Абдул-Хаким Ахмадович</h3>
+        <div class="role" data-i18n="author_role">Аслан Каа · Founder & CEO</div>
+        <p data-i18n="author_bio">Идеолог и архитектор проекта «Платформа Ноев Ковчег». Готов вести проект до промышленного внедрения в РА и далее на тираж в Грузию, Казахстан, ЕАЭС и ЕС.</p>
+      </div>
+
+      <ul class="contact-list">
+        <li><a href="https://www.aslankaa.com" target="_blank" rel="noopener" class="contact-item">
+          <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2,12 h20 M12,2 a15,15 0 0,1 0,20 a15,15 0 0,1 0,-20"/></svg></span>
+          <span class="meta"><span class="label" data-i18n="contact_website">Сайт</span><span class="value">www.aslankaa.com</span></span>
+        </a></li>
+        <li><a href="mailto:aslankaa@yandex.ru" class="contact-item">
+          <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3,7 L12,13 L21,7"/></svg></span>
+          <span class="meta"><span class="label" data-i18n="contact_email">Email</span><span class="value">aslankaa@yandex.ru</span></span>
+        </a></li>
+        <li><a href="mailto:aslankaa@yandex.ru" class="contact-item">
+          <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3,7 L12,13 L21,7"/></svg></span>
+          <span class="meta"><span class="label" data-i18n="contact_email_alt">Email (альтернативный)</span><span class="value">aslankaa@yandex.ru</span></span>
+        </a></li>
+        <li><a href="tel:+79697955555" class="contact-item">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M22,16.92 v3 a2,2 0 0,1 -2.18,2 a19.79,19.79 0 0,1 -8.63,-3.07 a19.5,19.5 0 0,1 -6,-6 a19.79,19.79 0 0,1 -3.07,-8.67 A2,2 0 0,1 4.11,2 h3 a2,2 0 0,1 2,1.72 a12.84,12.84 0 0,0 0.7,2.81 a2,2 0 0,1 -0.45,2.11 L8.09,9.91 a16,16 0 0,0 6,6 l1.27,-1.27 a2,2 0 0,1 2.11,-0.45 a12.84,12.84 0 0,0 2.81,0.7 a2,2 0 0,1 1.72,2.03 z"/></svg></span>
+          <span class="meta"><span class="label" data-i18n="contact_phone">Телефон</span><span class="value">+7 (969) 795-55-55</span></span>
+        </a></li>
+        <li><a href="tel:+79252037777" class="contact-item">
+          <span class="ico"><svg viewBox="0 0 24 24"><path d="M22,16.92 v3 a2,2 0 0,1 -2.18,2 a19.79,19.79 0 0,1 -8.63,-3.07 a19.5,19.5 0 0,1 -6,-6 a19.79,19.79 0 0,1 -3.07,-8.67 A2,2 0 0,1 4.11,2 h3 a2,2 0 0,1 2,1.72 a12.84,12.84 0 0,0 0.7,2.81 a2,2 0 0,1 -0.45,2.11 L8.09,9.91 a16,16 0 0,0 6,6 l1.27,-1.27 a2,2 0 0,1 2.11,-0.45 a12.84,12.84 0 0,0 2.81,0.7 a2,2 0 0,1 1.72,2.03 z"/></svg></span>
+          <span class="meta"><span class="label" data-i18n="contact_phone_alt">Телефон (альтернативный)</span><span class="value">+7 (925) 203-77-77</span></span>
+        </a></li>
+      </ul>
+
+      <div class="socials-mob">
+        <a class="social-mob" href="https://t.me/aslan_kaa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M16.64,8.2 L15.04,15.84 C14.92,16.4 14.6,16.52 14.16,16.28 L11.6,14.4 L10.36,15.6 L10.04,13.32 L14.84,9 L8.6,12.6 L6.04,11.8 L15.92,7.32 C16.36,7.12 16.76,7.4 16.64,8.2 Z"/></svg>
+          <span class="name">Telegram</span>
+        </a>
+        <a class="social-mob" href="https://instagram.com/aslan_kaa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="0.6"/></svg>
+          <span class="name">Instagram</span>
+        </a>
+        <a class="social-mob" href="https://vk.com/id453725994" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M2,5 L4,5 L7,12 L10,7 L11,7 L11,12 L13,12 L13,7 L15,7 L15,12 L18,7 L21,7 L17,13 L21,19 L18,19 L15,15 L15,19 L13,19 L13,15 L11,15 L11,19 L8,19 L4,11 L2,11 Z"/></svg>
+          <span class="name">VK</span>
+        </a>
+        <a class="social-mob" href="https://facebook.com/aslan.kaa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M22,12 C22,6.48 17.52,2 12,2 C6.48,2 2,6.48 2,12 C2,16.84 5.44,20.87 10,21.8 L10,15 L8,15 L8,12 L10,12 L10,9.5 C10,7.57 11.57,6 13.5,6 L16,6 L16,9 L14,9 C13.45,9 13,9.45 13,10 L13,12 L16,12 L15.5,15 L13,15 L13,21.95 C18.05,21.45 22,17.19 22,12 Z"/></svg>
+          <span class="name">Facebook</span>
+        </a>
+        <a class="social-mob" href="https://x.com/aslanofff" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M18.244,2.25 L21.552,2.25 L14.325,10.51 L22.827,21.75 L16.17,21.75 L10.956,14.933 L4.99,21.75 L1.68,21.75 L9.41,12.915 L1.254,2.25 L8.08,2.25 L12.793,8.481 L18.244,2.25 Z"/></svg>
+          <span class="name">X</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCREEN: APPLY ═══════════════ -->
+    <section class="screen" id="screen-apply">
+      <div class="eyebrow" data-i18n="apply_eyebrow">Зарегистрировать интерес</div>
+      <h2 class="mb-16" data-i18n="apply_title">Стать участником проекта</h2>
+      <p style="margin-bottom: 20px; font-size: 0.9rem;" data-i18n="apply_lead">Заполните форму — мы свяжемся с вами в течение 7 дней.</p>
+
+      <form id="apply-form" novalidate>
+        <div class="form-group">
+          <label data-i18n="form_role">Кем хотите участвовать?</label>
+          <div class="role-select">
+            <div class="role-option selected" data-role="owner" data-i18n="role_owner">Собственник</div>
+            <div class="role-option" data-role="investor" data-i18n="role_investor">Инвестор</div>
+            <div class="role-option" data-role="partner" data-i18n="role_partner">Партнёр</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="form_name">ФИО</label>
+          <input type="text" name="name" required autocomplete="name" />
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="form_country">Страна резидентства</label>
+          <select name="country" required>
+            <option value="" data-i18n="form_choose">— выберите —</option>
+            <option value="AM">🇦🇲 Армения</option>
+            <option value="RU">🇷🇺 Россия</option>
+            <option value="US">🇺🇸 США</option>
+            <option value="FR">🇫🇷 Франция</option>
+            <option value="LB">🇱🇧 Ливан</option>
+            <option value="DE">🇩🇪 Германия</option>
+            <option value="IR">🇮🇷 Иран</option>
+            <option value="GE">🇬🇪 Грузия</option>
+            <option value="CA">🇨🇦 Канада</option>
+            <option value="AU">🇦🇺 Австралия</option>
+            <option value="other" data-i18n="form_other">Другая</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="form_email">Email</label>
+          <input type="email" name="email" required autocomplete="email" inputmode="email" />
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="form_phone">Телефон (опционально)</label>
+          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" />
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="form_message">Комментарий (опционально)</label>
+          <textarea name="message" rows="3"></textarea>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="consent" name="consent" required />
+          <label for="consent" data-i18n="form_consent">Согласен на обработку персональных данных согласно Закону РА «О защите персональных данных» и GDPR</label>
+        </div>
+
+        <button type="submit" class="cta cta-primary" style="width: 100%;" data-i18n="form_submit">Отправить заявку →</button>
+      </form>
+
+      <div class="success-card hidden" id="apply-success">
+        <div class="ico">
+          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h3 data-i18n="apply_thanks">Заявка получена!</h3>
+        <p data-i18n="apply_thanks_text">Мы свяжемся с вами в течение 7 рабочих дней по указанным контактам.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCREEN: SETTINGS ═══════════════ -->
+    <section class="screen" id="screen-settings">
+      <div class="eyebrow" data-i18n="settings_eyebrow">Параметры</div>
+      <h2 class="mb-16" data-i18n="settings_title">Настройки приложения</h2>
+
+      <div class="setting-row">
+        <div class="setting-meta">
+          <div class="title" data-i18n="settings_lang">Язык интерфейса</div>
+          <div class="desc" data-i18n="settings_lang_desc">Переключить язык приложения</div>
+        </div>
+        <div class="lang-options">
+          <button class="active" data-lang-set="ru">RU</button>
+          <button data-lang-set="en">EN</button>
+          <button data-lang-set="hy">HY</button>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-meta">
+          <div class="title" data-i18n="settings_theme">Тема</div>
+          <div class="desc" data-i18n="settings_theme_desc">Светлая, тёмная или авто</div>
+        </div>
+        <div class="theme-options">
+          <button data-theme-set="light" aria-label="Light"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12,2 L12,4 M12,20 L12,22 M2,12 L4,12 M20,12 L22,12"/></svg></button>
+          <button data-theme-set="dark" aria-label="Dark"><svg viewBox="0 0 24 24"><path d="M21,12.79 A9,9 0 1,1 11.21,3 A7,7 0 0,0 21,12.79 z"/></svg></button>
+          <button class="active" data-theme-set="auto" aria-label="Auto"><svg viewBox="0 0 24 24"><path d="M12,2 a10,10 0 0,1 0,20 z" fill="currentColor"/><circle cx="12" cy="12" r="10"/></svg></button>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-meta">
+          <div class="title" data-i18n="settings_push">Push-уведомления</div>
+          <div class="desc" data-i18n="settings_push_desc">Получать новости проекта</div>
+        </div>
+        <div class="toggle-switch" id="push-toggle"></div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-meta">
+          <div class="title" data-i18n="settings_install">Установить приложение</div>
+          <div class="desc" data-i18n="settings_install_desc">Добавить на главный экран</div>
+        </div>
+        <button class="cta cta-secondary" style="padding: 8px 14px; font-size: 0.78rem;" id="install-btn" data-i18n="settings_install_btn">Установить</button>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-meta">
+          <div class="title" data-i18n="settings_version">Версия</div>
+          <div class="desc">M1 PWA · NK-PWA-001/2026</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SCREEN: LEGAL ═══════════════ -->
+    <section class="screen" id="screen-legal">
+      <div class="eyebrow" data-i18n="legal_eyebrow">Юридическая информация</div>
+      <h2 class="mb-16" data-i18n="legal_title">Правовая база и копирайт</h2>
+
+      <div class="legal-text">
+        <h4 data-i18n="legal_disclaimer_title">Дисклеймер</h4>
+        <p data-i18n="legal_disclaimer_text">Настоящее приложение является информационным продуктом и не является публичным предложением, рекламой или офертой по смыслу применимого права. Указанные показатели доходности являются целевыми и не гарантированными.</p>
+      </div>
+
+      <div class="legal-text">
+        <h4 data-i18n="legal_basis_title">Правовая основа проекта</h4>
+        <p data-i18n="legal_basis_text">Проект «Платформа Ноев Ковчег» построен в полном соответствии с действующим законодательством Республики Армения о криптоактивах.</p>
+      </div>
+
+      <div class="legal-doc-mini">
+        <div class="legal-doc-id">HO-159-N · 29.05.2025</div>
+        <h4 data-i18n="legal_doc_law">Закон РА «О криптоактивах»</h4>
+        <p data-i18n="legal_doc_law_desc">Базовый закон по образцу EU MiCA</p>
+      </div>
+
+      <div class="legal-doc-mini">
+        <div class="legal-doc-id">Регл. 7/01 · Реш. 227-N</div>
+        <h4 data-i18n="legal_doc_701">Лицензирование CASP</h4>
+      </div>
+
+      <div class="legal-doc-mini">
+        <div class="legal-doc-id">Регл. 7/02 · Реш. 228-N</div>
+        <h4 data-i18n="legal_doc_702">Минимальный капитал</h4>
+      </div>
+
+      <div class="legal-doc-mini">
+        <div class="legal-doc-id">Регл. 7/04 · Реш. 226-N</div>
+        <h4 data-i18n="legal_doc_704">Whitepaper</h4>
+      </div>
+
+      <div class="legal-doc-mini">
+        <div class="legal-doc-id">Регл. 7/05 · Реш. 229-N</div>
+        <h4 data-i18n="legal_doc_705">Регистрация управляющих</h4>
+      </div>
+
+      <div class="legal-text" style="margin-top: 16px;">
+        <h4 data-i18n="legal_copyright_title">Копирайт</h4>
+        <p data-i18n="legal_copyright_text">© Кагиров Абдул-Хаким Ахмадович, 2026. Все права защищены. Воспроизведение и распространение запрещены без письменного согласия правообладателя.</p>
+        <p data-i18n="legal_conv">Охраняется Всемирной конвенцией об авторском праве (Женева, 1952) и Бернской конвенцией (1886).</p>
+        <p style="font-family: var(--font-ui); font-size: 0.7rem; color: var(--c-gold); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 12px;">Документ NK-PWA-001/2026</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-nav="home" aria-label="Home">
+      <svg viewBox="0 0 24 24"><path d="M3,12 L12,4 L21,12 M5,10 L5,20 L19,20 L19,10"/></svg>
+      <span class="nav-item-label" data-i18n="nav_home">Главная</span>
+    </button>
+    <button class="nav-item" data-nav="about" aria-label="About">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12,8 L12,12 M12,16 L12,16"/></svg>
+      <span class="nav-item-label" data-i18n="nav_about">О проекте</span>
+    </button>
+    <button class="nav-item" data-nav="calculator" aria-label="Calculator">
+      <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8,7 L16,7 M8,11 L10,11 M14,11 L16,11 M8,15 L10,15 M14,15 L16,15 M8,19 L10,19 M14,19 L16,19"/></svg>
+      <span class="nav-item-label" data-i18n="nav_calc">Калькулятор</span>
+    </button>
+    <button class="nav-item" data-nav="apply" aria-label="Apply">
+      <svg viewBox="0 0 24 24"><path d="M16,21 v-2 a4,4 0 0,0 -4,-4 H6 a4,4 0 0,0 -4,4 v2"/><circle cx="9" cy="7" r="4"/><path d="M19,8 v6 M16,11 h6"/></svg>
+      <span class="nav-item-label" data-i18n="nav_apply">Заявка</span>
+    </button>
+    <button class="nav-item" data-nav="menu" aria-label="More">
+      <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+      <span class="nav-item-label" data-i18n="nav_menu">Меню</span>
+    </button>
+  </nav>
+</div>
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-title" data-i18n="drawer_title">Дополнительно</div>
+  <ul class="drawer-list">
+    <li><button class="drawer-item" data-nav="process">
+      <svg viewBox="0 0 24 24"><path d="M3,6 h18 M3,12 h18 M3,18 h12"/></svg>
+      <span data-i18n="nav_process">21 шаг процесса</span>
+    </button></li>
+    <li><button class="drawer-item" data-nav="roadmap">
+      <svg viewBox="0 0 24 24"><path d="M9,11 H15 L17,8 L19,11 L19,21 L5,21 L5,11 L7,8 Z M5,11 L1,11 M19,11 L23,11"/></svg>
+      <span data-i18n="nav_roadmap">Дорожная карта</span>
+    </button></li>
+    <li><button class="drawer-item" data-nav="team">
+      <svg viewBox="0 0 24 24"><path d="M16,21 v-2 a4,4 0 0,0 -4,-4 H6 a4,4 0 0,0 -4,4 v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <span data-i18n="nav_team">Автор / Контакты</span>
+    </button></li>
+    <li><button class="drawer-item" data-nav="settings">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4,15 a1.65,1.65 0 0,0 0.33,1.82 l0.06,0.06 a2,2 0 0,1 0,2.83 a2,2 0 0,1 -2.83,0 l-0.06,-0.06 a1.65,1.65 0 0,0 -1.82,-0.33 a1.65,1.65 0 0,0 -1,1.51 V21 a2,2 0 0,1 -4,0 v-0.09 a1.65,1.65 0 0,0 -1,-1.51 a1.65,1.65 0 0,0 -1.82,0.33 l-0.06,0.06 a2,2 0 0,1 -2.83,0 a2,2 0 0,1 0,-2.83 l0.06,-0.06 a1.65,1.65 0 0,0 0.33,-1.82 a1.65,1.65 0 0,0 -1.51,-1 H3 a2,2 0 0,1 0,-4 h0.09 a1.65,1.65 0 0,0 1.51,-1 a1.65,1.65 0 0,0 -0.33,-1.82 l-0.06,-0.06 a2,2 0 0,1 0,-2.83 a2,2 0 0,1 2.83,0 l0.06,0.06 a1.65,1.65 0 0,0 1.82,0.33 H9 a1.65,1.65 0 0,0 1,-1.51 V3 a2,2 0 0,1 4,0 v0.09 a1.65,1.65 0 0,0 1,1.51 a1.65,1.65 0 0,0 1.82,-0.33 l0.06,-0.06 a2,2 0 0,1 2.83,0 a2,2 0 0,1 0,2.83 l-0.06,0.06 a1.65,1.65 0 0,0 -0.33,1.82 V9 a1.65,1.65 0 0,0 1.51,1 H21 a2,2 0 0,1 0,4 h-0.09 a1.65,1.65 0 0,0 -1.51,1 z"/></svg>
+      <span data-i18n="nav_settings">Настройки</span>
+    </button></li>
+    <li><button class="drawer-item" data-nav="legal">
+      <svg viewBox="0 0 24 24"><path d="M14,2 H6 a2,2 0 0,0 -2,2 v16 a2,2 0 0,0 2,2 h12 a2,2 0 0,0 2,-2 V8 z M14,2 v6 h6 M16,13 H8 M16,17 H8 M10,9 H8"/></svg>
+      <span data-i18n="nav_legal">Юр-информация</span>
+    </button></li>
+  </ul>
+</aside>
+
+<!-- Переводы загружаются ПЕРЕД основным скриптом, иначе UI заполняется raw-ключами -->
+<script src="i18n/translations.js"></script>
+
+<!-- Глобальный обработчик ошибок: показывает любые ошибки JS в видимом баннере поверх splash -->
+<script>
+window.addEventListener('error', function (e) {
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#8b1538;color:#f4ede0;padding:12px;font-family:monospace;font-size:12px;z-index:99999;white-space:pre-wrap;max-height:50vh;overflow:auto;';
+  bar.textContent = 'JS ERROR: ' + (e.message || 'unknown') + '\nFile: ' + (e.filename || '?') + ':' + (e.lineno || '?') + ':' + (e.colno || '?');
+  document.body.appendChild(bar);
+});
+window.addEventListener('unhandledrejection', function (e) {
+  var bar = document.createElement('div');
+  bar.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#8b1538;color:#f4ede0;padding:12px;font-family:monospace;font-size:12px;z-index:99999;';
+  bar.textContent = 'PROMISE REJECTION: ' + (e.reason && e.reason.message ? e.reason.message : e.reason);
+  document.body.appendChild(bar);
+});
+// Проверка загрузки переводов
+if (!window.NK_I18N) {
+  document.addEventListener('DOMContentLoaded', function () {
+    var bar = document.createElement('div');
+    bar.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#c89b3c;color:#0a1628;padding:12px;font-family:monospace;font-size:13px;z-index:99999;';
+    bar.textContent = 'WARNING: window.NK_I18N is undefined — translations.js failed to load';
+    document.body.appendChild(bar);
+  });
+}
+</script>
+
+<script>
+/* ──────────────────────────────────────────────────────────────────
+   ПЛАТФОРМА «НОЕВ КОВЧЕГ» · M1 PWA · ИНТЕРАКТИВ
+   © Кагиров Абдул-Хаким Ахмадович, 2026
+   ────────────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  // ─── i18n ───
+  const TRANSLATIONS = window.NK_I18N || {};
+  let currentLang = localStorage.getItem('nk-lang') || (navigator.language || 'ru').slice(0, 2);
+  if (!['ru', 'en', 'hy'].includes(currentLang)) currentLang = 'ru';
+
+  function t(key) {
+    const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.ru || {};
+    return dict[key] || (TRANSLATIONS.ru && TRANSLATIONS.ru[key]) || key;
+  }
+
+  function applyLang() {
+    document.documentElement.lang = currentLang;
+    document.documentElement.setAttribute('data-lang', currentLang);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      el.textContent = t(key);
+    });
+    document.getElementById('lang-pill').textContent = currentLang.toUpperCase();
+    document.querySelectorAll('[data-lang-set]').forEach(b => {
+      b.classList.toggle('active', b.dataset.langSet === currentLang);
+    });
+    renderTimeline();
+    calc();
+  }
+
+  document.getElementById('lang-pill').addEventListener('click', () => {
+    const order = ['ru', 'en', 'hy'];
+    currentLang = order[(order.indexOf(currentLang) + 1) % order.length];
+    localStorage.setItem('nk-lang', currentLang);
+    applyLang();
+  });
+
+  document.querySelectorAll('[data-lang-set]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentLang = btn.dataset.langSet;
+      localStorage.setItem('nk-lang', currentLang);
+      applyLang();
+    });
+  });
+
+  // ─── Theme ───
+  const themeKey = 'nk-theme';
+  let currentTheme = localStorage.getItem(themeKey) || 'auto';
+  function applyTheme() {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    document.querySelectorAll('[data-theme-set]').forEach(b => {
+      b.classList.toggle('active', b.dataset.themeSet === currentTheme);
+    });
+  }
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    const order = ['auto', 'dark', 'light'];
+    currentTheme = order[(order.indexOf(currentTheme) + 1) % order.length];
+    localStorage.setItem(themeKey, currentTheme);
+    applyTheme();
+  });
+  document.querySelectorAll('[data-theme-set]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentTheme = btn.dataset.themeSet;
+      localStorage.setItem(themeKey, currentTheme);
+      applyTheme();
+    });
+  });
+  applyTheme();
+
+  // ─── Drawer (объявить ДО Navigation, иначе TDZ-ошибка при первом navigate()) ───
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  function openDrawer() { drawer.classList.add('open'); overlay.classList.add('open'); }
+  function closeDrawer() { drawer.classList.remove('open'); overlay.classList.remove('open'); }
+  overlay.addEventListener('click', closeDrawer);
+
+  // ─── Navigation ───
+  const screens = document.querySelectorAll('.screen');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  function navigate(target) {
+    if (target === 'menu') {
+      openDrawer();
+      return;
+    }
+    screens.forEach(s => s.classList.remove('active'));
+    const screen = document.getElementById('screen-' + target);
+    if (screen) screen.classList.add('active');
+    navItems.forEach(n => n.classList.toggle('active', n.dataset.nav === target));
+    document.getElementById('main').scrollTop = 0;
+    closeDrawer();
+    location.hash = '#' + target;
+  }
+
+  document.querySelectorAll('[data-nav]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigate(el.dataset.nav);
+    });
+  });
+
+  window.addEventListener('hashchange', () => {
+    const target = location.hash.slice(1) || 'home';
+    if (target !== 'menu') navigate(target);
+  });
+
+  // Initial nav from hash
+  const initial = location.hash.slice(1) || 'home';
+  if (initial !== 'menu' && document.getElementById('screen-' + initial)) {
+    navigate(initial);
+  }
+
+  // ─── Top-bar menu button (открывает drawer) ───
+  const menuBtnEl = document.getElementById('menu-btn');
+  if (menuBtnEl) {
+    menuBtnEl.addEventListener('click', () => {
+      openDrawer();
+    });
+  }
+
+  // ─── Phase filter (21 шаг) ───
+  const STEPS = [
+    {n:1, p:1, key:'step_01'},  {n:2, p:1, key:'step_02'},  {n:3, p:1, key:'step_03'},
+    {n:4, p:1, key:'step_04'},  {n:5, p:1, key:'step_05'},  {n:6, p:1, key:'step_06'},
+    {n:7, p:1, key:'step_07'},  {n:8, p:1, key:'step_08'},
+    {n:9, p:2, key:'step_09'},  {n:10, p:2, key:'step_10'}, {n:11, p:2, key:'step_11'},
+    {n:12, p:2, key:'step_12'}, {n:13, p:2, key:'step_13'},
+    {n:14, p:3, key:'step_14'}, {n:15, p:3, key:'step_15'}, {n:16, p:3, key:'step_16'},
+    {n:17, p:3, key:'step_17'},
+    {n:18, p:4, key:'step_18'}, {n:19, p:4, key:'step_19'}, {n:20, p:4, key:'step_20'},
+    {n:21, p:4, key:'step_21'}
+  ];
+  let currentPhaseFilter = 'all';
+
+  function renderTimeline() {
+    const container = document.getElementById('timeline-mob');
+    if (!container) return;
+    container.innerHTML = STEPS.map(s => `
+      <div class="step-mob phase-${s.p} ${currentPhaseFilter === 'all' || currentPhaseFilter == s.p ? '' : 'hidden'}">
+        <div class="step-marker-mob">${String(s.n).padStart(2, '0')}</div>
+        <div class="step-card-mob">
+          <div class="step-phase-tag">${t('phase_tag_' + s.p)}</div>
+          <div class="step-title-mob">${t(s.key + '_title')}</div>
+          <div class="step-desc-mob">${t(s.key + '_desc')}</div>
+          <div class="step-legal-mob">${t(s.key + '_legal')}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  document.querySelectorAll('.phase-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentPhaseFilter = btn.dataset.phase;
+      document.querySelectorAll('.phase-tab').forEach(b => b.classList.toggle('active', b === btn));
+      renderTimeline();
+    });
+  });
+
+  // ─── Calculator ───
+  const COUPON = 0.0275;
+  const INSURANCE = 0.004;
+  const PROPTAX = 0.006;
+  const SENIOR = 0.055;
+  const JUNIOR = 0.135;
+
+  let calcMode = 'owner';
+  let ownerCurrency = 'EUR';
+  let invCurrency = 'EUR';
+  let invTranche = 'senior';
+
+  const CURR = {
+    EUR: { sym: '€', pos: 'before', preset: 200000, presetInv: 100000 },
+    USD: { sym: '$', pos: 'before', preset: 220000, presetInv: 110000 },
+    AMD: { sym: '֏', pos: 'after', preset: 80000000, presetInv: 40000000 }
+  };
+
+  function fmt(n, curr) {
+    const c = CURR[curr];
+    const r = Math.round(n);
+    const f = r.toLocaleString(currentLang === 'en' ? 'en-US' : 'ru-RU').replace(/,/g, ' ');
+    return c.pos === 'before' ? c.sym + f : f + ' ' + c.sym;
+  }
+
+  function calcOwner() {
+    const v = Number(document.getElementById('owner-value').value) || 0;
+    const y = Number(document.getElementById('owner-years').value) || 7;
+    const b = Number(document.getElementById('owner-bonus').value) / 100 || 0.075;
+    const c = v * COUPON * y;
+    const i = v * INSURANCE * y;
+    const tax = v * PROPTAX * y;
+    const bonus = v * b;
+    const total = c + i + tax + bonus;
+    const annual = v > 0 ? (total / v / y) * 100 : 0;
+    const setRow = (id, n) => {
+      const el = document.getElementById(id);
+      const pct = v > 0 ? (n / v * 100).toFixed(2) : '0';
+      el.innerHTML = fmt(n, ownerCurrency) + '<span class="calc-pct">' + pct + '%</span>';
+    };
+    setRow('res-coupons', c);
+    setRow('res-insurance', i);
+    setRow('res-tax', tax);
+    setRow('res-bonus', bonus);
+    document.getElementById('res-total').textContent = fmt(total, ownerCurrency);
+    document.getElementById('res-annual').textContent = '≈ ' + annual.toFixed(2) + '%';
+    document.getElementById('owner-years-val').textContent = y;
+    document.getElementById('owner-bonus-val').textContent = (b * 100).toFixed(1).replace(/\.0$/, '');
+  }
+
+  function calcInvestor() {
+    const v = Number(document.getElementById('inv-amount').value) || 0;
+    const y = Number(document.getElementById('inv-years').value) || 7;
+    const rate = invTranche === 'senior' ? SENIOR : JUNIOR;
+    const coupons = v * rate * y;
+    const total = v + coupons;
+    document.getElementById('inv-coupons').textContent = fmt(coupons, invCurrency);
+    document.getElementById('inv-principal').textContent = fmt(v, invCurrency);
+    document.getElementById('inv-irr').textContent = (rate * 100).toFixed(2) + '%';
+    document.getElementById('inv-total').textContent = fmt(total, invCurrency);
+    document.getElementById('inv-years-val').textContent = y;
+  }
+
+  function calc() { calcOwner(); calcInvestor(); }
+
+  ['owner-value', 'owner-years', 'owner-bonus'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.addEventListener('input', calcOwner); el.addEventListener('change', calcOwner); }
+  });
+  ['inv-amount', 'inv-years'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.addEventListener('input', calcInvestor); el.addEventListener('change', calcInvestor); }
+  });
+
+  document.querySelectorAll('[data-calc-mode]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      calcMode = btn.dataset.calcMode;
+      document.querySelectorAll('[data-calc-mode]').forEach(b => b.classList.toggle('active', b === btn));
+      document.getElementById('calc-owner').classList.toggle('hidden', calcMode !== 'owner');
+      document.getElementById('calc-investor').classList.toggle('hidden', calcMode !== 'investor');
+    });
+  });
+
+  document.querySelectorAll('[data-currency]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      ownerCurrency = btn.dataset.currency;
+      document.querySelectorAll('[data-currency]').forEach(b => b.classList.toggle('active', b === btn));
+      document.getElementById('owner-value').value = CURR[ownerCurrency].preset;
+      calcOwner();
+    });
+  });
+
+  document.querySelectorAll('[data-currency-inv]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      invCurrency = btn.dataset.currencyInv;
+      document.querySelectorAll('[data-currency-inv]').forEach(b => b.classList.toggle('active', b === btn));
+      document.getElementById('inv-amount').value = CURR[invCurrency].presetInv;
+      calcInvestor();
+    });
+  });
+
+  document.querySelectorAll('[data-tranche]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      invTranche = btn.dataset.tranche;
+      document.querySelectorAll('[data-tranche]').forEach(b => b.classList.toggle('active', b === btn));
+      calcInvestor();
+    });
+  });
+
+  // ─── Apply form ───
+  document.querySelectorAll('.role-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.role-option').forEach(o => o.classList.toggle('selected', o === opt));
+    });
+  });
+
+  document.getElementById('apply-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const form = e.target;
+    if (!document.getElementById('consent').checked) {
+      alert(t('form_consent_required'));
+      return;
+    }
+    const data = {
+      role: document.querySelector('.role-option.selected')?.dataset.role,
+      name: form.name.value,
+      country: form.country.value,
+      email: form.email.value,
+      phone: form.phone.value,
+      message: form.message.value,
+      timestamp: new Date().toISOString(),
+      lang: currentLang
+    };
+    // В demo-режиме сохраняем в localStorage; в production — отправка на API
+    const apps = JSON.parse(localStorage.getItem('nk-applications') || '[]');
+    apps.push(data);
+    localStorage.setItem('nk-applications', JSON.stringify(apps));
+    document.getElementById('apply-success').classList.remove('hidden');
+    form.classList.add('hidden');
+    setTimeout(() => {
+      form.reset();
+      document.getElementById('apply-success').classList.add('hidden');
+      form.classList.remove('hidden');
+    }, 5000);
+  });
+
+  // ─── Push toggle ───
+  const pushToggle = document.getElementById('push-toggle');
+  let pushEnabled = localStorage.getItem('nk-push') === 'true';
+  pushToggle.classList.toggle('on', pushEnabled);
+  pushToggle.addEventListener('click', () => {
+    pushEnabled = !pushEnabled;
+    pushToggle.classList.toggle('on', pushEnabled);
+    localStorage.setItem('nk-push', pushEnabled);
+    if (pushEnabled && 'Notification' in window) {
+      Notification.requestPermission();
+    }
+  });
+
+  // ─── PWA install ───
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+  document.getElementById('install-btn').addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    } else {
+      alert(t('install_help'));
+    }
+  });
+
+  // ─── Onboarding ───
+  const onboarding = document.getElementById('onboarding');
+  const seenOnboarding = localStorage.getItem('nk-onboarding-seen');
+  let obStep = 0;
+  const obData = [
+    { i18n_t: 'onboarding_1_title', i18n_d: 'onboarding_1_text', icon: 'M2,16 Q6,12 12,14 T22,16 L22,18 Q18,20 12,18 T2,18 Z' },
+    { i18n_t: 'onboarding_2_title', i18n_d: 'onboarding_2_text', icon: 'M12,3 L21,9 V20 H3 V9 Z M12,12 V18' },
+    { i18n_t: 'onboarding_3_title', i18n_d: 'onboarding_3_text', icon: 'M5,21 H19 M5,21 V11 L9,8 L9,21 M11,21 V8 L13,8 V21 M15,21 V12 L19,12 L19,21 M2,11 L12,4 L22,11' }
+  ];
+
+  function showOb() {
+    document.getElementById('ob-title').textContent = t(obData[obStep].i18n_t);
+    document.getElementById('ob-text').textContent = t(obData[obStep].i18n_d);
+    document.getElementById('ob-icon').innerHTML = `<svg viewBox="0 0 24 24"><path d="${obData[obStep].icon}"/></svg>`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === obStep));
+    document.getElementById('ob-next').textContent = obStep === 2 ? t('start') : t('next');
+  }
+
+  document.getElementById('ob-next').addEventListener('click', () => {
+    if (obStep === 2) {
+      onboarding.classList.remove('active');
+      localStorage.setItem('nk-onboarding-seen', '1');
+    } else {
+      obStep++;
+      showOb();
+    }
+  });
+
+  document.getElementById('ob-skip').addEventListener('click', () => {
+    onboarding.classList.remove('active');
+    localStorage.setItem('nk-onboarding-seen', '1');
+  });
+
+  // ─── Splash + Launch onboarding if first time ───
+  // Splash показывается дольше — даём время прочитать брендинг (3 сек + 0.8 сек fade-out = 3.8 сек)
+  setTimeout(() => {
+    document.getElementById('splash').classList.add('hidden');
+    if (!seenOnboarding) {
+      onboarding.classList.add('active');
+      showOb();
+    }
+  }, 3000);
+
+  // ─── Service Worker registration ───
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(() => { /* silent — work without SW */ });
+    });
+  }
+
+  // ─── Init ───
+  applyLang();
+
+  // ─── Console copyright ───
+  console.log('%c© Кагиров Абдул-Хаким Ахмадович, 2026.', 'color:#c89b3c;font-weight:bold;font-size:13px');
+  console.log('%cПлатформа «Ноев Ковчег» · M1 PWA · Документ NK-PWA-001/2026', 'color:#0a1628;font-size:12px');
+})();
+</script>
+
+</body>
+</html>

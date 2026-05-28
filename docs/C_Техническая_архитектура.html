@@ -1,0 +1,2060 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Техническая архитектура · Платформа «Ноев Ковчег»</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/doc.css">
+</head>
+<body>
+<nav class="docbar">
+  <a class="back" href="../index.html">← к хабу</a>
+  <span><b>Платформа «Ноев Ковчег»</b> · <span style="letter-spacing:.16em">Документ C-2</span></span>
+  <span>2026-05-11</span>
+</nav>
+<article>
+<p>© Кагиров Абдул-Хаким Ахмадович, 2026. Все права защищены. Watermark
+· © Kagirov A-Kh. A. · 2026 · ALL RIGHTS RESERVED · Universal Copyright
+Convention, Geneva 1952</p>
+<hr />
+<h1 id="техническая-архитектура">ТЕХНИЧЕСКАЯ АРХИТЕКТУРА</h1>
+<h2
+id="платформа-ноев-ковчег-software-architecture-document-sad">Платформа
+«Ноев Ковчег» · Software Architecture Document (SAD)</h2>
+<hr />
+<p><strong>Документ № NK-ARCH-001/2026</strong> <strong>Дата:</strong> 1
+мая 2026 г. <strong>Тип документа:</strong> Software Architecture
+Document (SAD), уровень C4 + детализация подсистем <strong>Применимое
+право:</strong> Закон РА HO-159-N + Регламенты ЦБ РА 7/01–7/05; Закон РА
+«О защите персональных данных»; стандарты ISO/IEC 27001, IFRS</p>
+<p><strong>Автор и правообладатель:</strong> Кагиров Абдул-Хаким
+Ахмадович (Аслан Каа) www.aslankaa.com · aslankaa@yandex.ru /
+aslankaa@yandex.ru · +7 (969) 795-55-55 / +7 (925) 203-77-77 Telegram
+<span class="citation" data-cites="aslan_kaa">@aslan_kaa</span> ·
+Instagram <span class="citation"
+data-cites="aslan_kaa">@aslan_kaa</span> · VK id453725994 · Facebook
+aslan.kaa · X <span class="citation"
+data-cites="aslanofff">@aslanofff</span></p>
+<hr />
+<h2 id="executive-summary">EXECUTIVE SUMMARY</h2>
+<p>Техническая архитектура Платформы «Ноев Ковчег» построена по принципу
+<strong>defense-in-depth</strong> с гибридной облачной топологией
+(primary EU-Frankfurt + secondary Yerevan + edge в диаспоральных хабах),
+permissioned DLT с регуляторной нодой Центрального банка РА,
+multi-signature кастоди на HSM уровня FIPS 140-2 Level 3, и полным
+мэппингом всех архитектурных решений на статьи Закона HO-159-N и
+Регламентов ЦБ РА.</p>
+<p><strong>Ключевые архитектурные решения:</strong></p>
+<ol type="1">
+<li><strong>DLT-слой:</strong> Polygon PoS (EVM-совместимый, низкие gas
+costs, зрелое сообщество, регуляторные ноды поддерживаются);</li>
+<li><strong>Гибридное облако:</strong> primary AWS Frankfurt + secondary
+Hetzner Yerevan + Cloudflare edge;</li>
+<li><strong>Кастоди:</strong> Multi-sig 3-of-5 (CEO + CTO + CFO + CCO +
+Independent Trustee) с HSM AWS CloudHSM или Thales Luna;</li>
+<li><strong>Mobile-first:</strong> PWA для Фазы 1, опциональные нативные
+приложения для Фазы 2;</li>
+<li><strong>Регуляторный доступ:</strong> ЦБ РА получает read-only ноду
+с полным доступом к составу пула в режиме реального времени;</li>
+<li><strong>Безопасность:</strong> ISO/IEC 27001 + GDPR + Закон РА «О
+защите персональных данных» + минимум 2 независимых аудита
+смарт-контрактов;</li>
+<li><strong>Observability:</strong> Prometheus + Grafana + Loki + Tempo
+с SLO 99.9% read / 99.5% write availability.</li>
+</ol>
+<hr />
+<h2 id="c4-диаграммы-архитектуры">1. C4-ДИАГРАММЫ АРХИТЕКТУРЫ</h2>
+<h3 id="уровень-1-system-context">1.1 Уровень 1 — System Context</h3>
+<pre><code>                        ┌───────────────────────┐
+                        │  ПЛАТФОРМА             │
+                        │  «НОЕВ КОВЧЕГ»         │
+                        │  (CASP-оператор +      │
+                        │   эмитент токенов)     │
+                        └─────────┬─────────────┘
+                                  │
+   ┌───────┬───────┬──────────────┼──────────────┬───────┬───────┐
+   ▼       ▼       ▼              ▼              ▼       ▼       ▼
+┌──────┐ ┌──────┐ ┌──────────┐ ┌──────────┐ ┌────────┐ ┌──────┐ ┌──────────┐
+│Собст-│ │Инвес-│ │Государ-  │ │ЦБ РА     │ │Страхо- │ │Оце- │ │Распреде- │
+│венник│ │тор   │ │ство РА   │ │(надзор + │ │вщик    │ │нщик │ │лённый    │
+│ (физ │ │ (3   │ │(Минфин,  │ │ regula-  │ │(армян- │ │(ли- │ │реестр    │
+│ /юр) │ │ типа)│ │ Казна-   │ │ tory     │ │ ский)  │ │цен- │ │(Polygon) │
+│      │ │      │ │ чейство) │ │ node)    │ │        │ │ зир.│ │          │
+└──────┘ └──────┘ └──────────┘ └──────────┘ └────────┘ └──────┘ └──────────┘
+   │       │           │            │           │         │           │
+   │ KYC,  │ Покупка   │ Получает   │Подаёт     │Страхует │Оценива- │  On-chain
+   │ депо- │ траншей,  │ деньги,    │whitepaper,│активы и │ет ак-   │  состояние
+   │ зит   │ покупка   │ финанси-   │отчёты по  │CFA, вы- │тивы пе- │  пула,
+   │ актива│ ART       │ рует       │соответ-   │плачивает│ред      │  токенов,
+   │       │           │ нац.про-   │ствию      │при стра-│включе-  │  транзакций
+   │       │           │ екты       │HO-159-N   │ховых    │нием в   │
+   │       │           │            │           │случаях  │пул      │</code></pre>
+<h3 id="уровень-2-container-diagram">1.2 Уровень 2 — Container
+Diagram</h3>
+<pre><code>                          ┌────────────────────────────────────┐
+                          │     ПЛАТФОРМА «НОЕВ КОВЧЕГ»         │
+                          │           (внутри границы)          │
+                          └────────────────────────────────────┘
+
+User-facing                  Application                  Data &amp;
+Containers                   Services                     Storage
+─────────────                ────────────                 ────────────
+┌─────────────┐              ┌─────────────┐              ┌──────────────┐
+│ Web App     │ ◄──HTTPS────►│ API Gateway │ ◄──gRPC─────►│ PostgreSQL   │
+│ (PWA, RU/   │              │ (Kong /     │              │ (registry,   │
+│  EN/HY)     │              │  Tyk)       │              │  metadata)   │
+└─────────────┘              └─────┬───────┘              └──────────────┘
+                                   │
+┌─────────────┐                    │                      ┌──────────────┐
+│ Mobile App  │                    ├─►Identity Service◄──►│ KYC Vault    │
+│ (PWA + Phase│                    │  (Auth0/Keycloak +   │ (encrypted   │
+│  2 native)  │                    │  Armenian nID)       │  isolated)   │
+└─────────────┘                    │                      └──────────────┘
+                                   │
+┌─────────────┐                    │                      ┌──────────────┐
+│ Admin Panel │                    ├─►Pool Service       ►│ Asset Registry│
+│ (CASP оп-   │                    │  (CRUD пула,         │ (PostgreSQL  │
+│  ераторов)  │                    │  переоценки)         │  + IPFS docs)│
+└─────────────┘                    │                      └──────────────┘
+                                   │
+┌─────────────┐                    │                      ┌──────────────┐
+│ Investor    │                    ├─►Order Service      ►│ Tx Ledger    │
+│ Dashboard   │                    │  (issuance, tra-     │ (ClickHouse  │
+│             │                    │  ding, redemption)   │  for analyt.)│
+└─────────────┘                    │                      └──────────────┘
+                                   │
+┌─────────────┐                    │                      ┌──────────────┐
+│ Regulator   │                    ├─►Smart Contract      ►│ DLT Layer   │
+│ Portal      │ ◄══════════════════│  Bridge              │ (Polygon PoS │
+│ (CB RA)     │   Read-only        │  (gas mgmt, oracle   │  + private   │
+│             │   node access      │   adapter)           │  RPC)        │
+└─────────────┘                    │                      └──────────────┘
+                                   │
+                                   ├─►Insurance Bridge   ─►External APIs
+                                   │  (CCI, VPI, FM)       (Insurer)
+                                   │
+                                   ├─►Payment Service    ─►External APIs
+                                   │  (AMD/EUR/USD,        (Bank-partner)
+                                   │   crypto on-ramp)
+                                   │
+                                   ├─►Notification Svc   ─►External
+                                   │  (email, Telegram,    (SendGrid,
+                                   │   SMS, push)          Twilio, FCM)
+                                   │
+                                   └─►Audit Log Service ──►Immutable
+                                      (all actions)        (S3 + IPFS hash)</code></pre>
+<h3 id="уровень-3-component-diagrams-3-ключевые-подсистемы">1.3 Уровень
+3 — Component Diagrams (3 ключевые подсистемы)</h3>
+<h4 id="smart-contract-bridge-компоненты">1.3.1 Smart Contract Bridge
+(компоненты)</h4>
+<pre><code>Smart Contract Bridge
+├── Transaction Builder
+│   ├── CFA1 mint/burn requests
+│   ├── Senior tranche operations
+│   └── Junior ART operations
+├── Gas Manager
+│   ├── Gas price oracle
+│   ├── EIP-1559 optimization
+│   └── Reserve gas wallets
+├── Oracle Adapter
+│   ├── Pool NAV oracle (off-chain → on-chain)
+│   ├── Asset valuation oracle
+│   └── Insurance status oracle
+├── Multi-sig Coordinator
+│   ├── Signature aggregator
+│   ├── Approval workflow (3-of-5)
+│   └── Time-locked operations
+└── Event Listener
+    ├── On-chain event subscription
+    ├── Event normalization
+    └── Downstream notifications</code></pre>
+<h4 id="pool-service-компоненты">1.3.2 Pool Service (компоненты)</h4>
+<pre><code>Pool Service
+├── Asset Onboarding
+│   ├── Document verification (Кадастр РА API)
+│   ├── Encumbrance registration
+│   └── Title insurance integration
+├── Valuation Engine
+│   ├── Quarterly valuation orchestrator
+│   ├── Appraiser selection (rotation)
+│   ├── Multi-source price aggregation
+│   └── IFRS 13 compliance check
+├── NAV Calculator
+│   ├── Pool NAV computation (real-time)
+│   ├── Per-token NAV (Junior ART)
+│   └── Historical NAV series
+├── Owner Coupon Manager
+│   ├── Monthly coupon scheduler
+│   ├── Drachma payment integration
+│   └── Tax compensation calculator
+├── Pool Health Monitor
+│   ├── Concentration limits checker
+│   ├── Geographic diversification
+│   └── Anomaly detection
+└── Insurance Coordinator
+    ├── CCI status tracking
+    ├── VPI activation logic
+    └── Claim coordination</code></pre>
+<h4 id="payment-service-компоненты">1.3.3 Payment Service
+(компоненты)</h4>
+<pre><code>Payment Service
+├── Fiat On-Ramp / Off-Ramp
+│   ├── Bank-partner integration (RA bank)
+│   ├── SWIFT settlements
+│   ├── AMD/EUR/USD FX execution
+│   └── PSD2-style strong customer auth
+├── Crypto Settlement
+│   ├── USDC, USDT, BTC, ETH acceptance
+│   ├── Conversion via licensed counterparty
+│   └── On-chain finality verification
+├── Coupon Distribution
+│   ├── Senior tranche quarterly coupons (escrow → holders)
+│   ├── Owner monthly coupons (Платформа → собственник AMD)
+│   └── End-of-cycle bonus distribution
+├── Redemption Processor
+│   ├── Senior tranche maturity buyback
+│   ├── Junior ART NAV-based redemption
+│   └── Quarterly limit enforcement (25%)
+└── Reconciliation Engine
+    ├── Daily reconciliation (banks ↔ ledger)
+    ├── On-chain ↔ off-chain sync
+    └── Discrepancy alerting</code></pre>
+<h3 id="уровень-4-code-level-mapping-для-критичных-частей">1.4 Уровень 4
+— Code-level mapping для критичных частей</h3>
+<p>Реализация конкретных функций на уровне кода будет описана в
+технических спецификациях отдельных компонентов на стадии разработки. На
+уровне SAD достаточно описать <strong>критические code-paths</strong>,
+требующие особого внимания при реализации:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Code-path</th>
+<th>Критичность</th>
+<th>Особенности</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PoolService.calculateNAV()</code></td>
+<td>Критическая</td>
+<td>Должна выполняться идемпотентно; результат идёт в smart contract;
+гарантирует consistency между on-chain и off-chain</td>
+</tr>
+<tr>
+<td><code>PaymentService.executeOwnerCoupon()</code></td>
+<td>Высокая</td>
+<td>Must succeed atomically с записью в Tx Ledger; retries with
+idempotency key</td>
+</tr>
+<tr>
+<td><code>SmartContractBridge.aggregateMultiSig()</code></td>
+<td>Критическая</td>
+<td>3-of-5 threshold; rejection при невалидной подписи; time-lock 24
+часа для крупных операций</td>
+</tr>
+<tr>
+<td><code>KYC.verifyArmenianResidence()</code></td>
+<td>Высокая</td>
+<td>Интеграция с Кадастром РА и nID; результат недоступен извне Identity
+Service</td>
+</tr>
+<tr>
+<td><code>RegulatorPortal.streamPoolEvents()</code></td>
+<td>Высокая</td>
+<td>Read-only; latency &lt; 100ms; невозможно изменить состояние</td>
+</tr>
+<tr>
+<td><code>OracleAdapter.commitNAV()</code></td>
+<td>Критическая</td>
+<td>Защита от manipulation; multi-source verification; ZK-proof
+опционально для будущих версий</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="выбор-dlt-слоя">2. ВЫБОР DLT-СЛОЯ</h2>
+<h3 id="сравнительная-матрица">2.1 Сравнительная матрица</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>Критерий</th>
+<th style="text-align: center;">Hyperledger Fabric</th>
+<th style="text-align: center;">Polygon PoS</th>
+<th style="text-align: center;">Ethereum L1</th>
+<th style="text-align: center;">Polkadot</th>
+<th style="text-align: center;">Stellar</th>
+<th style="text-align: center;">Solana</th>
+<th style="text-align: center;">Custom permissioned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Permissioned (закрытый доступ)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">через L2/sidechain</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Substrate</td>
+<td style="text-align: center;">через assets</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>EVM-совместимость</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">через Frontier</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">по выбору</td>
+</tr>
+<tr>
+<td>Gas costs</td>
+<td style="text-align: center;">очень низкие</td>
+<td style="text-align: center;">низкие</td>
+<td style="text-align: center;">высокие</td>
+<td style="text-align: center;">средние</td>
+<td style="text-align: center;">очень низкие</td>
+<td style="text-align: center;">низкие</td>
+<td style="text-align: center;">по выбору</td>
+</tr>
+<tr>
+<td>Finality</td>
+<td style="text-align: center;">мгновенная</td>
+<td style="text-align: center;">~30 сек</td>
+<td style="text-align: center;">~15 мин</td>
+<td style="text-align: center;">~6 сек</td>
+<td style="text-align: center;">~5 сек</td>
+<td style="text-align: center;">~1 сек</td>
+<td style="text-align: center;">по выбору</td>
+</tr>
+<tr>
+<td>Зрелость инструментов</td>
+<td style="text-align: center;">средняя</td>
+<td style="text-align: center;">высокая</td>
+<td style="text-align: center;">очень высокая</td>
+<td style="text-align: center;">средняя</td>
+<td style="text-align: center;">высокая</td>
+<td style="text-align: center;">средняя</td>
+<td style="text-align: center;">низкая</td>
+</tr>
+<tr>
+<td>Audit ecosystem</td>
+<td style="text-align: center;">ограниченный</td>
+<td style="text-align: center;">широкий</td>
+<td style="text-align: center;">очень широкий</td>
+<td style="text-align: center;">средний</td>
+<td style="text-align: center;">средний</td>
+<td style="text-align: center;">средний</td>
+<td style="text-align: center;">низкий</td>
+</tr>
+<tr>
+<td>Регуляторная совместимость EU/MiCA</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>Поддержка регуляторных нод</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">через middleware</td>
+<td style="text-align: center;">public</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>Стоимость инфраструктуры</td>
+<td style="text-align: center;">средняя</td>
+<td style="text-align: center;">низкая</td>
+<td style="text-align: center;">высокая</td>
+<td style="text-align: center;">средняя</td>
+<td style="text-align: center;">низкая</td>
+<td style="text-align: center;">средняя</td>
+<td style="text-align: center;">очень высокая</td>
+</tr>
+</tbody>
+</table>
+<h3 id="рекомендация">2.2 Рекомендация</h3>
+<p><strong>Polygon PoS</strong> выбран как основная DLT-платформа Фазы 1
+на основании следующих факторов:</p>
+<ol type="1">
+<li><strong>EVM-совместимость</strong> даёт доступ к крупнейшей
+экосистеме wallet, custody, audit инструментов;</li>
+<li><strong>Низкие gas costs</strong> позволяют делать частые операции
+(купоны, переоценки) экономически целесообразными;</li>
+<li><strong>Активное сообщество разработки и аудита
+смарт-контрактов</strong> — снижение технических рисков;</li>
+<li><strong>Совместимость с регуляторными нодами</strong> через
+middleware (Tenderly, Blockscout, internal indexer);</li>
+<li><strong>MiCA-готовность</strong> — Polygon Labs ведёт активный
+диалог с ESMA и MiCA-регуляторами ЕС;</li>
+<li><strong>Bridge к Ethereum L1</strong> — возможность миграции в
+будущем без потери ликвидности.</li>
+</ol>
+<h3 id="альтернатива-и-план-миграции">2.3 Альтернатива и план
+миграции</h3>
+<p>В случае возникновения регуляторных проблем с Polygon PoS, план
+миграции: - <strong>Альтернатива 1:</strong> Polygon zkEVM (полная
+Ethereum-совместимость с zk-доказательствами); - <strong>Альтернатива
+2:</strong> Hyperledger Besu в private deployment (полностью
+permissioned EVM-сеть для критичных операций); - <strong>Альтернатива
+3:</strong> Avalanche Subnet (custom permissioned с EVM).</p>
+<p>Архитектура сделана <strong>DLT-agnostic</strong> на уровне Smart
+Contract Bridge — миграция возможна без переписывания application
+layer.</p>
+<h3 id="регуляторная-нода-цб-ра">2.4 Регуляторная нода ЦБ РА</h3>
+<p>ЦБ РА получает специализированную ноду с: - <strong>Read-only
+доступом</strong> ко всем транзакциям, состоянию пула, NAV; -
+<strong>API для запросов</strong> — состав пула в любой момент времени,
+история переоценок, AML-флаги; - <strong>Push-уведомлениями</strong> о
+существенных событиях (новый выпуск, выкуп, изменение NAV &gt;10%); -
+<strong>Технической поддержкой 24/7</strong> со стороны Платформы.</p>
+<p>Архитектура ноды:</p>
+<pre><code>[ЦБ РА datacenter] → VPN → [Polygon RPC node, hosted by Платформа]
+                                    │
+                                    ↓
+                              [Reader-only API:
+                                  - GraphQL queries
+                                  - Webhook subscriptions
+                                  - CSV/JSON exports]</code></pre>
+<hr />
+<h2 id="спецификация-смарт-контрактов">3. СПЕЦИФИКАЦИЯ
+СМАРТ-КОНТРАКТОВ</h2>
+<h3 id="cfa1token">3.1 CFA1Token</h3>
+<p><strong>Назначение:</strong> Soulbound utility-токен, представляющий
+долю собственника недвижимости в пуле.</p>
+<p><strong>Тип:</strong> <strong>ERC-5192 (Minimal Soulbound NFT,
+EIP-final)</strong> на базе ERC-721-стиля идентификатора. Стандарт
+ERC-5192 закрепляет non-transferable семантику через флаг
+<code>locked(tokenId)</code> и встроен в аудиторские чеклисты
+OpenZeppelin Contracts v5.x. Соулбундность через <code>revert</code> в
+<code>_beforeTokenTransfer</code> явно не используется — стандартный
+путь упрощает Trail of Bits / OpenZeppelin audit.</p>
+<p><strong>Связь с собственником:</strong> актив привязан к собственнику
+криптографически (CFA1 = адрес собственника + cadastreReference +
+assetValueAMD) и <strong>не может торговаться</strong> даже через прокси
+/ wrapping — обёрточные ERC-20 поверх CFA1 не выпускаются регуляторной
+политикой Платформы.</p>
+<p><strong>Состояние:</strong> -
+<code>mapping(uint256 =&gt; address) ownerOf</code> — собственник CFA1 -
+<code>mapping(uint256 =&gt; uint256) assetValueAMD</code> — оценочная
+стоимость актива в драмах -
+<code>mapping(uint256 =&gt; uint256) pledgeStartTimestamp</code> —
+момент пледжирования -
+<code>mapping(uint256 =&gt; uint256) pledgeEndTimestamp</code> — момент
+возврата (плановый) -
+<code>mapping(uint256 =&gt; bytes32) cadastreReference</code> — ссылка
+на запись в Кадастре РА -
+<code>mapping(uint256 =&gt; uint256) lastCouponPaid</code> — последний
+выплаченный купон - <code>mapping(uint256 =&gt; bool) isInsured</code> —
+наличие страховки</p>
+<p><strong>Функции (только администратор Pool Escrow):</strong> -
+<code>mint(address owner, uint256 valueAMD, bytes32 cadastreRef, uint256 cycleDuration)</code>
+— создаёт CFA1 - <code>burn(uint256 tokenId)</code> — уничтожает CFA1
+при возврате актива и снятии обременения -
+<code>recordCouponPayment(uint256 tokenId, uint256 amount)</code> —
+фиксирует выплату купона</p>
+<p><strong>Ограничения:</strong> - <code>transferFrom()</code> —
+DISABLED (soulbound) - <code>safeTransferFrom()</code> — DISABLED -
+Только Pool Escrow contract может вызывать mint/burn</p>
+<p><strong>Upgradability:</strong> UUPS proxy (Universal Upgradeable
+Proxy Standard) с time-lock 7 дней + multi-sig 3-of-5.</p>
+<h3 id="seniortranchebond">3.2 SeniorTrancheBond</h3>
+<p><strong>Назначение:</strong> Старший долговой токен (security
+wrapper) с купонными выплатами и графиком погашения.</p>
+<p><strong>Тип:</strong> <strong>ERC-3643 (T-REX)</strong> — security
+token standard со встроенным compliance-уровнем (whitelist, transfer
+restrictions, freeze, identity binding через OnchainID). Решение в
+пользу T-REX (а не ERC-1400) обосновано: 1. T-REX —
+production-проверенный стандарт (Tokeny Solutions), MiCA-aligned,
+используемый в EU regulated tokenization. 2. ERC-1400 остаётся draft, не
+утверждённым Ethereum Foundation; аудиторы менее уверены в нём. 3. T-REX
+встраивает OnchainID — это снимает identity/KYC binding на уровне токена
+и упрощает Travel Rule maintenance.</p>
+<p><strong>Состояние:</strong> -
+<code>mapping(address =&gt; uint256) balanceOf</code> — балансы
+держателей - <code>mapping(address =&gt; bool) whitelisted</code> —
+список allowed инвесторов (KYC-passed) -
+<code>uint256 totalSupply</code> — выпущенное количество (70 000) -
+<code>uint256 nominalValueEUR</code> — номинал (€1 000) -
+<code>uint256 couponBPS</code> — купон в базисных пунктах (550 = 5.5%) -
+<code>uint256 issueDate</code> — дата выпуска -
+<code>uint256 maturityDate</code> — дата погашения (issueDate + 7 лет) -
+<code>uint256[] couponPaymentDates</code> — даты квартальных купонов (28
+дат) - <code>mapping(address =&gt; uint256) lastClaimedCoupon</code> —
+индекс последнего полученного купона</p>
+<p><strong>Функции:</strong> -
+<code>issueToWhitelistedHolder(address holder, uint256 amount)</code> —
+выпуск whitelisted инвестору -
+<code>transfer(address to, uint256 amount)</code> — только между
+whitelisted адресами - <code>claimCoupon(uint256 paymentIndex)</code> —
+клейм купона держателем - <code>claimMaturity()</code> — клейм тела
+долга после maturity -
+<code>executeBudgetGuarantee(bytes calldata proof)</code> — активация
+бюджетной гарантии Минфина РА (только трасти)</p>
+<p><strong>Compliance hooks:</strong> - <code>beforeTransfer()</code> —
+проверка whitelist, отсутствие санкций - <code>afterTransfer()</code> —
+emit event для регуляторной ноды</p>
+<p><strong>Upgradability:</strong> UUPS proxy с time-lock 14 дней (более
+длительный из-за security-критичности).</p>
+<h3 id="juniortrancheart">3.3 JuniorTrancheART</h3>
+<p><strong>Назначение:</strong> Младший asset-referenced token,
+привязанный к NAV пула.</p>
+<p><strong>Тип:</strong> <strong>ERC-20 fixed-supply (300 000, immutable
+post-issuance) + external <code>NAVOracle</code> contract</strong>.
+Rebase-подход явно отвергнут. Причины: - rebase меняет supply каждого
+холдера и создаёт UX-катастрофу с custody-провайдерами, налоговыми
+отчётами (ФНС РФ, EU-юрисдикции диаспоры), DeFi-интеграциями. - В
+production-практике 2026 ни один regulated ART/stablecoin-оператор не
+использует rebase (Maple Finance, Centrifuge, Ondo — все price-oracle).
+- Audit trail и manipulation risk легче контролируются на уровне
+внешнего NAVOracle (см. §3.7) без вмешательства в supply.</p>
+<p><strong>Состояние:</strong> -
+<code>mapping(address =&gt; uint256) balanceOf</code> -
+<code>uint256 totalSupply</code> (300 000 на старте) -
+<code>uint256 nominalValueEUR</code> (€100 первоначально) -
+<code>address oracleAdapter</code> — адрес OracleAdapter contract -
+<code>uint256 lastNAVUpdate</code> — timestamp последнего обновления NAV
+- <code>uint256 currentNAVPerToken</code> — текущий NAV per token -
+<code>uint256 redemptionLimitQuarterlyBPS</code> — квартальный лимит
+выкупа (2500 = 25%) -
+<code>mapping(uint256 =&gt; uint256) quarterlyRedemptions</code> — учёт
+выкупов по кварталам</p>
+<p><strong>Функции:</strong> -
+<code>issueAtNAV(address holder, uint256 amount)</code> — выпуск на
+основе текущего NAV - <code>redeem(uint256 amount)</code> — выкуп
+держателем по NAV (с лагом 30 дней, лимит проверяется) -
+<code>forceRedeem(uint256 amount)</code> — выкуп эмитентом (с
+уведомлением 90 дней) - <code>updateNAV(uint256 newNAVPerToken)</code> —
+обновление NAV (только Oracle Adapter) - <code>getCurrentNAV()</code> —
+публичный getter</p>
+<p><strong>Защита от manipulation:</strong> - NAV обновляется не чаще 1
+раза в день; - Изменение NAV &gt;10% за один update требует
+подтверждения 3 независимых оракулов; - Time-weighted average
+используется для крупных выкупов (&gt;€100 000).</p>
+<p><strong>Upgradability:</strong> UUPS proxy с time-lock 14 дней.</p>
+<h3 id="poolescrow">3.4 PoolEscrow</h3>
+<p><strong>Назначение:</strong> Кастоди пула CFA1 с multi-sig
+3-of-5.</p>
+<p><strong>Тип:</strong> Multi-signature wallet с ролевой моделью.</p>
+<p><strong>Состав подписантов (2 internal + 3 external):</strong> 1.
+<strong>CEO Платформы</strong> (internal) — операционный signer. 2.
+<strong>CTO Платформы</strong> (internal) — технический signer. 3.
+<strong>Партнёр армянской юрфирмы</strong> (external) — независимый
+legal trustee, регулируемая адвокатская фирма из топ-5 РА. 4.
+<strong>EU-based custody trustee</strong> (external) — институциональный
+escrow agent в EU-юрисдикции (Люксембург / Лихтенштейн). 5. <strong>ЦБ
+РА nominee</strong> — <strong>отдельный read-only ключ</strong>, не
+входит в signing-threshold (иначе создаётся conflict с надзорной
+функцией; ЦБ остаётся supervisor, не co-issuer).</p>
+<p>Геогр. распределение: 2 ключа Yerevan + 1 EU + 1 RA-юрфирма
+(отдельный офис) + 1 read-only. Это снимает риск
+state-pressure-concentration и совпадает с industry standard (Coinbase
+Custody, BitGo).</p>
+<p><strong>Состояние:</strong> - <code>address[5] signers</code> — 5
+обязательных подписантов (4 signing + 1 read-only nominee) -
+<code>uint256 threshold</code> — 3 (3-of-5 среди signing keys) -
+<code>mapping(bytes32 =&gt; uint8) approvals</code> — счётчик подписей
+по operationHash - <code>mapping(uint256 =&gt; address) cfaInPool</code>
+— CFA1, находящиеся в пуле - <code>address insuranceBridge</code> -
+<code>address poolService</code> — application layer, может предлагать
+операции (но не исполнять)</p>
+<p><strong>Функции:</strong> -
+<code>proposeOperation(bytes32 opHash, OperationType opType, bytes calldata data)</code>
+— предложение операции - <code>approveOperation(bytes32 opHash)</code> —
+одобрение signer’ом - <code>executeOperation(bytes32 opHash)</code> —
+исполнение при достижении threshold -
+<code>addCFA1(uint256 tokenId)</code> — включение CFA1 в пул (требует
+multi-sig) - <code>removeCFA1(uint256 tokenId)</code> — извлечение CFA1
+при возврате (требует multi-sig) -
+<code>triggerInsurance(InsuranceType type, uint256 amount)</code> —
+обращение к страховщику</p>
+<p><strong>Time-lock:</strong> 24 часа для крупных операций (стоимость
+&gt;€1M); мгновенное исполнение для рутинных.</p>
+<h3 id="insurancebridge">3.5 InsuranceBridge</h3>
+<p><strong>Назначение:</strong> Мост между смарт-контрактами и
+страховщиками (CCI, VPI, Force-Majeure).</p>
+<p><strong>Тип:</strong> Адаптер с off-chain интеграцией.</p>
+<p><strong>Функции:</strong> -
+<code>submitClaim(InsuranceType type, uint256 amount, bytes calldata evidence)</code>
+— подача страхового требования -
+<code>recordPayout(bytes32 claimId, uint256 amount, bytes calldata signature)</code>
+— фиксация выплаты страховщиком -
+<code>checkCoverageActive(uint256 tokenId)</code> — проверка активного
+покрытия</p>
+<p><strong>Особенности:</strong> Off-chain верификация события силами
+страховщика; on-chain запись финального результата для прозрачности.</p>
+<h3 id="governancecontract">3.6 GovernanceContract</h3>
+<p><strong>Назначение:</strong> Голосование держателей по существенным
+решениям.</p>
+<p><strong>Тип:</strong> OpenZeppelin Governor + Bravo расширения.</p>
+<p><strong>Функции:</strong> -
+<code>propose(targets[], values[], calldatas[], description)</code> —
+создание proposal - <code>castVote(proposalId, support)</code> —
+голосование - <code>execute(proposalId, ...)</code> — исполнение
+прошедшего proposal</p>
+<p><strong>Voting power:</strong> - Senior tranche holders: 1 token = 1
+vote (по вопросам, относящимся к Senior); - Junior tranche holders: 1
+token = 1 vote (по вопросам, относящимся к Junior); - Cross-tranche
+вопросы: weighted (€-equivalent).</p>
+<p><strong>Quorum:</strong> 30% от общего количества выпущенных токенов
+соответствующей категории.</p>
+<h3 id="oracleadapter-nav-oracle-p3-patent">3.7 OracleAdapter (NAV
+Oracle, P3 patent)</h3>
+<p><strong>Назначение:</strong> Получение независимых оценок NAV и иных
+off-chain данных. Это самое чувствительное звено архитектуры — single
+point of failure для manipulation, поэтому стек формализован.</p>
+<p><strong>Тип:</strong> Hybrid pipeline на базе <strong>Chainlink
+Functions</strong> (aggregator) + EIP-712 signed attestations.</p>
+<p><strong>Источники данных (минимум 3 лицензированных оценщика
+РА):</strong> 1. <strong>Ameriabank Property Valuation
+Department</strong> — банковский оценщик с регулируемой методологией. 2.
+<strong>Оценщик, аффилированный с государственным Кадастром РА</strong>
+— доступ к первичным cadastre data. 3. <strong>Independent member of RA
+Self-Regulated Organization of Appraisers</strong> — независимая ротация
+(не та же фирма &gt;2 кварталов подряд).</p>
+<p>При spread &gt; 5% между оценщиками — auto-request 4-го мнения; при
+spread &gt; 10% — manual review через multi-sig 3-of-5.</p>
+<p><strong>Off-chain attestation flow:</strong></p>
+<pre><code>Licensed appraiser → формирует {timestamp, navPerToken, evidence_hash, cadastreRefs[]}
+   └─ EIP-712 typed-data signature
+        └─ Upload report + supporting docs → IPFS (CID stored)
+             └─ Sign hash via reputation contract (стейк AMD под slashing
+                за false attestations верифицируется через регулятор)</code></pre>
+<p><strong>On-chain aggregation:</strong></p>
+<pre><code>Chainlink Functions (off-chain compute):
+   └─ Median of 3 attestations + outlier rejection
+        └─ commitNAV(median, attestations[]) в NAVOracle contract
+             └─ **Time-lock 48 hours** для всех NAV updates
+                  (любой holder может оспорить через GovernanceContract)
+                  └─ После 48h: JuniorTrancheART.updateNAV(median)
+                       └─ Time-weighted average over 7-day window
+                          для крупных redemptions (&gt;€100k)</code></pre>
+<p><strong>Функции контракта:</strong> - <code>requestNAVUpdate()</code>
+— инициирует quarterly cycle -
+<code>submitAttestation(bytes32 requestId, uint256 nav, bytes32 ipfsCID, bytes signature)</code>
+— приём EIP-712 от оценщика - <code>aggregateAndCommit()</code> — median
++ outlier rejection + commit с 48h time-lock -
+<code>disputeNAV(uint256 commitId, bytes evidence)</code> — диспут в
+течение 48h окна - <code>executeCommittedNAV(uint256 commitId)</code> —
+финальный commit в JuniorTrancheART после lock</p>
+<p><strong>Защита:</strong> - Минимум 3 независимых оценщика РА
+(rotation policy). - Median-based агрегация (защита от outliers). -
+EIP-712 криптоподписи верифицируются on-chain. - IPFS-evidence для
+каждой attestation (cryptographic audit trail). - Reputation contract со
+slashing (AMD-стейк оценщика). - <strong>48-hour time-lock</strong> на
+любое NAV update (dispute window). - <strong>Multi-sig 3-of-5
+override</strong> для emergency NAV с публичным justification.</p>
+<p><strong>Audit trail для регулятора:</strong> ЦБ РА получает доступ ко
+всем <code>updateNAV</code> events on-chain + IPFS-attestations +
+reputation state. Каждое обновление сопровождается публичным
+cryptographic proof (EIP-712 signatures от 3 оценщиков + median
+computation log).</p>
+<p><strong>Fallback при oracle downtime:</strong> - Last known NAV
+держится 7 дней. - После 7 дней — auto-pause redemptions (защита от
+stale-price arbitrage). - Multi-sig 3-of-5 может force-commit emergency
+NAV.</p>
+<h3 id="аудит-смарт-контрактов">3.8 Аудит смарт-контрактов</h3>
+<p>Все смарт-контракты подлежат <strong>двум независимым аудитам в
+параллель</strong> + pre-audit consulting + bug bounty:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Аудитор</th>
+<th>Роль</th>
+<th>Стоимость</th>
+<th>Срок</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Trail of Bits</strong></td>
+<td>Pre-audit consulting + Audit 1 (security-first, MIT/CMU PhDs)</td>
+<td>$40k + $150k</td>
+<td>6 нед + 6–8 нед</td>
+</tr>
+<tr>
+<td><strong>OpenZeppelin</strong></td>
+<td>Audit 2 (standards + upgradeability, parallel)</td>
+<td>$150k</td>
+<td>4–6 нед</td>
+</tr>
+<tr>
+<td><strong>Certora</strong></td>
+<td>Formal verification для <code>NAVOracle</code> +
+<code>PoolEscrow</code> (K Framework)</td>
+<td>$150k</td>
+<td>8–12 нед</td>
+</tr>
+<tr>
+<td><strong>Immunefi</strong></td>
+<td>Bug bounty pool (production-grade RWA)</td>
+<td>$100k starter pool</td>
+<td>continuous</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tech-budget Year-1 (полная сумма, не только аудит):</strong>
+<strong>$2.56M</strong> — см. §3.9.</p>
+<h3 id="year-1-tech-budget-детализация">3.9 Year-1 Tech Budget
+(детализация)</h3>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Категория</th>
+<th style="text-align: right;">Сумма Y1 ($)</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Smart-contract development + spec</td>
+<td style="text-align: right;">210 000</td>
+<td>7 контрактов на Solidity, OpenZeppelin v5.x base, testnet
+deploy</td>
+</tr>
+<tr>
+<td>Trail of Bits — audit (incl. pre-audit consulting)</td>
+<td style="text-align: right;">150 000</td>
+<td>Security-first аудит, snapshots после major changes</td>
+</tr>
+<tr>
+<td>OpenZeppelin — parallel audit</td>
+<td style="text-align: right;">150 000</td>
+<td>Standards + upgradeability review</td>
+</tr>
+<tr>
+<td>Bug bounty (Immunefi)</td>
+<td style="text-align: right;">100 000</td>
+<td>Стартовый pool; масштабирование до $250k к концу года</td>
+</tr>
+<tr>
+<td>KYC + Travel Rule stack</td>
+<td style="text-align: right;">120 000</td>
+<td>Sumsub + Onfido + Chainalysis KYT + Notabene contracts</td>
+</tr>
+<tr>
+<td>Custody (Fireblocks subscription + HSM hardware)</td>
+<td style="text-align: right;">180 000</td>
+<td>Fireblocks $25–50k/мес, AWS CloudHSM, Yubico HSM2 backup</td>
+</tr>
+<tr>
+<td>Lloyd’s of London insurance</td>
+<td style="text-align: right;">200 000</td>
+<td>$25M crime/custody coverage premium</td>
+</tr>
+<tr>
+<td>Mainnet deployment + integrations</td>
+<td style="text-align: right;">280 000</td>
+<td>Polygon mainnet gas/deploy, Регуляторная нода ЦБ РА, Polygon ID
+v2</td>
+</tr>
+<tr>
+<td>Production hardening</td>
+<td style="text-align: right;">200 000</td>
+<td>Pen-test (×2), SOC2/ISO 27001 pre-cert, observability stack</td>
+</tr>
+<tr>
+<td>Mobile (PWA + React Native phase 2)</td>
+<td style="text-align: right;">250 000</td>
+<td>Phase-1 PWA полировка + Phase-2 RN MVP build</td>
+</tr>
+<tr>
+<td>Team build-up — 10 FTE × Yerevan blended $95k avg</td>
+<td style="text-align: right;">950 000</td>
+<td>CTO, Lead Solidity, Senior Solidity, SRE, 2×Backend, Frontend, RN,
+Security, QA</td>
+</tr>
+<tr>
+<td><strong>Контингентный резерв 10%</strong></td>
+<td style="text-align: right;"><strong>260 000</strong></td>
+<td>Покрытие audit re-runs, vendor cost overruns</td>
+</tr>
+<tr>
+<td><strong>TOTAL Year-1 Tech Budget</strong></td>
+<td style="text-align: right;"><strong>$2 560 000</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Year-2 steady-state tech OpEx (после Series A):</strong>
+$1.8–2.2M/год — расширение команды до 15 FTE, recurring audits,
+insurance renewal, cloud scale, bug-bounty pool growth.</p>
+<hr />
+<h2 id="инфраструктура-и-облако">4. ИНФРАСТРУКТУРА И ОБЛАКО</h2>
+<h3 id="гибридная-архитектура">4.1 Гибридная архитектура</h3>
+<pre><code>                     [Cloudflare Edge — global CDN + DDoS]
+                               │
+                ┌──────────────┴──────────────┐
+                │                             │
+                ▼                             ▼
+   ┌────────────────────────┐    ┌────────────────────────┐
+   │  PRIMARY               │    │  SECONDARY              │
+   │  AWS Frankfurt (eu-     │    │  Hetzner Yerevan       │
+   │  central-1)            │◄══►│  (или Cloud4Y Yerevan) │
+   │                        │ DR │                        │
+   │  - Application layer   │ ↔  │  - DR replica          │
+   │  - Web/Mobile API      │    │  - Узел регулятора     │
+   │  - Business logic      │    │  - Данные резидентов РА│
+   │  - Smart contract      │    │                        │
+   │    bridge              │    │                        │
+   │  - DLT RPC nodes       │    │                        │
+   │  - Database primary    │    │                        │
+
+   └────────────────────────┘    └────────────────────────┘
+                │                             │
+                └──────────┬──────────────────┘
+                           │
+                           ▼
+                ┌──────────────────────┐
+                │  EDGE PRESENCE        │
+                │  Cloudflare Workers:   │
+                │  - Moscow (RU diaspora)│
+                │  - Los Angeles         │
+                │  - Paris               │
+                │  - Beirut              │
+                │  - Berlin              │
+                └──────────────────────┘</code></pre>
+<h3 id="логика-data-residency">4.2 Логика data residency</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Тип данных</th>
+<th>Где хранится</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KYC данные резидентов РА</td>
+<td><strong>ТОЛЬКО</strong> в Yerevan (требование Закона РА «О защите
+ПД»)</td>
+</tr>
+<tr>
+<td>KYC данные нерезидентов РА</td>
+<td>Frankfurt (с возможностью миграции)</td>
+</tr>
+<tr>
+<td>Application metadata</td>
+<td>Frankfurt (primary), Yerevan (read replica)</td>
+</tr>
+<tr>
+<td>Транзакции (on-chain)</td>
+<td>Polygon network (decentralized)</td>
+</tr>
+<tr>
+<td>Транзакции (off-chain index)</td>
+<td>Frankfurt (analytics)</td>
+</tr>
+<tr>
+<td>Документы пула (PDFs, photos)</td>
+<td>IPFS (immutable) + S3 Yerevan для оперативных копий</td>
+</tr>
+<tr>
+<td>Audit logs</td>
+<td>S3 Frankfurt + IPFS hash для immutability</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bcp-dr-business-continuity-disaster-recovery">4.3 BCP / DR
+(Business Continuity / Disaster Recovery)</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RPO (Recovery Point Objective)</td>
+<td>15 минут</td>
+</tr>
+<tr>
+<td>RTO (Recovery Time Objective)</td>
+<td>1 час для критичных операций</td>
+</tr>
+<tr>
+<td>Failover testing</td>
+<td>Ежеквартально</td>
+</tr>
+<tr>
+<td>Backup retention</td>
+<td>7 лет (соответствие Закону РА о бухучёте)</td>
+</tr>
+<tr>
+<td>Geographically distributed backups</td>
+<td>AWS S3 cross-region (eu-central-1 → eu-west-1) + offline tape backup
+в Ереване</td>
+</tr>
+</tbody>
+</table>
+<h3 id="stack-технологий">4.4 Stack технологий</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Слой</th>
+<th>Технология</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cloud (primary)</td>
+<td>AWS (eu-central-1)</td>
+</tr>
+<tr>
+<td>Cloud (secondary)</td>
+<td>Hetzner / Cloud4Y (Yerevan)</td>
+</tr>
+<tr>
+<td>CDN / Edge</td>
+<td>Cloudflare</td>
+</tr>
+<tr>
+<td>Оркестрация</td>
+<td>Kubernetes (EKS на AWS, K3s на Hetzner)</td>
+</tr>
+<tr>
+<td>Контейнеризация</td>
+<td>Docker</td>
+</tr>
+<tr>
+<td>IaC</td>
+<td>Terraform + Helm</td>
+</tr>
+<tr>
+<td>Application backend</td>
+<td>Node.js (TypeScript) + Go (для критичных частей)</td>
+</tr>
+<tr>
+<td>API Gateway</td>
+<td>Kong или Tyk</td>
+</tr>
+<tr>
+<td>База данных</td>
+<td>PostgreSQL 16 (primary) + ClickHouse (analytics)</td>
+</tr>
+<tr>
+<td>KYC vault</td>
+<td>Hashicorp Vault + dedicated PostgreSQL с шифрованием на уровне
+столбцов</td>
+</tr>
+<tr>
+<td>Object storage</td>
+<td>AWS S3 (eu-central-1) + IPFS Cluster</td>
+</tr>
+<tr>
+<td>DLT node</td>
+<td>Polygon PoS RPC (self-hosted + Infura/Alchemy fallback)</td>
+</tr>
+<tr>
+<td>Cache</td>
+<td>Redis Cluster</td>
+</tr>
+<tr>
+<td>Message queue</td>
+<td>Apache Kafka или RabbitMQ</td>
+</tr>
+<tr>
+<td>Frontend (web)</td>
+<td>React + Next.js (SSR)</td>
+</tr>
+<tr>
+<td>Mobile (Phase 1)</td>
+<td>PWA (React)</td>
+</tr>
+<tr>
+<td>Mobile (Phase 2)</td>
+<td>React Native</td>
+</tr>
+<tr>
+<td>HSM (Phase 1, до €100M TVL)</td>
+<td>AWS CloudHSM (FIPS 140-2 Level 3) primary + Yubico HSM2 backup</td>
+</tr>
+<tr>
+<td>HSM (Phase 2, &gt;€100M или 24+ мес)</td>
+<td>Thales Luna Network HSM в Yerevan (FIPS 140-3 Level 3,
+sovereignty)</td>
+</tr>
+<tr>
+<td>Custody (Senior/Junior tranches)</td>
+<td>Fireblocks MPC (primary) + Copper.co (EU/UK institutional
+sub-custody)</td>
+</tr>
+<tr>
+<td>Custody (CFA1, soulbound)</td>
+<td>Self-built multi-sig 3-of-5 + HSM</td>
+</tr>
+<tr>
+<td>Custody insurance</td>
+<td>Lloyd’s of London via Marsh, $25M crime/custody coverage Phase
+1</td>
+</tr>
+<tr>
+<td>NAV Oracle aggregator</td>
+<td>Chainlink Functions (median of 3+ licensed RA appraisers) + EIP-712
+attestations + IPFS evidence</td>
+</tr>
+<tr>
+<td>SSI / DID</td>
+<td>Polygon ID v2 (reusable ZK credentials, диаспора)</td>
+</tr>
+<tr>
+<td>Travel Rule (FATF Rec. 16)</td>
+<td>Notabene primary, TRP fallback</td>
+</tr>
+<tr>
+<td>KYC</td>
+<td>Sumsub primary + Onfido fallback (US/UK)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="информационная-безопасность">5. ИНФОРМАЦИОННАЯ БЕЗОПАСНОСТЬ</h2>
+<h3 id="compliance-мэппинг">5.1 Compliance мэппинг</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Стандарт / закон</th>
+<th>Применение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Закон РА «О защите персональных данных» (2015)</td>
+<td>KYC данные резидентов РА; data residency</td>
+</tr>
+<tr>
+<td>GDPR (Регламент ЕС 2016/679)</td>
+<td>Данные диаспоральных инвесторов из ЕС; права субъектов данных</td>
+</tr>
+<tr>
+<td>ISO/IEC 27001:2022</td>
+<td>Сертификация ISMS (Information Security Management System)</td>
+</tr>
+<tr>
+<td>ISO/IEC 27017</td>
+<td>Cloud security controls</td>
+</tr>
+<tr>
+<td>ISO/IEC 27018</td>
+<td>Защита PII в облаке</td>
+</tr>
+<tr>
+<td>ФСТЭК-эквивалент РА (Государственная служба специальной связи и
+защиты информации РА)</td>
+<td>Защита критической инфраструктуры</td>
+</tr>
+<tr>
+<td>FATF Recommendation 16 (Travel Rule)</td>
+<td>KYC при cross-border транзакциях</td>
+</tr>
+<tr>
+<td>OWASP Top 10 + ASVS Level 2</td>
+<td>Web application security</td>
+</tr>
+<tr>
+<td>NIST Cybersecurity Framework</td>
+<td>Управление киберрисками</td>
+</tr>
+<tr>
+<td>PCI DSS (если применимо)</td>
+<td>Card payments в случае добавления</td>
+</tr>
+</tbody>
+</table>
+<h3 id="многоуровневая-защита">5.2 Многоуровневая защита</h3>
+<pre><code>Слой 1: Edge (Cloudflare WAF, DDoS protection, bot mitigation)
+   ↓
+Слой 2: API Gateway (rate limiting, input validation, auth)
+   ↓
+Слой 3: Application (RBAC, OAuth 2.0, JWT, signed requests)
+   ↓
+Слой 4: Service mesh (mTLS между микросервисами)
+   ↓
+Слой 5: Data layer (encryption at rest, столбцовое шифрование PII)
+   ↓
+Слой 6: Network (private subnets, security groups, NACLs)
+   ↓
+Слой 7: Audit (immutable logs, SIEM мониторинг)</code></pre>
+<h3 id="управление-приватными-ключами">5.3 Управление приватными
+ключами</h3>
+<p><strong>HSM-стек, фазированный подход:</strong></p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Фаза</th>
+<th>TVL window</th>
+<th>Primary HSM</th>
+<th>Backup / cold</th>
+<th>Обоснование</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Phase 1</strong> (M0–M24)</td>
+<td>до €25M → €100M</td>
+<td><strong>AWS CloudHSM</strong> (FIPS 140-2 Level 3, managed)</td>
+<td><strong>Yubico HSM2</strong> (5 units, FIPS 140-2 Level 3, USB
+form-factor) для Shamir-share cold storage</td>
+<td>Managed time-to-market, нет CapEx; Yubico — экономный DR</td>
+</tr>
+<tr>
+<td><strong>Phase 2</strong> (24+ мес)</td>
+<td>€100M+</td>
+<td><strong>Thales Luna Network HSM</strong> в дата-центре Yerevan</td>
+<td>AWS CloudHSM (fallback) + Yubico HSM2 (cold)</td>
+<td>Sovereignty: ключи резидентов РА на территории РА согласно Закону «О
+защите ПД»; FIPS 140-3 Level 3 banking-grade</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hot / Warm / Cold ratio (по industry standard Coinbase
+Custody / BitGo):</strong> - <strong>Cold</strong> (HSM-protected,
+multi-sig 3-of-5, offline, geographically distributed) — <strong>90%
+TVL</strong>, time-lock 24h. - <strong>Warm</strong> (HSM-protected,
+multi-sig 3-of-5, online) — <strong>8% TVL</strong>, quarterly coupons,
+redemptions. - <strong>Hot</strong> (Fireblocks MPC, automated) —
+<strong>2% TVL</strong>, ≤€500k per tx limit, daily operations.</p>
+<p><strong>Multi-sig:</strong> 3-of-5 (2 internal + 3 external — см.
+§3.4).</p>
+<p><strong>Key Ceremony:</strong> при первичном создании ключей —
+формальная процедура с участием независимых наблюдателей, видеозаписью,
+актом подписания, аудитируемым кворумом.</p>
+<p><strong>DR-копии ключей:</strong> Shamir’s Secret Sharing (3-of-5) с
+офлайн-хранением в географически распределённых сейфах (Yerevan + EU +
+RA-юрфирма).</p>
+<p><strong>Rotation policy:</strong> квартальная ротация операционных
+ключей; критичные multi-sig — по необходимости с формальной
+процедурой.</p>
+<h3 id="a-custody-архитектура-гибридная-модель">5.3a Custody-архитектура
+(гибридная модель)</h3>
+<p>CASP-лицензия по Регл. 7/01 ЦБ РА требует «техническую возможность
+исполнения обязательств». Полностью аутсорсить custody нельзя, полностью
+building-it-yourself слишком долго. Принят <strong>гибрид</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Класс активов</th>
+<th>Custody-модель</th>
+<th>Обоснование</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CFA1 (utility, soulbound)</strong></td>
+<td><strong>Self-built</strong> — multi-sig 3-of-5 + AWS CloudHSM (Phase
+2: Thales Luna Yerevan)</td>
+<td>Физическая связь с РА недвижимостью, не выводится из РА,
+национальный контроль обязателен</td>
+</tr>
+<tr>
+<td><strong>Senior tranche (T-REX)</strong></td>
+<td><strong>Fireblocks</strong> (MPC + policy engine) —
+institutional-grade</td>
+<td>Liquidity и UX для диаспоральных инвесторов; снимает HSM ceremony
+cost, ускоряет time-to-market на 4–6 мес</td>
+</tr>
+<tr>
+<td><strong>Junior tranche (ART)</strong></td>
+<td><strong>Fireblocks</strong> primary, <strong>Copper.co</strong> для
+EU/UK-регулируемых institutional sub-custody</td>
+<td>EU/UK trustee-grade, $500M Lloyd’s coverage via CCS</td>
+</tr>
+<tr>
+<td><strong>Hot operating wallets</strong></td>
+<td>Fireblocks MPC, daily ops, ≤€500k per tx</td>
+<td>Automated, policy-driven</td>
+</tr>
+</tbody>
+</table>
+<p><strong>MPC vs naive multi-sig:</strong> Phase 2 (после Audit 2) —
+миграция с naive multi-sig на TSS (Threshold Signature Scheme) через
+Fireblocks MPC: threshold не публикуется on-chain (privacy), поддержка
+BLS-aggregation, контракт видит одну подпись (backward-compatible).</p>
+<p><strong>Custody insurance — Lloyd’s of London:</strong> - Coverage:
+<strong>$25M crime + custody</strong> через Marsh Crypto (Phase 1). -
+Premium estimate: <strong>~$200k/год</strong> (0.5–1.2% от $25M
+coverage, tier по Phase 1 TVL). - Phase 2 при TVL &gt;$50M: расширение
+до <strong>$100M Lloyd’s coverage</strong> = $500k–$1.2M/год premium. -
+Reinsurance layer для coverage &gt;$100M в Phase 3.</p>
+<h3 id="penetration-testing-и-bug-bounty">5.4 Penetration testing и Bug
+Bounty</h3>
+<ul>
+<li><strong>Penetration testing:</strong> дважды в год (smart contracts
+отдельно от инфраструктуры);</li>
+<li><strong>Bug Bounty:</strong> программа на HackerOne с reward’ами от
+$500 (низкая) до $50 000 (критическая);</li>
+<li><strong>Continuous security scanning:</strong> Snyk, Dependabot для
+зависимостей; SonarQube для code quality.</li>
+</ul>
+<h3 id="kyc-aml">5.5 KYC / AML</h3>
+<p><strong>Stack — конкретный выбор vendor по слоям:</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Слой</th>
+<th>Primary</th>
+<th>Fallback / Дополнение</th>
+<th>Функция</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity capture</td>
+<td><strong>Sumsub</strong></td>
+<td><strong>Onfido</strong> (для US/UK граждан диаспоры — Sumsub слабее
+в US; и для diaspora users без RA ID)</td>
+<td>Document OCR, face match, liveness</td>
+</tr>
+<tr>
+<td>AML monitoring (off-chain customer)</td>
+<td><strong>Sumsub</strong> (включён в KYC plan)</td>
+<td>—</td>
+<td>Continuous monitoring</td>
+</tr>
+<tr>
+<td>Sanctions / PEP screening</td>
+<td><strong>Refinitiv World-Check</strong></td>
+<td>Acuminor</td>
+<td>OFAC, UN, EU sanctions + PEP lists</td>
+</tr>
+<tr>
+<td>Transaction monitoring (on-chain AML)</td>
+<td><strong>Chainalysis KYT</strong></td>
+<td>Elliptic Navigator</td>
+<td>Wallet-level AML scoring</td>
+</tr>
+<tr>
+<td>Travel Rule (FATF Rec. 16)</td>
+<td><strong>Notabene</strong></td>
+<td>TRP (Travel Rule Protocol)</td>
+<td>Cross-CASP traveling rule</td>
+</tr>
+<tr>
+<td>Self-Sovereign Identity (Phase 2)</td>
+<td><strong>Polygon ID v2</strong></td>
+<td>—</td>
+<td>Reusable ZK credentials для диаспоры (one KYC → many CASP)</td>
+</tr>
+<tr>
+<td>Armenian nID</td>
+<td>Custom build via egov.am API</td>
+<td>—</td>
+<td>Резиденты РА — primary identity</td>
+</tr>
+<tr>
+<td>Регуляторная отчётность</td>
+<td>Внутренняя интеграция с FinMon РА</td>
+<td>—</td>
+<td>AML reporting per Закон РА «О ПОД/ФТ»</td>
+</tr>
+</tbody>
+</table>
+<p><strong>SSI / DID — Polygon ID v2 (P4 patent
+realization):</strong></p>
+<p>ZK-proof архитектура: пользователь проходит KYC один раз с
+CASP-партнёром (например, Sumsub-issuing), получает credential, и
+предъявляет zero-knowledge proof Платформе «Ноев Ковчег» без раскрытия
+PII. Polygon ID v2 интегрирован с Sumsub и Quadrata. Это реализация P4
+patent (KYC + DTA mapping) — не концепция, а deployable код.</p>
+<p><strong>GDPR + immutable blockchain (Right to be Forgotten, GDPR Art.
+17):</strong></p>
+<ul>
+<li><strong>On-chain:</strong> только hash KYC credentials (no
+PII).</li>
+<li><strong>Off-chain:</strong> Hashicorp Vault + isolated PostgreSQL в
+Yerevan (резиденты РА) или Frankfurt (нерезиденты), encryption
+AES-256-GCM per-column.</li>
+<li><strong>Right to erasure:</strong> удаление off-chain записи +
+revocation of credential через Polygon ID (credential становится
+invalid). On-chain hash остаётся (immutable), но без off-chain записи он
+бесполезен — это GDPR-compliant и AML-compliant одновременно.</li>
+<li><strong>Retention:</strong> 7 лет после прекращения отношений (AML
+РА + EU AMLD). После — full purge.</li>
+</ul>
+<hr />
+<h2 id="devops-sre">6. DEVOPS / SRE</h2>
+<h3 id="cicd-pipeline">6.1 CI/CD pipeline</h3>
+<pre><code>Developer commit → Git (GitLab self-hosted)
+                                    ↓
+                              Pre-commit hooks
+                              (linting, formatting,
+                               unit tests, security scan)
+                                    ↓
+                              CI Pipeline (GitLab CI):
+                              - build
+                              - tests (unit, integration, e2e)
+                              - smart contract tests
+                              - security scans (SAST, DAST, deps)
+                              - container build + scan
+                              - infra plan (terraform plan)
+                                    ↓
+                              Code review (2 approvers required
+                              для main branch)
+                                    ↓
+                              CD Pipeline:
+                              - staging deploy (auto)
+                              - integration tests на staging
+                              - manual approval для production
+                              - canary deploy (10% → 50% → 100%)
+                              - smoke tests
+                              - rollback on alert</code></pre>
+<h3 id="observability">6.2 Observability</h3>
+<table>
+<thead>
+<tr>
+<th>Компонент</th>
+<th>Технология</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Metrics</td>
+<td>Prometheus + Grafana</td>
+</tr>
+<tr>
+<td>Logs</td>
+<td>Loki (структурированные JSON-логи)</td>
+</tr>
+<tr>
+<td>Traces</td>
+<td>Tempo + OpenTelemetry</td>
+</tr>
+<tr>
+<td>Synthetic monitoring</td>
+<td>Grafana Synthetic Monitoring</td>
+</tr>
+<tr>
+<td>Real User Monitoring (RUM)</td>
+<td>Sentry</td>
+</tr>
+<tr>
+<td>On-call</td>
+<td>PagerDuty</td>
+</tr>
+<tr>
+<td>Incident management</td>
+<td>Incident.io или OpsGenie</td>
+</tr>
+<tr>
+<td>Status page</td>
+<td>Statuspage.io</td>
+</tr>
+</tbody>
+</table>
+<h3 id="slo-targets">6.3 SLO targets</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Сервис</th>
+<th>SLI</th>
+<th>SLO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web App availability</td>
+<td>uptime</td>
+<td>99.9% (≤43 мин downtime/мес)</td>
+</tr>
+<tr>
+<td>API Gateway latency</td>
+<td>p99</td>
+<td>&lt; 500 ms</td>
+</tr>
+<tr>
+<td>Wallet operations</td>
+<td>success rate</td>
+<td>99.95%</td>
+</tr>
+<tr>
+<td>Read API (regulator portal)</td>
+<td>latency p99</td>
+<td>&lt; 100 ms</td>
+</tr>
+<tr>
+<td>Smart contract Bridge ops</td>
+<td>finality</td>
+<td>&lt; 60 sec p95</td>
+</tr>
+<tr>
+<td>Pool NAV update</td>
+<td>freshness</td>
+<td>&lt; 24 hours</td>
+</tr>
+<tr>
+<td>Customer support response</td>
+<td>first response</td>
+<td>&lt; 1 hour business hours; &lt; 4 hours off-hours</td>
+</tr>
+</tbody>
+</table>
+<h3 id="incident-response-playbook-outline">6.4 Incident Response
+Playbook (outline)</h3>
+<ol type="1">
+<li><strong>Detection</strong> — automated alerting via Prometheus +
+custom monitors</li>
+<li><strong>Triage</strong> — on-call engineer assesses severity
+(P1/P2/P3)</li>
+<li><strong>Mitigation</strong> — immediate actions to restore
+service</li>
+<li><strong>Communication</strong> — internal Slack/Telegram channel +
+customer-facing status page</li>
+<li><strong>Resolution</strong> — root cause analysis, fix</li>
+<li><strong>Post-mortem</strong> — blameless post-mortem within 48 hours
+of resolution</li>
+<li><strong>Action items</strong> — tracked in issue tracker, reviewed
+weekly</li>
+</ol>
+<p><strong>Severity matrix:</strong> - <strong>P1:</strong> Полная
+недоступность Web/Mobile App ИЛИ компрометация безопасности ИЛИ потеря
+клиентских средств. Ответ &lt; 15 мин. Все hands on deck. -
+<strong>P2:</strong> Деградация UX или частичная недоступность. Ответ
+&lt; 1 час. - <strong>P3:</strong> Минимальное влияние; устраняется в
+течение рабочего дня.</p>
+<hr />
+<h2 id="mobile-архитектура">7. MOBILE-АРХИТЕКТУРА</h2>
+<h3 id="phase-1-pwa">7.1 Phase 1: PWA</h3>
+<p><strong>Преимущества PWA для Фазы 1:</strong> - Не требует
+прохождения review в App Store / Google Play (быстрый запуск); -
+Работает на iOS, Android, desktop через любой современный браузер; -
+Автоматическое обновление без необходимости user action; -
+Кросс-платформенный единый код.</p>
+<p><strong>Технологии:</strong> - React + Next.js; - Workbox для offline
+support; - Web Push для уведомлений; - IndexedDB для local cache; -
+WebAuthn для биометрической авторизации (Face ID, Touch ID, Windows
+Hello, армянский nID если поддерживается); - Web Crypto API для
+подписей.</p>
+<p><strong>Ограничения PWA:</strong> - На iOS — ограничения Web Push
+(требует iOS 16.4+); - Меньшая интеграция с системой (нет native share
+sheet, ограниченный доступ к камере); - Branding в menu bar / dock —
+менее заметный, чем нативное приложение.</p>
+<h3 id="phase-2-нативные-приложения">7.2 Phase 2: Нативные
+приложения</h3>
+<p><strong>Стратегия:</strong> - React Native — основная кодовая база
+(overlap с PWA для логики); - Native bridges для: биометрии,
+push-уведомлений, deeplinks, share sheet, secure enclave; -
+Распространение через App Store и Google Play.</p>
+<p><strong>Целевые версии:</strong> - iOS 14.0+ - Android 8.0+ (API
+26+)</p>
+<h3 id="offline-kyc-capture">7.3 Offline KYC capture</h3>
+<p>Для пилотного периода (диаспора часто без стабильного интернета): -
+Возможность offline-сбора документов (фото паспорта, селфи); - Queue для
+синхронизации при появлении интернета; - Локальное шифрование данных в
+IndexedDB / Keychain.</p>
+<hr />
+<h2 id="архитектура-данных">8. АРХИТЕКТУРА ДАННЫХ</h2>
+<h3 id="логические-домены">8.1 Логические домены</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Домен</th>
+<th>Хранилище</th>
+<th>Доступ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity &amp; KYC</td>
+<td>Hashicorp Vault + isolated PostgreSQL</td>
+<td>Только Identity Service</td>
+</tr>
+<tr>
+<td>Pool Registry</td>
+<td>PostgreSQL</td>
+<td>Pool Service, Smart Contract Bridge</td>
+</tr>
+<tr>
+<td>Asset Documents</td>
+<td>IPFS (immutable) + S3 (cache)</td>
+<td>Asset Onboarding, Audit Log</td>
+</tr>
+<tr>
+<td>Transactions</td>
+<td>ClickHouse (analytics) + on-chain</td>
+<td>Все сервисы (read), Tx Builder (write)</td>
+</tr>
+<tr>
+<td>Pricing &amp; NAV</td>
+<td>Time-series DB (TimescaleDB)</td>
+<td>Pool Service, Oracle Adapter</td>
+</tr>
+<tr>
+<td>Audit Log</td>
+<td>S3 + IPFS hash</td>
+<td>Все сервисы (write-only) + audit team</td>
+</tr>
+<tr>
+<td>User Sessions</td>
+<td>Redis Cluster</td>
+<td>API Gateway, Identity Service</td>
+</tr>
+</tbody>
+</table>
+<h3 id="шифрование">8.2 Шифрование</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Тип данных</th>
+<th>Шифрование</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KYC PII (паспортные данные, фото)</td>
+<td>AES-256-GCM на уровне столбца, ключи в HSM</td>
+</tr>
+<tr>
+<td>Финансовые транзакции</td>
+<td>TLS 1.3 в транзите, AES-256 at rest</td>
+</tr>
+<tr>
+<td>Документы в IPFS</td>
+<td>AES-256 при загрузке, расшифровка только authorized</td>
+</tr>
+<tr>
+<td>Backup’ы</td>
+<td>AES-256 + GPG signing</td>
+</tr>
+<tr>
+<td>In-memory чувствительные данные</td>
+<td>Memory wiping после use</td>
+</tr>
+</tbody>
+</table>
+<h3 id="privacy-preserving-аналитика">8.3 Privacy-preserving
+аналитика</h3>
+<p>Для соблюдения GDPR и Закона РА «О защите ПД»: - Аналитика использует
+pseudonymized данные (replace user ID with hashes); - Data minimization
+— собирается только строго необходимое; - Retention policy — KYC данные
+удаляются через 7 лет после прекращения отношений (требование AML); -
+Right to erasure (GDPR Art. 17) — учтено для нерезидентов; для
+резидентов РА — в рамках Закона о ПД.</p>
+<hr />
+<h2 id="юр-маппинг-архитектурных-решений">9. ЮР-МАППИНГ АРХИТЕКТУРНЫХ
+РЕШЕНИЙ</h2>
+<h3 id="соответствие-архитектуры-законодательству-ра">9.1 Соответствие
+архитектуры законодательству РА</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Архитектурное решение</th>
+<th>Норма HO-159-N / Регламент / иной закон</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Лицензирование CASP по 4 категориям</td>
+<td>Ст. 16 п. 1, 3, 5–6 HO-159-N; Регл. 7/01</td>
+</tr>
+<tr>
+<td>Минимальный капитал 320 млн AMD</td>
+<td>Регл. 7/02</td>
+</tr>
+<tr>
+<td>Регистрация руководителей в ЦБ РА</td>
+<td>Регл. 7/05</td>
+</tr>
+<tr>
+<td>Whitepaper для каждого выпуска токенов</td>
+<td>Регл. 7/04</td>
+</tr>
+<tr>
+<td>Multi-sig 3-of-5 для кастоди</td>
+<td>Best practice + Регл. 7/02 (минимальные требования к капиталу как
+индикатор операционной зрелости)</td>
+</tr>
+<tr>
+<td>Регуляторная нода для ЦБ РА</td>
+<td>Дух надзорных полномочий ст. 6, 27, 30 HO-159-N</td>
+</tr>
+<tr>
+<td>Раскрытие NAV пула ежеквартально</td>
+<td>Ст. 21 HO-159-N (требования к ART-эмитенту)</td>
+</tr>
+<tr>
+<td>KYC по AML</td>
+<td>Закон РА «О ПОД/ФТ»; FATF Rec. 16</td>
+</tr>
+<tr>
+<td>Обременение в Кадастре РА</td>
+<td>ГК РА ст. 244–249; Закон РА «О гос. кадастре» ст. 27</td>
+</tr>
+<tr>
+<td>Data residency (KYC резидентов в РА)</td>
+<td>Закон РА «О защите ПД» (2015)</td>
+</tr>
+<tr>
+<td>Шифрование персональных данных</td>
+<td>Закон РА «О защите ПД»; GDPR (для диаспоры из ЕС)</td>
+</tr>
+<tr>
+<td>Audit log immutability</td>
+<td>Закон РА «О бухучёте»; добросовестная практика</td>
+</tr>
+<tr>
+<td>Аудит смарт-контрактов</td>
+<td>Best practice; добросовестная практика для CASP</td>
+</tr>
+</tbody>
+</table>
+<h3 id="соответствие-международным-стандартам">9.2 Соответствие
+международным стандартам</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Стандарт</th>
+<th>Покрытие</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISO/IEC 27001:2022</td>
+<td>Полное (планируется сертификация в первый год после запуска)</td>
+</tr>
+<tr>
+<td>GDPR (для ЕС)</td>
+<td>Полное</td>
+</tr>
+<tr>
+<td>MiCA (ЕС)</td>
+<td>Адаптация архитектуры под совместимость с ESMA-стандартами</td>
+</tr>
+<tr>
+<td>FATF Travel Rule</td>
+<td>Полное</td>
+</tr>
+<tr>
+<td>OWASP ASVS Level 2</td>
+<td>Полное</td>
+</tr>
+<tr>
+<td>NIST CSF</td>
+<td>Покрытие основных функций</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="дорожная-карта-внедрения-m0m12-до-mainnet-ga">10. ДОРОЖНАЯ КАРТА
+ВНЕДРЕНИЯ (M0–M12 ДО MAINNET GA)</h2>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">Месяц</th>
+<th>Milestone</th>
+<th>Owner</th>
+<th style="text-align: right;">Бюджет ($)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>M0 (май 2026)</strong></td>
+<td>Утверждение архитектуры; учреждение СП; CEO + CFO onboarded</td>
+<td>CEO</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M1 (июн 2026)</strong></td>
+<td>Hire CTO + Lead Solidity. Open GitHub repo. Setup CI/CD
+skeleton</td>
+<td>CEO + CTO</td>
+<td style="text-align: right;">80k team</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M2 (июл 2026)</strong></td>
+<td>Hire SRE + Backend. Terraform IaC. AWS Frankfurt + Hetzner Yerevan
+setup</td>
+<td>CTO + SRE</td>
+<td style="text-align: right;">100k team + 20k infra</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M3 (авг 2026)</strong></td>
+<td>CFA1Token (ERC-5192) + PoolEscrow на Polygon Amoy testnet. PWA
+wallet integration (WalletConnect v2)</td>
+<td>Lead Solidity</td>
+<td style="text-align: right;">130k team</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M4 (сен 2026)</strong></td>
+<td>SeniorTrancheBond (ERC-3643) + JuniorTrancheART + NAVOracle на
+testnet. Sumsub + Notabene contracts</td>
+<td>Lead Solidity + Backend</td>
+<td style="text-align: right;">130k + 40k KYC</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M5 (окт 2026)</strong></td>
+<td>Pre-audit consulting Trail of Bits ($40k, 6 нед). Регуляторная нода
+— testnet deploy. Polygon ID v2 integration</td>
+<td>CTO + Trail of Bits</td>
+<td style="text-align: right;">130k + 40k pre-audit</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M6 (ноя 2026)</strong></td>
+<td>Full audit Trail of Bits + OpenZeppelin (parallel). Pen-test #1
+infrastructure. ISO 27001 pre-cert audit</td>
+<td>External</td>
+<td style="text-align: right;">130k + 300k audits + 30k pentest</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M7 (дек 2026)</strong></td>
+<td>Address audit findings. Formal verification NAVOracle + PoolEscrow
+(Certora). React Native MVP build</td>
+<td>CTO + Certora</td>
+<td style="text-align: right;">130k + 150k Certora</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M8 (янв 2027)</strong></td>
+<td>Re-audit findings closure. HSM ceremony в Yerevan (AWS CloudHSM +
+Yubico cold). Multi-sig signer onboarding (RA-юрфирма + EU trustee)</td>
+<td>CTO + Independent Trustees</td>
+<td style="text-align: right;">130k + 60k HSM</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M9 (фев 2027)</strong></td>
+<td>Mainnet deploy контрактов (read-only, no minting). Lloyd’s insurance
+binding ($25M). Immunefi bug bounty launch ($100k pool)</td>
+<td>CTO + Insurance broker</td>
+<td style="text-align: right;">130k + 200k insurance + 100k bounty</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M10 (мар 2027)</strong></td>
+<td>First CFA1 mint (pilot 5 активов). Soft-launch регуляторная нода в
+production. Pen-test #2</td>
+<td>CTO + ЦБ РА liaison</td>
+<td style="text-align: right;">130k team + 30k pentest</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M11 (апр 2027)</strong></td>
+<td>Senior tranche IPO simulation на testnet. M2 mobile app (Owner
+Cabinet) beta. Fireblocks MPC onboarding</td>
+<td>Backend + Mobile</td>
+<td style="text-align: right;">130k team</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>M12 (май 2027)</strong></td>
+<td><strong>Mainnet GA: First Senior tranche issuance. Series A pitch к
+ЕБРР / IFC / диаспоральным family offices</strong></td>
+<td>CEO + CFO</td>
+<td style="text-align: right;">130k team</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Кумулятивный Year-1 tech budget:</strong> $2.56M (см. §3.9).
+Time-to-mainnet GA — 12 месяцев с момента закрытия seed funding.</p>
+<hr />
+<h2 id="а.-technical-risk-matrix">10А. TECHNICAL RISK MATRIX</h2>
+<p>15 ключевых технических рисков с оценкой Severity (1–5) × Probability
+(1–5) и митигацией. Score = S × P. Приоритет внимания — Top-3.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Risk</th>
+<th style="text-align: center;">Severity</th>
+<th style="text-align: center;">Probability</th>
+<th style="text-align: center;">Score</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Smart contract critical vulnerability post-mainnet</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><strong>15</strong></td>
+<td>2 independent audits (Trail of Bits + OpenZeppelin) + Certora formal
+verification + Immunefi bug bounty + 14-day time-lock upgrades</td>
+</tr>
+<tr>
+<td>2</td>
+<td>NAV oracle manipulation</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><strong>15</strong></td>
+<td>3+ независимых RA-оценщика, median + outlier rejection, slashing
+reputation, EIP-712 + IPFS evidence, 48h time-lock, time-weighted
+average для &gt;€100k</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Insurance bridge inconsistency (off-chain ≠ on-chain)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><strong>12</strong></td>
+<td>EIP-712 signed attestations от страховщика; time-lock 7 days dispute
+window; multi-sig 3-of-5 override</td>
+</tr>
+<tr>
+<td>4</td>
+<td>DDoS на API Gateway</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">9</td>
+<td>Cloudflare Enterprise WAF + rate limiting + geo-blocking suspicious
+traffic</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Mobile app reverse-engineering / token theft</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">9</td>
+<td>Firebase App Check + biometric (WebAuthn / Secure Enclave) +
+WalletConnect v2 (keys не в app)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Multi-sig key compromise (1 ключ)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">8</td>
+<td>3-of-5 threshold tolerates 2 потери; HSM + geographic distribution +
+quarterly key rotation; 2 internal + 3 external signers</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Регуляторная нода ЦБ РА — outage</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">8</td>
+<td>Active-active deployment Frankfurt + Yerevan; mTLS auth; SLA 99.95%;
+WebSocket at-least-once delivery</td>
+</tr>
+<tr>
+<td>8</td>
+<td>GDPR violation (right to erasure не работает)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">8</td>
+<td>Off-chain PII (Hashicorp Vault) + on-chain hash architecture;
+revocation via Polygon ID v2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Insider attack (engineer pushes malicious code)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">8</td>
+<td>2-approver code review (signed commits); SIEM monitoring
+(Datadog/Sentry); GitHub Enterprise audit log</td>
+</tr>
+<tr>
+<td>10</td>
+<td>iOS Web Push limitation (диаспора без iOS 16.4+)</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">8</td>
+<td>Email + Telegram + SMS fallback каналы; APNS через React Native
+Phase 2</td>
+</tr>
+<tr>
+<td>11</td>
+<td>KYC vendor failure (Sumsub downtime)</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+<td>Onfido fallback (US/UK) + queue + retry; SLA $1M/год</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Custody insurance gap (&gt;$25M Phase 1)</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+<td>Tiered Lloyd’s + reinsurance layer для &gt;$100M coverage в Phase
+2</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Data residency violation (KYC резидентов РА вне РА)</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td>Hard-coded routing rules + audit; Hetzner Yerevan для PII
+резидентов; Thales Luna Yerevan Phase 2</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Upgradability lock-out (UUPS misconfiguration)</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td>UUPS + Transparent Proxy parallel; Certora formal verification of
+upgrade paths; immutable after €500M TVL или 36 мес</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Polygon PoS chain reorganization / halt</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td>Multi-sig pause функция; bridge-ready migration plan на Avalanche
+Subnet / Polygon zkEVM; off-chain ledger как source of truth</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Top-3 риска (Score = 15+):</strong> 1. <strong>Smart contract
+vulnerability</strong> — митигируется dual-audit + formal verification +
+bug bounty. 2. <strong>NAV oracle manipulation</strong> — митигируется
+3+ оценщика + median + slashing + 48h time-lock. 3. <strong>Insurance
+bridge inconsistency</strong> — митигируется EIP-712 + 7-day dispute
+window.</p>
+<p>Общий технологический риск — <strong>middle-low</strong> при условии
+адекватного финансирования ($2.56M Y1). Архитектурный риск — low.
+Главный остающийся риск — <strong>execution risk</strong> (найм команды)
+и <strong>regulatory engagement</strong> (одобрение read-only ноды ЦБ РА
+до mainnet).</p>
+<hr />
+<h2 id="заключение">11. ЗАКЛЮЧЕНИЕ</h2>
+<p>Техническая архитектура Платформы «Ноев Ковчег» построена на:</p>
+<ol type="1">
+<li><strong>Зрелых индустриальных компонентах</strong> — никакой
+экзотики, только проверенные решения;</li>
+<li><strong>Defense-in-depth</strong> — многоуровневая защита от
+технических, операционных и регуляторных рисков;</li>
+<li><strong>Регуляторной готовности</strong> — каждое решение мэппится
+на соответствующую норму HO-159-N или Регламента ЦБ РА;</li>
+<li><strong>Прозрачности</strong> — для регулятора (через ноду) и для
+держателей токенов (через публичный распределённый реестр);</li>
+<li><strong>Масштабируемости</strong> — Фаза 1 архитектура поддерживает
+рост до Фазы 2 без принципиальных переделок;</li>
+<li><strong>DLT-agnosticism</strong> — возможность миграции на иную
+DLT-платформу без переписывания application layer.</li>
+</ol>
+<p>Архитектура готова к независимому тех-due-diligence со стороны
+Минфина РА, Центрального банка РА, ЕБРР, Всемирного банка, IFC и иных
+институциональных инвесторов.</p>
+<hr />
+<p><strong>Подпись:</strong> _______________________ <strong>Кагиров
+А.-Х. А.</strong> (Аслан Каа), правообладатель и инициатор
+<strong>Дата:</strong> «<strong><em>» </em></strong>______ 2026 г.</p>
+<hr />
+<p>© Кагиров Абдул-Хаким Ахмадович, 2026. Документ NK-ARCH-001/2026. Все
+права защищены в соответствии с Всемирной конвенцией об авторском праве
+(Женева, 1952) и Бернской конвенцией (1886). Воспроизведение и
+распространение запрещены без письменного согласия правообладателя.</p>
+<!--
+=== TECHNICAL REFACTOR LOG (2026-05-11, по Audit_5) ===
+1. ERC-5192 / ERC-3643 / ERC-20+NAVOracle стандарты
+2. HSM: AWS CloudHSM + Yubico → Thales Luna
+3. Custody: hybrid Fireblocks/Copper + self-built
+4. NAV Oracle: Chainlink Functions + 48h time-lock
+5. KYC: Sumsub primary + Onfido fallback + Notabene + Polygon ID v2
+6. Tech-budget $2.56M Y1
+7. Tech-roadmap M0–M12
+8. Risk matrix
+-->
+
+</article>
+<footer class="docfoot">
+  <span>Aslan Kaa · aslankaa@yandex.ru · aslankaa.com</span>
+  <span>© 2026 · Платформа «Ноев Ковчег»</span>
+</footer>
+</body>
+</html>

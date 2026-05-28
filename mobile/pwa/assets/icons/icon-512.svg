@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#1a2438"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </radialGradient>
+    <radialGradient id="sun" cx="65%" cy="30%" r="20%">
+      <stop offset="0%" stop-color="#e0bc6a"/>
+      <stop offset="60%" stop-color="#c89b3c"/>
+      <stop offset="100%" stop-color="#c89b3c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="80" fill="url(#bg)"/>
+  <circle cx="350" cy="160" r="80" fill="url(#sun)"/>
+  <path d="M0,440 L80,360 L150,330 L220,260 L260,180 L290,140 L320,150 L360,220 L400,280 L450,290 L512,340 L512,512 L0,512 Z" fill="#3d4f6b" opacity="0.45"/>
+  <path d="M0,512 L40,460 L100,430 L170,380 L220,320 L260,280 L300,300 L340,360 L400,400 L450,420 L512,440 L512,512 Z" fill="#1a2438"/>
+  <g transform="translate(256, 365)" fill="#c89b3c">
+    <path d="M-90,0 Q-50,-30 0,-20 Q50,-10 90,0 L90,20 Q50,40 0,30 Q-50,20 -90,20 Z"/>
+    <path d="M-65,-15 Q-50,-50 0,-50 Q50,-50 65,-15 L50,-15 Q40,-30 0,-30 Q-40,-30 -50,-15 Z"/>
+  </g>
+</svg>

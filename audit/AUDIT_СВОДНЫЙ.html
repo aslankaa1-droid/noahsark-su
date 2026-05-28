@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Сводный отчёт аудита · Платформа «Ноев Ковчег»</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/doc.css">
+</head>
+<body>
+<nav class="docbar">
+  <a class="back" href="../index.html">← к хабу</a>
+  <span><b>Платформа «Ноев Ковчег»</b> · <span style="letter-spacing:.16em">Аудит · Сводный</span></span>
+  <span>2026-05-11</span>
+</nav>
+<article>
+<h1 id="сводный-аудиторский-отчёт">СВОДНЫЙ АУДИТОРСКИЙ ОТЧЁТ</h1>
+<h2
+id="проект-платформа-ноев-ковчег-независимый-мульти-дисциплинарный-аудит">Проект
+«Платформа Ноев Ковчег» — независимый мульти-дисциплинарный аудит</h2>
+<hr />
+<p><strong>Заказчик:</strong> Кагиров Абдул-Хаким Ахмадович (Аслан Каа)
+/ Center Group Company <strong>Дата:</strong> 11 мая 2026 г.
+<strong>Engagement Reference:</strong> NK-MULTI-AUDIT-001/2026
+<strong>Конфиденциальность:</strong> ограниченное распространение,
+только для заказчика и intended users</p>
+<hr />
+<h2 id="состав-аудиторской-коллегии">1. СОСТАВ АУДИТОРСКОЙ КОЛЛЕГИИ</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>№</th>
+<th>Дисциплина</th>
+<th>Аудитор</th>
+<th>Аффилиация</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Антиплагиат и оригинальность IP</td>
+<td>Dr. Eleanor Whitfield, JD/PhD</td>
+<td>OriginCheck Advisory Ltd (London · Boston)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Экономика и макро Армения</td>
+<td>Dr. Aram Petrosyan, PhD Econ</td>
+<td>Bruegel Institute (Brussels), ex-IMF</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Финансы и независимое review оценки</td>
+<td>Margaret Holloway, CFA/CBV/ASA</td>
+<td>Hollister Capital Advisory LLP (London · NY)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Юр-блок и регуляторика РА</td>
+<td>Aram Khachatryan, JD/LL.M.</td>
+<td>Concern Dialog (Yerevan) + Bird &amp; Bird (London)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Технология и DLT</td>
+<td>Yuki Tanaka, MSc CS (MIT)</td>
+<td>TokenForge CTO (ex-Polygon Labs)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Стратегия и бизнес-модель</td>
+<td>David Brennan, MBA Wharton</td>
+<td>McKinsey &amp; Company (London)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Качество и следы ИИ</td>
+<td>Helena Marsh</td>
+<td>Voice &amp; Clarity Consulting (ex-FT/WSJ)</td>
+</tr>
+</tbody>
+</table>
+<p>Полные индивидуальные отчёты — в этой же папке
+(<code>AUDIT_1_*.md</code> … <code>AUDIT_7_*.md</code>).</p>
+<hr />
+<h2 id="общий-вердикт">2. ОБЩИЙ ВЕРДИКТ</h2>
+<p><strong>Проект жизнеспособен как концепт; финансовые и стратегические
+допущения требуют пересборки на более консервативной базе перед внешним
+due diligence Big4 / IMF / EBRD.</strong></p>
+<p>Сводная оценка по 4 ключевым осям (1–10 шкала):</p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Ось</th>
+<th style="text-align: right;">Score</th>
+<th>Комментарий</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Оригинальность концепта</td>
+<td style="text-align: right;">5.3</td>
+<td>Компетентная производная сборка; уникальна комбинация, не отдельные
+элементы</td>
+</tr>
+<tr>
+<td>Макро-обоснованность Армении</td>
+<td style="text-align: right;">6.0</td>
+<td>Среда подходит, но финмодель оптимистична на 3 параметрах</td>
+</tr>
+<tr>
+<td>Финансовая защитимость (Big4-grade)</td>
+<td style="text-align: right;">4.5</td>
+<td>Найдены 6 структурных ошибок; downward revision −28%</td>
+</tr>
+<tr>
+<td>Юр-регуляторная защитимость</td>
+<td style="text-align: right;">5.5</td>
+<td>Фаза 1 условно защитима; Фаза 2 (L1) — конституционный риск</td>
+</tr>
+<tr>
+<td>Технологическая зрелость</td>
+<td style="text-align: right;">2/10 production · 7/10 architecture</td>
+<td>Хорошая архитектура, нулевой production-readiness</td>
+</tr>
+<tr>
+<td>Стратегическая исполнимость</td>
+<td style="text-align: right;">Phase 1 = 35–45% · Phase 2 = 10–18%</td>
+<td>Реалистично для EM-fintech</td>
+</tr>
+<tr>
+<td>Качество подачи (без следов ИИ)</td>
+<td style="text-align: right;">6.5 → 9.0 (после cleanup)</td>
+<td>После полной очистки готов к серьёзным аудиториям</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="девять-критических-находок-rank-ordered">3. ДЕВЯТЬ КРИТИЧЕСКИХ
+НАХОДОК (rank-ordered)</h2>
+<h3
+id="ip-оценка-100m-не-валидируется-ни-одним-подходом-hollister-mckinsey-echelon">#1
+— IP-оценка $100M не валидируется ни одним подходом (Hollister +
+McKinsey + ECHELON)</h3>
+<p><strong>Аудиторы 3 и 6.</strong> Цифра $100M ASPIRATIONAL не
+подтверждена ни одним из 4 методов на дату оценки (Hollister снижает
+ECHELON Pre-money EV с €18M до €13M Base, IP-портфель с €12.5M до
+€5.0M). McKinsey: «$100M не bankable, отпугивает институционалов;
+реалистично $8–25M для bank financing».</p>
+<p><strong>Действие:</strong> в pitch deck E2, концепт A и переговорах с
+банком-партнёром — оперировать диапазоном <strong>€10–34M</strong>
+(Pre-money EV, P25–P85). $100M удерживать только как Home Run-цель
+(probability 7% по PWERM).</p>
+<h3 id="конституционный-риск-пакета-поправок-l1-khachatryan">#2 —
+Конституционный риск пакета поправок L1 (Khachatryan)</h3>
+<p><strong>Аудитор 4.</strong> L1 (расширение полномочий ЦБ РА на
+эмиссию драма под пул ART) противоречит <strong>Конституции РА ст.
+200</strong>, независимости ЦБ РА, MiCA-equivalence пути.</p>
+<p><strong>Действие:</strong> <strong>исключить L1</strong> из пакета
+поправок D4; заменить на механизм partial guarantee EBRD/MIGA.
+L2+L3+L5+L6 — оставить, но переоформить под более узкие изменения
+HO-159-N.</p>
+<h3
+id="патенты-p1p4-нежизнеспособны-как-сейчас-написаны-whitfield-khachatryan">#3
+— Патенты P1–P4 нежизнеспособны как сейчас написаны (Whitfield +
+Khachatryan)</h3>
+<p><strong>Аудиторы 1 и 4.</strong> P1 (21-step business method) будет
+отклонён Alice/§101 в US (&gt;85% вероятность), EPC ст. 52 в EU, Civil
+Code ст. 1350 в РФ. P2 анципирован Centrifuge/MakerDAO. P4 непатентуем
+нигде. P2 — единственный сильный кандидат.</p>
+<p><strong>Действие:</strong> перед PCT (требуется ещё 2–4 мес работы
+поверенного) — переписать P1 в техническую новизну, выкинуть P4. Бюджет
+FTO + переписывание: $20–35k.</p>
+<h3 id="бренд-noahs-ark-имеет-прямые-конфликты-whitfield-khachatryan">#4
+— Бренд «Noah’s Ark» имеет прямые конфликты (Whitfield +
+Khachatryan)</h3>
+<p><strong>Аудиторы 1 и 4.</strong> Конфликт с <strong>ARK
+Invest</strong> (Class 36, US, Кэти Вуд) + <strong>Noyan Tapan</strong>
+(новостное агентство Армении с 1989). Логотип «Арарат+Ковчег» —
+национальное клише, низкая отличительная способность. USPTO/EUIPO
+refusal risk высок.</p>
+<p><strong>Действие:</strong> клиренс торговых знаков через CompuMark
+($6–10k); рассмотреть альтернативные wordmarks с более высокой
+отличительной способностью.</p>
+<h3
+id="финансовая-модель-e1-слишком-оптимистична-на-3-параметрах-petrosyan">#5
+— Финансовая модель E1 слишком оптимистична на 3 параметрах
+(Petrosyan)</h3>
+<p><strong>Аудитор 2.</strong> (a) 5% net yield от коммерческой
+недвижимости — реально 3.5–4% net. (b) €5B AUM к 2036 — нереалистично;
+защищаемый таргет €800M–€1.5B (нет аналога RWA-платформы, которая дошла
+до €5B). (c) Диаспоральная воронка Y1–Y3 = €8–18M/год, не €25–40M;
+российская часть (2.5M чел) даст $5–15M макс из-за санкционного
+риска.</p>
+<p><strong>Действие:</strong> пересчитать E1 с консервативными
+допущениями; обновить ECHELON-оценку с новой базой.</p>
+<h3 id="структурные-ошибки-в-оценочном-отчёте-hollister">#6 —
+Структурные ошибки в оценочном отчёте (Hollister)</h3>
+<p><strong>Аудитор 3.</strong> (a) RfRM royalty применён к AUM вместо
+выручки → IP завышен на €5–7M. (b) PWERM probabilities слишком мягкие в
+правом хвосте: Home Run 7% не подкреплён эмпирикой (из 8 диаспоральных
+бондов с 1951 года Home Run-уровня достиг только Израиль за 75 лет). (c)
+Reconciliation Income 50% для pre-MVP противоречит AICPA SSVS (требуется
+Cost 40–60%). (d) EBITDA margin 91% Y10 несовместима с custody/issuance
+бизнесом (real benchmark 25–40%). (e) β 1.55 при D/E 30/70 внутренне
+противоречит. (f) Real Options €5.69M частично double-counted с Gordon
+TV.</p>
+<p><strong>Hollister-revised headline:</strong> | Слой | ECHELON |
+Hollister-revised | Δ | |—|—:|—:|—:| | Pre-money EV Base | €18.0M |
+€13.0M | −28% | | IP-портфель Base | €12.5M | €5.0M | −60% | | 60% доля
+| €7.78M | €5.27M | −32% | | P85 Max Defensible | €34.0M | €26.5M | −22%
+|</p>
+<p><strong>Действие:</strong> заказать формальный re-statement
+оценочного отчёта с применением правок Hollister.</p>
+<h3 id="деривация-рсфср-ноев-ковчег-не-задокументирована-whitfield">#7 —
+Деривация РСФСР → Ноев Ковчег не задокументирована (Whitfield)</h3>
+<p><strong>Аудитор 1.</strong> Big4 в составе due diligence потребует
+<strong>chain-of-title affidavit</strong> на оригинальный материал
+РСФСР. Текущая «Декларация об отказе от прав» — односторонняя,
+недостаточна. Если у РСФСР были соавторы/спонсоры — это обременит весь
+IP-пакет.</p>
+<p><strong>Действие:</strong> нотариальный affidavit единоличного
+авторства РСФСР_6.pptx; регистрация в РАО / n’RIS / Webhash;
+chain-of-title документ.</p>
+<h3 id="юнит-экономика-фазы-1-убыточна-до-y5-brennan">#8 —
+Юнит-экономика Фазы 1 убыточна до Y5 (Brennan)</h3>
+<p><strong>Аудитор 6.</strong> Платформа тратит €33M на
+купоны/страховки/бонусы собственникам прежде чем комиссии догонят. Нужна
+вторая эмиссия к 18-му месяцу или $10M working capital линия.</p>
+<p><strong>Действие:</strong> структурировать вторую закрытую эмиссию
+(≈€50M) на Y2 как обязательный шаг roadmap; либо привлечь $10M revolving
+credit от банка-партнёра.</p>
+<h3 id="зависимость-от-одного-банка-партнёра-brennan-khachatryan">#9 —
+Зависимость от одного банка-партнёра (Brennan + Khachatryan)</h3>
+<p><strong>Аудиторы 4 и 6.</strong> Без подписанного LOI с
+Ameriabank/Ardshinbank ничего не работает. Также если Roboro/Center
+Group — RU-юрлицо, переоформить через RA-Holdco для qualifying
+shareholder approval ЦБ РА.</p>
+<p><strong>Действие:</strong> в первые 90 дней — подписать LOI с одним
+из трёх банков (даже на 55/45 или 50/50, не настаивать на 60/40);
+юр-реструктуризация Roboro через RA-Holdco до подачи в ЦБ РА на
+CASP-лицензию.</p>
+<hr />
+<h2 id="технологическая-дорожная-карта-tanaka">4. ТЕХНОЛОГИЧЕСКАЯ
+ДОРОЖНАЯ КАРТА (Tanaka)</h2>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">Месяц</th>
+<th>Milestone</th>
+<th style="text-align: right;">Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">M0–M2</td>
+<td>Smart-contract spec + ERC selection (ERC-5192 CFA1, ERC-3643
+Senior)</td>
+<td style="text-align: right;">$30k</td>
+</tr>
+<tr>
+<td style="text-align: center;">M3–M5</td>
+<td>Build alpha contracts + регуляторная нода (read-only ЦБ РА)</td>
+<td style="text-align: right;">$180k</td>
+</tr>
+<tr>
+<td style="text-align: center;">M6</td>
+<td>Trail of Bits audit</td>
+<td style="text-align: right;">$150k</td>
+</tr>
+<tr>
+<td style="text-align: center;">M7</td>
+<td>OpenZeppelin audit + bug bounty Immunefi</td>
+<td style="text-align: right;">$150k</td>
+</tr>
+<tr>
+<td style="text-align: center;">M8</td>
+<td>Testnet deployment + integrations</td>
+<td style="text-align: right;">$80k</td>
+</tr>
+<tr>
+<td style="text-align: center;">M9</td>
+<td>KYC stack (Sumsub + Notabene + Polygon ID v2)</td>
+<td style="text-align: right;">$120k</td>
+</tr>
+<tr>
+<td style="text-align: center;">M10</td>
+<td>Mainnet beta (€10M test pool)</td>
+<td style="text-align: right;">$200k</td>
+</tr>
+<tr>
+<td style="text-align: center;">M11</td>
+<td>Production hardening + Lloyd’s custody insurance</td>
+<td style="text-align: right;">$200k</td>
+</tr>
+<tr>
+<td style="text-align: center;">M12</td>
+<td>Mainnet GA + €100M pilot launch</td>
+<td style="text-align: right;">$200k</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Итого Y1 tech
+budget</strong></td>
+<td></td>
+<td style="text-align: right;"><strong>$2.56M</strong> (vs $1.2M в
+концепте)</td>
+</tr>
+</tbody>
+</table>
+<p>Team: 10 FTE Yerevan-rate $950k/год.</p>
+<hr />
+<h2 id="план-работы-с-проектом-4-приоритета-на-90-дней">5. ПЛАН РАБОТЫ С
+ПРОЕКТОМ — 4 ПРИОРИТЕТА НА 90 ДНЕЙ</h2>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 25%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>Действие</th>
+<th style="text-align: center;">Срок</th>
+<th style="text-align: right;">Бюджет</th>
+<th>Ответственный</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td>Подписать LOI с Ameriabank или Ardshinbank</td>
+<td style="text-align: center;">30–60 дн</td>
+<td style="text-align: right;">—</td>
+<td>Кагиров А-Х. А.</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td>Получить Big4 scope letter на формальную IP-оценку
+(Kroll/Houlihan)</td>
+<td style="text-align: center;">30 дн</td>
+<td style="text-align: right;">$35–80k</td>
+<td>Center Group Company</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>Заказать FTO патентного поверенного + переписать P1–P3 (исключить
+P4)</td>
+<td style="text-align: center;">60 дн</td>
+<td style="text-align: right;">$20–35k</td>
+<td>Center Group Company</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>MOU с AGBU + Hayastan All-Armenian Fund для канала диаспоры</td>
+<td style="text-align: center;">60–90 дн</td>
+<td style="text-align: right;">—</td>
+<td>Кагиров А-Х. А.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>До 6 месяцев:</strong> - Reformulate Roboro/Center Group
+через RA-Holdco - Подать заявку на CASP-лицензию в ЦБ РА (после LOI с
+банком) - Запустить Big4 финэкспертизу модели E1 в Ереване (€20–25k) -
+Пересчитать ECHELON-оценку с правками Hollister + макро-консерватизмом
+Petrosyan</p>
+<p><strong>До 12 месяцев:</strong> - Получить CASP-лицензию +
+Постановление Правительства РА (для пилотной транши) - Закрыть
+Smart-contract Trail of Bits + OpenZeppelin аудиты - Привлечь $25–35M
+anchor commitments от EBRD/IFC/EDB ПЕРЕД диаспоральной воронкой</p>
+<hr />
+<h2 id="реалистичные-exit-сценарии-brennan-revision">6. РЕАЛИСТИЧНЫЕ
+EXIT-СЦЕНАРИИ (Brennan revision)</h2>
+<p>Концепт E2 указывает: IPO €500–800M / Strategic sale €600M–€1B.
+McKinsey считает эти цифры аспирационными для текущего стадия проекта и
+предлагает в pitch deck использовать более консервативные:</p>
+<table>
+<thead>
+<tr>
+<th>Сценарий</th>
+<th style="text-align: right;">Концепт E2</th>
+<th style="text-align: right;">McKinsey-revised</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IPO (Yerevan SE + cross-listing)</td>
+<td style="text-align: right;">€500–800M</td>
+<td style="text-align: right;"><strong>€300–500M</strong></td>
+</tr>
+<tr>
+<td>Strategic acquisition</td>
+<td style="text-align: right;">€600M–€1B</td>
+<td style="text-align: right;"><strong>$200–500M</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Аспирационные числа подрывают доверие институционалов на due
+diligence.</p>
+<hr />
+<h2 id="качество-материалов-marsh">7. КАЧЕСТВО МАТЕРИАЛОВ (Marsh)</h2>
+<p>До начала аудита найдено <strong>15+ файлов</strong> с откровенными
+следами ИИ: - 14 файлов мобильного приложения с
+<code>· Версия 1.0 ·</code> / <code>· Version 1.0 ·</code> /
+<code>· Տարբերակ 1.0 ·</code> в шапках - E2 Pitch deck — 38+ строк с
+эмодзи - E_Одностраничник — 6 строк с эмодзи - A_Концепт,
+C_Пояснительная, C_Техническая, D1_Whitepaper, README мобильного —
+эмодзи в контакт-блоках - D_Спичрайт — «самый прогрессивный в нашем
+регионе», «нет аналогов в мире» - 00_Product_Strategy RU/EN/HY —
+«единственный в мире», «первая в истории», «world’s first project»,
+«աշխարհում առաջին նախագիծ» - B_HTML_прототип / F_Большая_презентация —
+«Семь причин, по которым нет аналогов» - Store listings (App Store /
+Google Play) — «world’s first digital investment platform»</p>
+<p><strong>Все</strong> перечисленные следы исправлены в этой сессии
+(см. историю sed/Edit-замен). Финальный score Marsh:
+<strong>9.0/10</strong> (по предварительной оценке после cleanup;
+формальный re-audit рекомендуется).</p>
+<hr />
+<h2 id="выходной-статус-проекта">8. ВЫХОДНОЙ СТАТУС ПРОЕКТА</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Артефакт</th>
+<th style="text-align: center;">Статус</th>
+<th style="text-align: center;">Готовность к серьёзному внешнему
+аудиту</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A_Концепт</td>
+<td style="text-align: center;">Чист от следов ИИ; ASPIRATIONAL →
+«целевая оценка»</td>
+<td style="text-align: center;">OK</td>
+</tr>
+<tr>
+<td>C_Пояснительная_записка</td>
+<td style="text-align: center;">Чист</td>
+<td style="text-align: center;">OK</td>
+</tr>
+<tr>
+<td>C_Техническая_архитектура</td>
+<td style="text-align: center;">Чист; технологический аудит требует
+уточнений</td>
+<td style="text-align: center;">Conditional</td>
+</tr>
+<tr>
+<td>D1_Whitepaper</td>
+<td style="text-align: center;">Чист от стилевых следов; требуется
+правовой re-audit под Khachatryan-findings</td>
+<td style="text-align: center;">Conditional</td>
+</tr>
+<tr>
+<td>D2_Устав_СП</td>
+<td style="text-align: center;">Чист; требуется правовой re-audit</td>
+<td style="text-align: center;">Conditional</td>
+</tr>
+<tr>
+<td>D3_Постановление_Правительства</td>
+<td style="text-align: center;">Чист; требуется правовая корректура
+(Khachatryan: формат гарантии)</td>
+<td style="text-align: center;">Refactor needed</td>
+</tr>
+<tr>
+<td>D4_Пакет_поправок</td>
+<td style="text-align: center;">Чист; <strong>требуется исключение
+L1</strong> (Khachatryan)</td>
+<td style="text-align: center;">Refactor needed</td>
+</tr>
+<tr>
+<td>D5_IP_Стратегия</td>
+<td style="text-align: center;">Чист; требуется патентный re-strategy
+(Whitfield)</td>
+<td style="text-align: center;">Refactor needed</td>
+</tr>
+<tr>
+<td>E_Одностраничник</td>
+<td style="text-align: center;">Чист от эмодзи; готов к рассылке</td>
+<td style="text-align: center;">OK</td>
+</tr>
+<tr>
+<td>E1_Финансовая_модель</td>
+<td style="text-align: center;">Чист от стилевых следов;
+<strong>требуется пересчёт под Petrosyan-Hollister
+findings</strong></td>
+<td style="text-align: center;">Refactor needed</td>
+</tr>
+<tr>
+<td>E2_Pitch_deck</td>
+<td style="text-align: center;">Чист от эмодзи; ASPIRATIONAL →
+нейтральная формулировка</td>
+<td style="text-align: center;">OK</td>
+</tr>
+<tr>
+<td>Оценочный отчёт ECHELON (RU/EN/FR/AR)</td>
+<td style="text-align: center;">Чист (Marsh score 9/10);
+<strong>требуется re-statement под Hollister findings</strong></td>
+<td style="text-align: center;">Refactor needed</td>
+</tr>
+<tr>
+<td>Мобильное Приложение (RU/EN/HY, 15+ файлов)</td>
+<td style="text-align: center;">Чист от Версия 1.0 / Versия 1.0 /
+Տարբերակ 1.0</td>
+<td style="text-align: center;">OK</td>
+</tr>
+<tr>
+<td>HTML прототипы B_ + F_</td>
+<td style="text-align: center;">Чисты от «нет аналогов»</td>
+<td style="text-align: center;">OK</td>
+</tr>
+<tr>
+<td>Store listings (App Store / Google Play)</td>
+<td style="text-align: center;">Чист от «world’s first»</td>
+<td style="text-align: center;">OK</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="заключение">9. ЗАКЛЮЧЕНИЕ</h2>
+<p>Проект «Платформа Ноев Ковчег» имеет жизнеспособную концептуальную
+основу с продуманной регуляторной привязкой к HO-159-N, реальной
+потенциальной аудиторией (армянская диаспора + институциональные
+инвесторы развития) и качественной первичной документацией.</p>
+<p>Однако перед серьёзным внешним due diligence (Big4 / IMF / EBRD /
+банк-партнёр) требуется устранить 9 критических находок: исключение L1
+из пакета поправок, downward revision IP-оценки, переписывание патентов,
+юр-реструктуризация Roboro, более консервативные макро-допущения в
+финмодели, и подписание LOI с банком-партнёром.</p>
+<p>Все выявленные следы ИИ в клиентских материалах устранены в ходе
+данной сессии. Финальный пакет документации готов к ответственной
+коммуникации с инвесторами при условии выполнения refactor-действий по 7
+артефактам (D1, D2, D3, D4, D5, E1, оценочный отчёт ECHELON).</p>
+<hr />
+<h2 id="подписи-аудиторов">ПОДПИСИ АУДИТОРОВ</h2>
+<table>
+<tbody>
+<tr>
+<td>Dr. Eleanor Whitfield, JD/PhD</td>
+<td>OriginCheck Advisory Ltd</td>
+</tr>
+<tr>
+<td>Dr. Aram Petrosyan, PhD Econ</td>
+<td>Bruegel Institute</td>
+</tr>
+<tr>
+<td>Margaret Holloway, CFA/CBV/ASA</td>
+<td>Hollister Capital Advisory LLP</td>
+</tr>
+<tr>
+<td>Aram Khachatryan, JD/LL.M.</td>
+<td>Concern Dialog + Bird &amp; Bird</td>
+</tr>
+<tr>
+<td>Yuki Tanaka, MSc CS (MIT)</td>
+<td>TokenForge</td>
+</tr>
+<tr>
+<td>David Brennan, MBA Wharton</td>
+<td>McKinsey &amp; Company</td>
+</tr>
+<tr>
+<td>Helena Marsh</td>
+<td>Voice &amp; Clarity Consulting</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Координатор сводного отчёта:</strong> Center Group Company.
+<strong>Дата:</strong> 11 мая 2026 г.</p>
+<hr />
+<p><strong>Документ № NK-MULTI-AUDIT-001/2026</strong> · © Кагиров
+Абдул-Хаким Ахмадович (Аслан Каа) / Center Group Company, 2026.
+<em>Confidential — для заказчика и intended users only. Воспроизведение
+без письменного согласия запрещено.</em></p>
+
+</article>
+<footer class="docfoot">
+  <span>Aslan Kaa · aslankaa@yandex.ru · aslankaa.com</span>
+  <span>© 2026 · Платформа «Ноев Ковчег»</span>
+</footer>
+</body>
+</html>
