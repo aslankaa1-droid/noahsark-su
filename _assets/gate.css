@@ -1,0 +1,68 @@
+/* PIN-gate overlay для Платформы Ноев Ковчег */
+#noah-gate{
+  position:fixed;inset:0;z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(ellipse at 18% 78%, rgba(95,163,233,.18), transparent 55%),
+    radial-gradient(ellipse at 82% 18%, rgba(212,168,87,.12), transparent 60%),
+    #0a0f1a;
+  font-family:'Manrope',system-ui,sans-serif;color:#e8eaf0;
+  -webkit-font-smoothing:antialiased;
+  padding:2rem 1.2rem;overflow:auto;
+}
+#noah-gate .box{
+  width:100%;max-width:420px;
+  background:#141c2c;border:1px solid #2e3e58;border-radius:18px;
+  padding:2.2rem 2rem 2rem;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.6);
+}
+#noah-gate .eyebrow{
+  font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;
+  color:#5fa3e9;font-weight:600;padding-top:.4em;
+  border-top:1px solid #5fa3e9;display:inline-block;margin-bottom:1rem;
+}
+#noah-gate h2{
+  font-family:'Cormorant Garamond',serif;font-size:1.85rem;font-weight:600;
+  line-height:1.15;margin-bottom:.5rem;letter-spacing:-.01em;color:#e8eaf0;
+}
+#noah-gate p{color:#a8b0c4;font-size:.95rem;line-height:1.55;margin-bottom:1.4rem}
+#noah-gate label{
+  display:block;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:#6e7793;margin-bottom:.5rem;font-weight:600;
+}
+#noah-gate input{
+  width:100%;
+  background:#0a0f1a;border:1px solid #2e3e58;color:#e8eaf0;
+  font-family:'Manrope',sans-serif;font-size:1.4rem;letter-spacing:.4em;
+  text-align:center;padding:.9rem 1rem;border-radius:10px;font-weight:600;
+  outline:none;transition:border-color .15s;
+}
+#noah-gate input:focus{border-color:#5fa3e9}
+#noah-gate input.err{border-color:#d96666;animation:noahShake .35s}
+#noah-gate button.submit{
+  margin-top:1rem;width:100%;
+  background:linear-gradient(135deg, #5fa3e9, #86c1f5);color:#0a0f1a;border:0;
+  font-family:inherit;font-weight:700;font-size:.92rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:.95rem 1rem;border-radius:10px;cursor:pointer;
+  transition:transform .15s, filter .15s;
+}
+#noah-gate button.submit:hover{filter:brightness(1.05)}
+#noah-gate button.submit:active{transform:translateY(1px)}
+#noah-gate .msg{
+  margin-top:.8rem;font-size:.82rem;color:#d96666;min-height:1.2em;text-align:center;
+}
+#noah-gate .meta{
+  margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid #243248;
+  font-size:.74rem;color:#6e7793;line-height:1.55;text-align:center;
+}
+#noah-gate .meta a{color:#86c1f5;text-decoration:none}
+#noah-gate .meta a:hover{text-decoration:underline}
+@keyframes noahShake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+html.noah-locked body > *:not(#noah-gate){visibility:hidden}
+html.noah-locked,html.noah-locked body{overflow:hidden}
