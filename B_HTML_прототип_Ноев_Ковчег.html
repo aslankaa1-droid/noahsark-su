@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="description" content="Платформа Ноев Ковчег — институциональный механизм финансирования национальных проектов Республики Армения через токенизацию залоговой недвижимости. Закон РА HO-159-N + Регламенты ЦБ РА 7/01–7/05." />
+<meta name="author" content="Кагиров Абдул-Хаким Ахмадович (Аслан Каа)" />
+<meta name="copyright" content="© Кагиров Абдул-Хаким Ахмадович, 2026. Все права защищены." />
+<meta name="robots" content="noindex" />
+<title>Платформа Ноев Ковчег — Республика Армения · Документ NK-HTML-001/2026</title>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230a1628'/><path d='M10,75 L30,45 L40,55 L55,25 L70,40 L85,30 L90,75 Z' fill='%23c89b3c'/></svg>" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,800;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ──────────────────────────────────────────────────────────────────
+   ПЛАТФОРМА НОЕВ КОВЧЕГ · СТИЛИ
+   © Кагиров Абдул-Хаким Ахмадович, 2026
+   ────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Палитра — ночное небо над Араратом, церковное золото, пергамент */
+  --color-midnight: #0a1628;
+  --color-midnight-soft: #1a2438;
+  --color-haze: #3d4f6b;
+  --color-gold: #c89b3c;
+  --color-gold-light: #e0bc6a;
+  --color-gold-deep: #8b6818;
+  --color-wine: #8b1538;
+  --color-parchment: #f4ede0;
+  --color-parchment-dim: #e8dfcd;
+  --color-cream: #faf6ec;
+  --color-ink: #1a2438;
+  --color-ink-soft: #4a5670;
+
+  --shadow-sm: 0 1px 3px rgba(10,22,40,0.08);
+  --shadow-md: 0 8px 24px rgba(10,22,40,0.12);
+  --shadow-lg: 0 24px 60px rgba(10,22,40,0.18);
+  --shadow-gold: 0 12px 32px rgba(200,155,60,0.25);
+
+  --font-display: 'Bodoni Moda', 'Times New Roman', serif;
+  --font-sub: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Spectral', Georgia, serif;
+  --font-ui: 'Manrope', system-ui, sans-serif;
+
+  --max-content: 1320px;
+  --max-prose: 720px;
+  --space-section: clamp(4rem, 10vw, 8rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--color-ink);
+  background: var(--color-cream);
+  font-feature-settings: "kern", "liga", "onum";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Зернистая текстура пергамента поверх всего */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* ─── ТИПОГРАФИКА ─── */
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.05; letter-spacing: -0.015em; color: var(--color-midnight); }
+h1 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; letter-spacing: -0.03em; }
+h2 { font-size: clamp(2.2rem, 5vw, 4rem); }
+h3 { font-size: clamp(1.4rem, 2.6vw, 2.1rem); }
+h4 { font-family: var(--font-sub); font-size: clamp(1.1rem, 1.8vw, 1.4rem); font-weight: 600; letter-spacing: 0.02em; }
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-gold-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.eyebrow::before {
+  content: '';
+  width: 1.6rem;
+  height: 1px;
+  background: var(--color-gold);
+}
+
+.subhead {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.3rem, 2.2vw, 1.85rem);
+  line-height: 1.4;
+  color: var(--color-ink-soft);
+  max-width: 38em;
+}
+
+.lead {
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  line-height: 1.65;
+  color: var(--color-ink);
+}
+
+p { max-width: 38em; }
+strong { font-weight: 600; color: var(--color-midnight); }
+em { font-family: var(--font-sub); font-style: italic; font-weight: 500; }
+
+a { color: var(--color-gold-deep); text-decoration: none; border-bottom: 1px solid currentColor; transition: color .2s; }
+a:hover { color: var(--color-wine); }
+
+/* ─── РАЗМЕТКА ─── */
+.container { max-width: var(--max-content); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem); }
+section { padding: var(--space-section) 0; position: relative; }
+
+/* ─── ХАЧКАР-ОРНАМЕНТ (декоративная разделительная линия) ─── */
+.khachkar-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem auto;
+  max-width: 12rem;
+}
+.khachkar-divider svg { width: 100%; height: 28px; }
+
+/* ─── ВЕРХНЯЯ ПЛАШКА КОПИРАЙТА ─── */
+.copyright-strip {
+  background: var(--color-midnight);
+  color: var(--color-parchment);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.55rem 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--color-gold-deep);
+}
+.copyright-strip span { opacity: 0.85; }
+.copyright-strip .dot { color: var(--color-gold); }
+
+/* ─── НАВИГАЦИЯ ─── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(250, 246, 236, 0.94);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid rgba(10, 22, 40, 0.08);
+}
+.nav-inner {
+  max-width: var(--max-content);
+  margin: 0 auto;
+  padding: 1rem clamp(1.25rem, 4vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: var(--color-midnight);
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.brand-mark {
+  width: 28px; height: 28px;
+  background: var(--color-midnight);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-mark svg { width: 16px; height: 16px; fill: var(--color-gold); }
+
+.nav-links {
+  display: flex;
+  gap: 1.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.nav-links a {
+  color: var(--color-ink);
+  border: none;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.nav-links a:hover { color: var(--color-wine); border-bottom-color: var(--color-gold); }
+
+@media (max-width: 880px) {
+  .nav-links { display: none; }
+}
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--color-midnight);
+  color: var(--color-parchment);
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  padding: 6rem 0 8rem;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 20%, rgba(200,155,60,0.18), transparent 55%),
+    radial-gradient(ellipse at 20% 80%, rgba(139,21,56,0.12), transparent 55%);
+  pointer-events: none;
+}
+.hero-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 980px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+}
+
+.hero h1 { color: var(--color-parchment); }
+.hero h1 .accent { color: var(--color-gold-light); font-style: italic; font-weight: 400; }
+.hero .eyebrow { color: var(--color-gold); }
+.hero .eyebrow::before { background: var(--color-gold); }
+
+.hero .lead {
+  color: var(--color-parchment);
+  opacity: 0.88;
+  max-width: 32em;
+  margin-top: 1.6rem;
+}
+.hero-actions {
+  margin-top: 2.6rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.btn {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 1rem 1.8rem;
+  border: 1px solid var(--color-gold);
+  border-radius: 0;
+  cursor: pointer;
+  transition: all .25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: transparent;
+}
+.btn-primary {
+  background: var(--color-gold);
+  color: var(--color-midnight);
+}
+.btn-primary:hover { background: var(--color-gold-light); transform: translateY(-1px); box-shadow: var(--shadow-gold); }
+.btn-secondary { color: var(--color-parchment); border-color: var(--color-parchment); }
+.btn-secondary:hover { background: var(--color-parchment); color: var(--color-midnight); }
+
+/* Силуэт Арарата */
+.ararat-silhouette {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  z-index: 1;
+  pointer-events: none;
+}
+.ararat-silhouette svg { width: 100%; height: 100%; }
+.ararat-silhouette path { fill: var(--color-midnight-soft); }
+
+/* Хорошо: ещё дальний слой гор для глубины */
+.ararat-far {
+  position: absolute;
+  bottom: 25%;
+  left: 0;
+  right: 0;
+  height: 18%;
+  z-index: 0;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.ararat-far path { fill: var(--color-haze); }
+
+/* Луна / солнце восход */
+.celestial {
+  position: absolute;
+  top: 12%;
+  right: 12%;
+  width: clamp(80px, 12vw, 160px);
+  height: clamp(80px, 12vw, 160px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--color-gold-light), var(--color-gold) 60%, transparent 70%);
+  box-shadow: 0 0 80px 20px rgba(200,155,60,0.25);
+  z-index: 0;
+}
+
+.hero-card {
+  position: relative;
+  z-index: 3;
+  background: rgba(244,237,224,0.06);
+  border: 1px solid rgba(200,155,60,0.3);
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+}
+.hero-card .eyebrow { margin-bottom: 1.2rem; }
+.hero-card-title {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--color-gold-light);
+  margin-bottom: 0.5rem;
+}
+.hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.2rem; }
+.hero-stat { border-top: 1px solid rgba(200,155,60,0.3); padding-top: 0.8rem; }
+.hero-stat-num { font-family: var(--font-display); font-size: 1.9rem; font-weight: 800; color: var(--color-parchment); line-height: 1; }
+.hero-stat-label { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-gold-light); margin-top: 0.4rem; opacity: 0.88; }
+
+/* ─── СЕКЦИЯ: ВСТУПЛЕНИЕ АВТОРА ─── */
+.author-intro {
+  background: var(--color-cream);
+  position: relative;
+}
+.author-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+@media (max-width: 880px) { .author-intro-grid { grid-template-columns: 1fr; } }
+
+.author-portrait {
+  background: var(--color-midnight);
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-gold-deep);
+}
+.author-portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(200,155,60,0.22), transparent 60%),
+    repeating-linear-gradient(45deg, transparent 0 12px, rgba(200,155,60,0.04) 12px 24px);
+}
+.author-portrait-monogram {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  z-index: 2;
+}
+.author-portrait-monogram .ka {
+  font-size: 7rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.author-portrait-monogram .name {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  opacity: 0.85;
+}
+
+.author-text h2 { margin-bottom: 1.5rem; }
+.author-text p + p { margin-top: 1.2rem; }
+.signature {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-parchment-dim);
+  font-family: var(--font-sub);
+  font-style: italic;
+  color: var(--color-ink-soft);
+}
+.signature strong {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 600;
+  color: var(--color-midnight);
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+/* ─── ПРОБЛЕМА (3 карточки) ─── */
+.problem { background: var(--color-parchment); }
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+  margin-top: 3rem;
+}
+@media (max-width: 880px) { .problem-grid { grid-template-columns: 1fr; } }
+
+.problem-card {
+  background: var(--color-cream);
+  padding: 2.2rem 2rem;
+  border-left: 3px solid var(--color-wine);
+  position: relative;
+  transition: transform .3s, box-shadow .3s;
+}
+.problem-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.problem-card-num {
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--color-wine);
+  opacity: 0.4;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.problem-card h3 { font-size: 1.3rem; margin-bottom: 0.8rem; color: var(--color-midnight); }
+.problem-card p { font-size: 0.95rem; line-height: 1.6; color: var(--color-ink-soft); }
+
+/* ─── РЕШЕНИЕ — ТРИАДА ─── */
+.triad { background: var(--color-cream); }
+.triad-intro { max-width: 50em; margin: 0 auto 4rem; text-align: center; }
+.triad-intro .eyebrow { justify-content: center; }
+.triad-intro h2 { margin: 1.2rem 0; }
+
+.triad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  position: relative;
+}
+@media (max-width: 880px) { .triad-grid { grid-template-columns: 1fr; } }
+
+.triad-card {
+  background: var(--color-midnight);
+  color: var(--color-parchment);
+  padding: 3rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.triad-card:nth-child(2) { background: var(--color-wine); }
+.triad-card:nth-child(3) { background: var(--color-gold-deep); color: var(--color-cream); }
+
+.triad-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.06) 50%);
+}
+
+.triad-icon {
+  width: 56px; height: 56px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  opacity: 0.85;
+}
+.triad-icon svg { width: 28px; height: 28px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+.triad-card h3 { color: inherit; font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 1rem; }
+.triad-card .triad-list { font-family: var(--font-body); font-size: 0.95rem; line-height: 1.65; opacity: 0.92; }
+.triad-card .triad-list p { margin-bottom: 0.6rem; }
+.triad-card .triad-list strong { color: inherit; }
+.triad-card .triad-summary {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 1.05rem;
+  opacity: 0.95;
+}
+
+/* ─── 21 ШАГ — ВЕРТИКАЛЬНАЯ TIMELINE ─── */
+.process { background: var(--color-parchment); position: relative; }
+.process-intro { max-width: 50em; margin: 0 auto 4rem; text-align: center; }
+.process-intro .eyebrow { justify-content: center; }
+.process-intro h2 { margin: 1.2rem 0; }
+
+/* Фильтры по фазам */
+.phase-filter {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+.phase-filter button {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0.7rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--color-midnight);
+  color: var(--color-midnight);
+  cursor: pointer;
+  transition: all .2s;
+}
+.phase-filter button.active,
+.phase-filter button:hover {
+  background: var(--color-midnight);
+  color: var(--color-parchment);
+}
+
+.timeline {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--color-gold-deep) 5%, var(--color-gold-deep) 95%, transparent);
+  transform: translateX(-50%);
+}
+@media (max-width: 880px) {
+  .timeline::before { left: 18px; }
+}
+
+.step {
+  position: relative;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 2rem;
+  align-items: stretch;
+  transition: opacity .3s;
+}
+.step.hidden { display: none; }
+
+.step-marker {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--color-cream);
+  border: 2px solid var(--color-midnight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--color-midnight);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  transition: all .3s;
+  box-shadow: 0 0 0 6px var(--color-parchment);
+}
+.step.phase-1 .step-marker { border-color: var(--color-midnight); color: var(--color-midnight); }
+.step.phase-2 .step-marker { border-color: var(--color-gold-deep); color: var(--color-gold-deep); }
+.step.phase-3 .step-marker { border-color: var(--color-wine); color: var(--color-wine); }
+.step.phase-4 .step-marker { border-color: var(--color-haze); color: var(--color-haze); }
+
+.step-card {
+  background: var(--color-cream);
+  padding: 1.6rem 1.8rem;
+  border: 1px solid var(--color-parchment-dim);
+  cursor: pointer;
+  transition: all .25s;
+}
+.step-card:hover { box-shadow: var(--shadow-md); border-color: var(--color-gold); }
+
+.step-card-phase {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: rgba(0,0,0,0.04);
+  color: var(--color-ink-soft);
+}
+.step.phase-1 .step-card-phase { background: rgba(10,22,40,0.06); color: var(--color-midnight); }
+.step.phase-2 .step-card-phase { background: rgba(139,104,24,0.08); color: var(--color-gold-deep); }
+.step.phase-3 .step-card-phase { background: rgba(139,21,56,0.08); color: var(--color-wine); }
+.step.phase-4 .step-card-phase { background: rgba(61,79,107,0.08); color: var(--color-haze); }
+
+.step-card-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-midnight);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+}
+.step-card-desc { font-size: 0.93rem; line-height: 1.6; color: var(--color-ink-soft); }
+.step-card-legal {
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px dashed var(--color-parchment-dim);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--color-gold-deep);
+  letter-spacing: 0.04em;
+}
+.step-card-legal::before { content: '§ '; font-weight: 700; }
+
+.step-spacer { /* для нечётной/чётной стороны */ }
+
+@media (min-width: 881px) {
+  .step:nth-child(even) .step-card { grid-column: 3; }
+  .step:nth-child(even) .step-spacer { grid-column: 1; }
+  .step:nth-child(odd) .step-card { grid-column: 1; }
+  .step:nth-child(odd) .step-spacer { grid-column: 3; }
+  .step:nth-child(odd) .step-card { text-align: right; }
+  .step:nth-child(odd) .step-card-phase { float: right; }
+  .step:nth-child(odd) .step-card-phase::after { content: ''; clear: both; display: table; }
+}
+
+@media (max-width: 880px) {
+  .timeline { padding-left: 0; }
+  .step { grid-template-columns: 38px 1fr; gap: 1rem; padding-left: 0; }
+  .step-spacer { display: none; }
+  .step-marker { width: 38px; height: 38px; font-size: 0.95rem; box-shadow: 0 0 0 4px var(--color-parchment); }
+  .step .step-card { grid-column: 2 !important; text-align: left !important; }
+  .step .step-card-phase { float: none !important; }
+}
+
+/* ─── КАЛЬКУЛЯТОР ─── */
+.calculator {
+  background: var(--color-midnight);
+  color: var(--color-parchment);
+  position: relative;
+  overflow: hidden;
+}
+.calculator::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 0%, rgba(200,155,60,0.12), transparent 50%),
+    radial-gradient(ellipse at 0% 100%, rgba(139,21,56,0.08), transparent 50%);
+  pointer-events: none;
+}
+.calculator-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 880px) { .calculator-grid { grid-template-columns: 1fr; gap: 2rem; } }
+
+.calc-text h2 { color: var(--color-parchment); }
+.calc-text .eyebrow { color: var(--color-gold); }
+.calc-text .eyebrow::before { background: var(--color-gold); }
+.calc-text .lead { color: var(--color-parchment); opacity: 0.88; max-width: 32em; margin-top: 1.2rem; }
+
+.calc-inputs {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(200,155,60,0.3);
+}
+.calc-input-group { margin-bottom: 1.6rem; }
+.calc-input-group label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  margin-bottom: 0.6rem;
+}
+.calc-input-group input[type="number"],
+.calc-input-group input[type="range"] {
+  width: 100%;
+  background: transparent;
+  color: var(--color-parchment);
+  border: none;
+  border-bottom: 1px solid var(--color-gold);
+  padding: 0.5rem 0;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.calc-input-group input[type="number"]:focus { outline: none; border-bottom-color: var(--color-gold-light); }
+
+.calc-row { display: flex; gap: 1.5rem; align-items: baseline; }
+.calc-row input[type="range"] { flex: 1; appearance: none; -webkit-appearance: none; height: 4px; background: rgba(200,155,60,0.3); border: none; padding: 0; cursor: pointer; }
+.calc-row input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--color-gold); cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+.calc-row input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--color-gold); border: none; cursor: pointer; }
+.calc-row .calc-readout { font-family: var(--font-display); font-size: 1.2rem; color: var(--color-gold-light); min-width: 4em; text-align: right; }
+
+.calc-currency-toggle { display: inline-flex; gap: 0; margin-bottom: 1.4rem; border: 1px solid var(--color-gold); }
+.calc-currency-toggle button {
+  background: transparent;
+  border: none;
+  color: var(--color-parchment);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  transition: all .2s;
+}
+.calc-currency-toggle button.active { background: var(--color-gold); color: var(--color-midnight); }
+
+.calc-results {
+  background: rgba(244,237,224,0.06);
+  border: 1px solid rgba(200,155,60,0.2);
+  padding: 2.2rem 2rem;
+}
+.calc-results h3 {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--color-gold-light);
+  margin-bottom: 1.5rem;
+}
+.calc-result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(200,155,60,0.15);
+}
+.calc-result-row:last-of-type { border-bottom: none; }
+.calc-result-label { font-size: 0.95rem; color: var(--color-parchment); opacity: 0.85; }
+.calc-result-value { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; color: var(--color-parchment); }
+.calc-result-value .pct { font-family: var(--font-sub); font-style: italic; font-size: 0.85em; opacity: 0.7; margin-left: 0.4rem; }
+
+.calc-total {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--color-gold);
+  color: var(--color-midnight);
+}
+.calc-total .calc-result-label { color: var(--color-midnight); opacity: 1; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-ui); font-size: 0.78rem; }
+.calc-total .calc-result-value { color: var(--color-midnight); font-size: 2rem; font-weight: 800; }
+
+.calc-note {
+  margin-top: 1.2rem;
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--color-gold-light);
+  opacity: 0.85;
+}
+
+/* ─── ЦИФРЫ ПИЛОТА ─── */
+.numbers { background: var(--color-cream); }
+.numbers-intro { text-align: center; max-width: 50em; margin: 0 auto 4rem; }
+.numbers-intro .eyebrow { justify-content: center; }
+.numbers-intro h2 { margin: 1.2rem 0; }
+
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--color-parchment-dim);
+  border-bottom: 1px solid var(--color-parchment-dim);
+}
+@media (max-width: 880px) { .numbers-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.number-cell {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  border-right: 1px solid var(--color-parchment-dim);
+  position: relative;
+}
+.number-cell:last-child { border-right: none; }
+@media (max-width: 880px) {
+  .number-cell:nth-child(2n) { border-right: none; }
+  .number-cell:nth-child(-n+2) { border-bottom: 1px solid var(--color-parchment-dim); }
+}
+
+.number-big {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 800;
+  color: var(--color-midnight);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.number-big .unit { font-family: var(--font-sub); font-style: italic; font-weight: 400; color: var(--color-gold-deep); margin-left: 0.15em; }
+.number-label {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+/* ─── ДОРОЖНАЯ КАРТА — 4 ФАЗЫ ─── */
+.roadmap { background: var(--color-parchment); }
+.roadmap-intro { max-width: 50em; margin: 0 auto 4rem; text-align: center; }
+.roadmap-intro .eyebrow { justify-content: center; }
+.roadmap-intro h2 { margin: 1.2rem 0; }
+
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+}
+@media (max-width: 880px) { .roadmap-grid { grid-template-columns: 1fr; } }
+
+.phase-card {
+  background: var(--color-cream);
+  padding: 2rem 1.6rem;
+  position: relative;
+  border-top: 4px solid var(--color-gold);
+  transition: transform .3s, box-shadow .3s;
+}
+.phase-card:nth-child(1) { border-top-color: var(--color-haze); }
+.phase-card:nth-child(2) { border-top-color: var(--color-gold); }
+.phase-card:nth-child(3) { border-top-color: var(--color-wine); }
+.phase-card:nth-child(4) { border-top-color: var(--color-midnight); }
+.phase-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+.phase-num {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  font-weight: 600;
+  color: var(--color-gold-deep);
+  margin-bottom: 0.6rem;
+}
+.phase-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+  color: var(--color-midnight);
+}
+.phase-period {
+  font-family: var(--font-sub);
+  font-style: italic;
+  color: var(--color-ink-soft);
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+.phase-content {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--color-ink);
+}
+.phase-content ul { padding-left: 1.1rem; margin-top: 0.5rem; }
+.phase-content li { margin-bottom: 0.4rem; }
+.phase-gate {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--color-parchment-dim);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--color-wine);
+  font-weight: 500;
+}
+.phase-gate::before { content: '◆ '; color: var(--color-gold); }
+
+/* ─── ПРАВОВАЯ ОСНОВА ─── */
+.legal { background: var(--color-midnight); color: var(--color-parchment); }
+.legal h2 { color: var(--color-parchment); }
+.legal .eyebrow { color: var(--color-gold); }
+.legal .eyebrow::before { background: var(--color-gold); }
+
+.legal-intro { max-width: 50em; margin: 0 auto 4rem; text-align: center; }
+.legal-intro .eyebrow { justify-content: center; }
+.legal-intro .lead { color: var(--color-parchment); opacity: 0.85; }
+
+.legal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+@media (max-width: 720px) { .legal-grid { grid-template-columns: 1fr; } }
+
+.legal-doc {
+  background: rgba(244,237,224,0.05);
+  border: 1px solid rgba(200,155,60,0.25);
+  padding: 1.6rem 1.4rem;
+  transition: all .25s;
+}
+.legal-doc:hover { background: rgba(244,237,224,0.08); border-color: var(--color-gold); transform: translateY(-2px); }
+
+.legal-doc-id {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin-bottom: 0.5rem;
+}
+.legal-doc h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-parchment);
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+}
+.legal-doc p { font-size: 0.85rem; line-height: 1.55; color: var(--color-parchment); opacity: 0.78; max-width: none; }
+.legal-doc-meta {
+  margin-top: 0.8rem;
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--color-gold-light);
+  opacity: 0.8;
+}
+
+/* ─── СЕМЬ ПРЕИМУЩЕСТВ ─── */
+.advantages { background: var(--color-cream); }
+.advantages-intro { max-width: 50em; margin: 0 auto 4rem; text-align: center; }
+.advantages-intro .eyebrow { justify-content: center; }
+.advantages-intro h2 { margin: 1.2rem 0; }
+
+.adv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0;
+  border: 1px solid var(--color-parchment-dim);
+}
+.adv-cell {
+  padding: 2rem 1.8rem;
+  border-right: 1px solid var(--color-parchment-dim);
+  border-bottom: 1px solid var(--color-parchment-dim);
+  position: relative;
+  background: var(--color-cream);
+  transition: background .25s;
+}
+.adv-cell:hover { background: var(--color-parchment); }
+.adv-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-gold-deep);
+  margin-bottom: 0.8rem;
+}
+.adv-cell h4 {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--color-midnight);
+  margin-bottom: 0.7rem;
+  letter-spacing: -0.01em;
+}
+.adv-cell p { font-size: 0.92rem; line-height: 1.55; color: var(--color-ink-soft); }
+
+/* ─── ОБ АВТОРЕ + КОНТАКТЫ ─── */
+.contacts { background: var(--color-midnight); color: var(--color-parchment); }
+.contacts h2 { color: var(--color-parchment); }
+.contacts .eyebrow { color: var(--color-gold); }
+.contacts .eyebrow::before { background: var(--color-gold); }
+
+.contacts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 4rem;
+  align-items: start;
+}
+@media (max-width: 880px) { .contacts-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+.contacts-left .author-portrait { aspect-ratio: 4/5; }
+
+.contacts-bio { margin-top: 1.5rem; }
+.contacts-bio h3 { color: var(--color-parchment); font-size: 1.4rem; margin-bottom: 0.4rem; }
+.contacts-bio .role { font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light); font-size: 1.05rem; margin-bottom: 1rem; }
+.contacts-bio p { color: var(--color-parchment); opacity: 0.85; font-size: 0.95rem; line-height: 1.65; }
+
+.contact-rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2.5rem;
+  margin-top: 2rem;
+}
+@media (max-width: 600px) { .contact-rows { grid-template-columns: 1fr; gap: 1.2rem; } }
+
+.contact-row {
+  border-top: 1px solid rgba(200,155,60,0.25);
+  padding-top: 1rem;
+}
+.contact-row .label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  margin-bottom: 0.3rem;
+}
+.contact-row .value {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-parchment);
+  font-weight: 500;
+}
+.contact-row .value a { color: var(--color-parchment); border-bottom-color: rgba(200,155,60,0.4); }
+.contact-row .value a:hover { color: var(--color-gold-light); }
+
+.socials {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(200,155,60,0.25);
+}
+.socials-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  margin-bottom: 1rem;
+}
+.socials-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: rgba(244,237,224,0.06);
+  border: 1px solid rgba(200,155,60,0.3);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--color-parchment);
+  border-bottom: 1px solid rgba(200,155,60,0.3);
+  transition: all .2s;
+}
+.social:hover { background: var(--color-gold); color: var(--color-midnight); border-color: var(--color-gold); }
+.social .icon { width: 14px; height: 14px; opacity: 0.85; }
+
+/* ─── ФУТЕР ─── */
+.footer {
+  background: #050b14;
+  color: var(--color-parchment);
+  padding: 4rem 0 2rem;
+  border-top: 1px solid var(--color-gold-deep);
+  position: relative;
+}
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px; height: 80px;
+  background: var(--color-midnight);
+  border: 1px solid var(--color-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer-mark {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px; height: 80px;
+  background: var(--color-midnight);
+  border: 1px solid var(--color-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.footer-mark svg { width: 32px; height: 32px; fill: var(--color-gold); }
+
+.footer-content { text-align: center; max-width: 60em; margin: 0 auto; }
+.footer-doc-id { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--color-gold-light); margin-bottom: 1rem; }
+.footer-copy {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-parchment);
+  opacity: 0.85;
+  margin-bottom: 1rem;
+}
+.footer-conv {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--color-parchment);
+  opacity: 0.6;
+  letter-spacing: 0.06em;
+  line-height: 1.65;
+}
+.footer-bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(200,155,60,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--color-parchment);
+  opacity: 0.55;
+}
+
+/* ─── АНИМАЦИИ ПРИ СКРОЛЛЕ ─── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ─── ПЕЧАТЬ ─── */
+@media print {
+  body::before { display: none; }
+  .nav, .calculator, .hero-actions { display: none; }
+  body { background: white; color: black; }
+  section { padding: 1rem 0; page-break-inside: avoid; }
+  .copyright-strip { background: white; color: black; border-bottom: 1px solid black; }
+}
+
+/* ─── СКРОЛЛБАР ─── */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-parchment); }
+::-webkit-scrollbar-thumb { background: var(--color-gold-deep); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-midnight); }
+</style>
+</head>
+
+<body>
+
+<a href="index.html" onclick="if(document.referrer&&document.referrer.indexOf(location.origin)===0){event.preventDefault();history.back();}" style="position:fixed;top:18px;left:22px;z-index:99999;background:rgba(0,0,0,0.78);color:#fff;font-family:Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:1.2px;padding:9px 18px;border-radius:24px;text-decoration:none;border:1px solid rgba(95,163,233,0.5);text-transform:uppercase;">← На сайт Аслана Каа</a>
+
+<!-- Верхняя плашка копирайта -->
+<div class="copyright-strip">
+  <span>© Кагиров Абдул-Хаким Ахмадович, 2026</span>
+  <span class="dot">◆</span>
+  <span>Документ NK-HTML-001/2026</span>
+  <span class="dot">◆</span>
+  <span>Universal Copyright Convention · Geneva 1952</span>
+  <span class="dot">◆</span>
+  <span>Все права защищены</span>
+</div>
+
+<!-- Навигация -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24"><path d="M2,16 Q6,12 12,14 T22,16 L22,18 Q18,20 12,18 T2,18 Z M5,14 Q6,8 12,8 Q18,8 19,14 L17,14 Q16,11 12,11 Q8,11 7,14 Z"/></svg>
+      </span>
+      Ноев Ковчег
+    </a>
+    <div class="nav-links">
+      <a href="#problem">Проблема</a>
+      <a href="#triad">Решение</a>
+      <a href="#process">21 шаг</a>
+      <a href="#calculator">Калькулятор</a>
+      <a href="#numbers">Цифры пилота</a>
+      <a href="#roadmap">Дорожная карта</a>
+      <a href="#contacts">Контакты</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="celestial"></div>
+
+  <div class="ararat-far">
+    <svg viewBox="0 0 1200 200" preserveAspectRatio="none">
+      <path d="M0,200 L150,90 L280,140 L420,60 L580,110 L740,70 L900,130 L1050,80 L1200,120 L1200,200 Z"/>
+    </svg>
+  </div>
+
+  <div class="ararat-silhouette">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+      <!-- Большой Арарат (Մասիս) и Малый Арарат (Սիս) — характерный двупиковый силуэт -->
+      <path d="M0,400 L80,320 L160,280 L240,240 L340,200 L420,160 L490,90 L560,40 L620,20 L680,60 L740,140 L800,200 L860,250 L920,210 L980,170 L1040,200 L1100,250 L1160,290 L1200,310 L1200,400 Z"/>
+    </svg>
+  </div>
+
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Цифровая платформа · Республика Армения · 2026</span>
+        <h1 style="margin-top: 1.5rem;">
+          Платформа<br>
+          <span class="accent">Ноев Ковчег</span>
+        </h1>
+        <p class="lead">
+          Институциональный механизм внебюджетного финансирования национальных проектов Республики Армения через токенизацию залоговой недвижимости резидентов и армянской диаспоры.
+        </p>
+        <div class="hero-actions">
+          <a href="#triad" class="btn btn-primary" style="text-decoration: none; border-bottom: 1px solid var(--color-gold);">
+            Узнать суть проекта
+            <span style="font-family: var(--font-display); font-size: 1.2em;">→</span>
+          </a>
+          <a href="#calculator" class="btn btn-secondary" style="text-decoration: none;">
+            Калькулятор для собственника
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <span class="eyebrow">Ключевые параметры</span>
+        <div class="hero-card-title">Пилотный пул, 7-летний цикл</div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num">€100M</div>
+            <div class="hero-stat-label">Размер пула</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">5.5%</div>
+            <div class="hero-stat-label">Senior купон</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">13.5%</div>
+            <div class="hero-stat-label">Junior до</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">4.4%</div>
+            <div class="hero-stat-label">Собственнику сверху</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">21</div>
+            <div class="hero-stat-label">Шаг процесса</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">HO-159-N</div>
+            <div class="hero-stat-label">Закон РА</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- АВТОР: ВСТУПИТЕЛЬНОЕ СЛОВО -->
+<section class="author-intro" id="author-intro">
+  <div class="container">
+    <div class="author-intro-grid">
+      <div class="author-portrait">
+        <div class="author-portrait-monogram">
+          <div class="ka">К</div>
+          <div class="name">Кагиров А-Х. А.</div>
+        </div>
+      </div>
+      <div class="author-text">
+        <span class="eyebrow">Вступительное слово автора</span>
+        <h2 style="margin-top: 1.2rem;">Ноев Ковчег — символ собрания и спасения</h2>
+        <p class="lead" style="margin-top: 1.5rem;">
+          Замысел этой Платформы пришёл ко мне в момент, когда стало ясно: финансовый суверенитет страны и благосостояние её народа всё чаще решаются не через классические инструменты, а через новые формы — токенизацию реальных активов, привлечение диаспорального капитала, прозрачные цифровые реестры.
+        </p>
+        <p>
+          Республика Армения — государство с тысячелетней историей и семимиллионной диаспорой по всему миру. Армения — одна из первых стран нашего региона, принявшая полноценный закон о криптоактивах европейского образца. Это редкое и удачное стечение обстоятельств: правовая зрелость, готовность диаспоры, технологическая база и политическая воля.
+        </p>
+        <p>
+          Платформа «Ноев Ковчег» собирает в одной конструкции три стороны, которые исторически не могли встретиться: собственника недвижимости в Армении, инвестора-диаспорального соотечественника, и государство, нуждающееся в ускоренном развитии национальных проектов. Все три стороны — в выигрыше. Никто не теряет.
+        </p>
+        <div class="signature">
+          С уважением,
+          <strong>Кагиров Абдул-Хаким Ахмадович</strong>
+          Автор и правообладатель проекта · 2026
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ХАЧКАР-РАЗДЕЛИТЕЛЬ -->
+<div class="khachkar-divider" aria-hidden="true">
+  <svg viewBox="0 0 200 28" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#c89b3c" stroke-width="0.8">
+      <line x1="0" y1="14" x2="60" y2="14"/>
+      <line x1="140" y1="14" x2="200" y2="14"/>
+      <circle cx="80" cy="14" r="6"/>
+      <circle cx="120" cy="14" r="6"/>
+      <circle cx="100" cy="14" r="10"/>
+      <path d="M100,4 L100,24 M90,14 L110,14"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ПРОБЛЕМА -->
+<section class="problem" id="problem">
+  <div class="container">
+    <span class="eyebrow">Реальность сегодня</span>
+    <h2 style="margin-top: 1.2rem; max-width: 18em;">Три ограничения, которые сдерживают развитие Армении</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-card-num">01</div>
+        <h3>Бюджет ограничен</h3>
+        <p>Темпы реализации национальных проектов сдерживаются объёмом доходной части бюджета и условиями международных кредиторов. Внешний долг расти бесконечно не может; ставки на внешних рынках высоки.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-num">02</div>
+        <h3>Диаспора не вовлечена</h3>
+        <p>Семь миллионов армян за рубежом располагают десятками миллиардов долларов капитала. Сегодня нет ни одного юридически чистого, прозрачного и доходного инструмента, специально созданного для инвестиций диаспоры в Родину.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-card-num">03</div>
+        <h3>Спящие активы</h3>
+        <p>Сотни тысяч квартир, домов и земельных участков в Армении принадлежат собственникам, которые не используют их активно. Этот колоссальный «спящий капитал» — ресурс для финансирования инфраструктуры без потери владения.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- РЕШЕНИЕ — ТРИАДА -->
+<section class="triad" id="triad">
+  <div class="container">
+    <div class="triad-intro">
+      <span class="eyebrow">Триединое решение</span>
+      <h2>Все три стороны — в выигрыше одновременно</h2>
+      <p class="subhead">Платформа соединяет собственника, инвестора и государство в одной конструкции, где интересы каждого реализуются без ущерба для остальных.</p>
+    </div>
+
+    <div class="triad-grid">
+      <article class="triad-card">
+        <span class="triad-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3,12 L12,4 L21,12 M5,10 L5,20 L19,20 L19,10"/></svg>
+        </span>
+        <h3>Собственник</h3>
+        <div class="triad-list">
+          <p><strong>Актив остаётся у него</strong> — недвижимость не продаётся и не передаётся в банк, на неё накладывается лишь временное обременение в Кадастре РА.</p>
+          <p><strong>Купон 2.75% годовых</strong> в драмах — ежемесячные выплаты на весь срок цикла.</p>
+          <p><strong>Бесплатная страховка</strong> актива от форс-мажора — покрывается платформой как часть программы.</p>
+          <p><strong>0% налога на имущество</strong> за период обременения.</p>
+          <p><strong>Бонус 7–8%</strong> от стоимости актива при возврате в конце цикла.</p>
+          <p><strong>Статус «Соинвестор Армении»</strong> — официально подтверждённый правительством.</p>
+        </div>
+        <div class="triad-summary">≈ 4.4% годовых сверх альтернатив без потери владения активом</div>
+      </article>
+
+      <article class="triad-card">
+        <span class="triad-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12,3 L12,21 M3,12 L21,12 M5.5,5.5 L18.5,18.5 M18.5,5.5 L5.5,18.5"/></svg>
+        </span>
+        <h3>Инвестор</h3>
+        <div class="triad-list">
+          <p><strong>Старший транш — 5.5% купон</strong>, 7 лет, бюджетная гарантия Минфина РА. Подходит для Минфина, ЕБРР, Всемирного банка, IFC и консервативной диаспоры.</p>
+          <p><strong>Младший транш (ART) — до 13.5% годовых</strong> через рост NAV пула. Подходит для крипто-диаспоры и фондов с риск-аппетитом.</p>
+          <p><strong>Реальное обеспечение</strong> — пул залоговой армянской недвижимости плюс страховка плюс гарантия казны.</p>
+          <p><strong>0% налога на крипто-прирост</strong> для физлиц-нерезидентов в Армении — преимущество перед Грузией, Кипром, ОАЭ.</p>
+          <p><strong>Прозрачность DLT</strong> — каждая транзакция и состав пула публично проверяемы в реальном времени.</p>
+        </div>
+        <div class="triad-summary">Самый защищённый цифровой актив региона с двойным обеспечением</div>
+      </article>
+
+      <article class="triad-card">
+        <span class="triad-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3,21 L21,21 M5,21 L5,9 L9,9 L9,21 M11,21 L11,5 L13,5 L13,21 M15,21 L15,11 L19,11 L19,21 M2,9 L12,3 L22,9"/></svg>
+        </span>
+        <h3>Государство</h3>
+        <div class="triad-list">
+          <p><strong>До €1 млрд</strong> внебюджетного финансирования национальных проектов.</p>
+          <p><strong>Без увеличения внешнего государственного долга</strong> — деньги привлекаются от частных инвесторов, не от МВФ или Всемирного банка.</p>
+          <p><strong>Ускорение национальных программ на 5–7 лет</strong> — то, что планировалось на 10 лет, можно реализовать за 3–5.</p>
+          <p><strong>Финансовый суверенитет</strong> — без условий и оговорок международных кредиторов.</p>
+          <p><strong>Армения становится региональным финансовым хабом</strong> для подобных конструкций — модель тиражируется на Грузию, Казахстан, страны Залива, Балканы. Головной офис, IP и регуляторная экспертиза остаются в Ереване.</p>
+        </div>
+        <div class="triad-summary">Долгосрочное стратегическое позиционирование РА</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 21 ШАГ ПРОЦЕССА -->
+<section class="process" id="process">
+  <div class="container">
+    <div class="process-intro">
+      <span class="eyebrow">Жизненный цикл актива</span>
+      <h2>21 шаг — от регистрации до возврата</h2>
+      <p class="subhead">Каждый шаг привязан к конкретной статье Закона РА HO-159-N или Регламентам ЦБ РА 7/01–7/05 и проверяем в публичном правовом поле.</p>
+    </div>
+
+    <div class="phase-filter" role="tablist">
+      <button class="active" data-phase="all">Все 21 шаг</button>
+      <button data-phase="1">Фаза 1 · Накопление пула</button>
+      <button data-phase="2">Фаза 2 · Выпуск траншей</button>
+      <button data-phase="3">Фаза 3 · Реализация</button>
+      <button data-phase="4">Фаза 4 · Закрытие цикла</button>
+    </div>
+
+    <div class="timeline" id="timeline">
+      <!-- Фаза 1 -->
+      <div class="step phase-1">
+        <article class="step-card">
+          <span class="step-card-phase">Накопление пула</span>
+          <h4 class="step-card-title">Регистрация собственника</h4>
+          <p class="step-card-desc">Собственник недвижимости — резидент РА или представитель диаспоры — регистрируется в приложении через ID РА или e-passport.</p>
+          <div class="step-card-legal">HO-159-N ст. 3, 32 · Регл. ЦБ РА 7/01 п. 4–6</div>
+        </article>
+        <div class="step-marker">01</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <div class="step phase-1">
+        <div class="step-spacer"></div>
+        <div class="step-marker">02</div>
+        <article class="step-card">
+          <span class="step-card-phase">Накопление пула</span>
+          <h4 class="step-card-title">KYC / AML</h4>
+          <p class="step-card-desc">Идентификация и проверка по нормам ПОД/ФТ. Процедуру выполняет банк-партнёр СП с использованием своей инфраструктуры.</p>
+          <div class="step-card-legal">Закон РА «О ПОД/ФТ» · Регл. 7/01 п. 7–9 · FATF Travel Rule</div>
+        </article>
+      </div>
+
+      <div class="step phase-1">
+        <article class="step-card">
+          <span class="step-card-phase">Накопление пула</span>
+          <h4 class="step-card-title">Декларация актива</h4>
+          <p class="step-card-desc">Собственник загружает правоустанавливающие документы на квартиру, дом, землю или коммерческую недвижимость.</p>
+          <div class="step-card-legal">ГК РА ст. 130–141 · Закон «О гос. кадастре» ст. 17</div>
+        </article>
+        <div class="step-marker">03</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <div class="step phase-1">
+        <div class="step-spacer"></div>
+        <div class="step-marker">04</div>
+        <article class="step-card">
+          <span class="step-card-phase">Накопление пула</span>
+          <h4 class="step-card-title">Независимая оценка</h4>
+          <p class="step-card-desc">Лицензированный армянский оценщик проводит оценку рыночной стоимости актива. Расходы несёт платформа.</p>
+          <div class="step-card-legal">Закон РА «Об оценочной деятельности»</div>
+        </article>
+      </div>
+
+      <div class="step phase-1">
+        <article class="step-card">
+          <span class="step-card-phase">Накопление пула</span>
+          <h4 class="step-card-title">Страхование актива</h4>
+          <p class="step-card-desc">Армянский страховщик-партнёр обеспечивает страховое покрытие актива на весь срок цикла. Бесплатно для собственника.</p>
+          <div class="step-card-legal">Закон РА «О страховании» · договор партнёрства</div>
+        </article>
+        <div class="step-marker">05</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <div class="step phase-1">
+        <div class="step-spacer"></div>
+        <div class="step-marker">06</div>
+        <article class="step-card">
+          <span class="step-card-phase">Накопление пула</span>
+          <h4 class="step-card-title">Выпуск CFA1</h4>
+          <p class="step-card-desc">Платформа выпускает utility-токен, представляющий долю собственника в пуле: 1 CFA1 = 1 AMD оценочной стоимости. Whitepaper по Регламенту 7/04.</p>
+          <div class="step-card-legal">HO-159-N ст. 3, 16(5) · Регл. ЦБ РА 7/04</div>
+        </article>
+      </div>
+
+      <div class="step phase-1">
+        <article class="step-card">
+          <span class="step-card-phase">Накопление пула</span>
+          <h4 class="step-card-title">Кастоди и обременение</h4>
+          <p class="step-card-desc">CFA1 поступает в кастоди-эскроу платформы. На актив накладывается временное обременение в Государственном кадастре недвижимости РА на срок 7–10 лет.</p>
+          <div class="step-card-legal">HO-159-N ст. 16(3) · Регл. 7/01+7/02 · ГК РА ст. 244–249 · Закон «О кадастре» ст. 27</div>
+        </article>
+        <div class="step-marker">07</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <div class="step phase-1">
+        <div class="step-spacer"></div>
+        <div class="step-marker">08</div>
+        <article class="step-card">
+          <span class="step-card-phase">Накопление пула</span>
+          <h4 class="step-card-title">Старт ежемесячного купона</h4>
+          <p class="step-card-desc">Стартует выплата купона 2.75% годовых в драмах ежемесячно. Параллельно начинается отсчёт бонуса 7–8% к концу цикла.</p>
+          <div class="step-card-legal">НК РА ст. 134 · HO-159-N (выплаты CASP) · в Фазе 2 — 0% на купон до €10k/год</div>
+        </article>
+      </div>
+
+      <!-- Фаза 2 -->
+      <div class="step phase-2">
+        <article class="step-card">
+          <span class="step-card-phase">Выпуск траншей</span>
+          <h4 class="step-card-title">Публикация Whitepaper</h4>
+          <p class="step-card-desc">Когда пул достигает целевого размера €100M, платформа публикует whitepaper по форме Регламента ЦБ 7/04 с описанием обеих траншей, рисков и финмодели.</p>
+          <div class="step-card-legal">HO-159-N ст. 5–14 · Регл. ЦБ РА 7/04 целиком</div>
+        </article>
+        <div class="step-marker">09</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <div class="step phase-2">
+        <div class="step-spacer"></div>
+        <div class="step-marker">10</div>
+        <article class="step-card">
+          <span class="step-card-phase">Выпуск траншей</span>
+          <h4 class="step-card-title">Подтверждение ЦБ РА</h4>
+          <p class="step-card-desc">Центральный банк Армении как надзорный регулятор проверяет соответствие whitepaper требованиям и не блокирует размещение.</p>
+          <div class="step-card-legal">HO-159-N ст. 6 · Регл. 7/01 п. 30+</div>
+        </article>
+      </div>
+
+      <div class="step phase-2">
+        <article class="step-card">
+          <span class="step-card-phase">Выпуск траншей</span>
+          <h4 class="step-card-title">Senior Tranche · 70%</h4>
+          <p class="step-card-desc">Выпуск токенизированной инфраструктурной облигации: купон 5.5% годовых, срок 7 лет, бюджетная гарантия Минфина РА. Покупатели: Минфин (20%), ЕБРР/ВБ/IFC (40%), консервативная диаспора (40%).</p>
+          <div class="step-card-legal">Закон РА «О рынке ценных бумаг» · надзор ЦБ РА</div>
+        </article>
+        <div class="step-marker">11</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <div class="step phase-2">
+        <div class="step-spacer"></div>
+        <div class="step-marker">12</div>
+        <article class="step-card">
+          <span class="step-card-phase">Выпуск траншей</span>
+          <h4 class="step-card-title">Junior Tranche (ART) · 30%</h4>
+          <p class="step-card-desc">Выпуск asset-referenced токена по HO-159-N: цена привязана к NAV пула, целевая доходность 10.5–13.5% годовых через рост стоимости пула. Капитал эмитента 200 млн AMD.</p>
+          <div class="step-card-legal">HO-159-N ст. 16(5–6) · Регл. 7/04 · Регл. 7/02</div>
+        </article>
+      </div>
+
+      <div class="step phase-2">
+        <article class="step-card">
+          <span class="step-card-phase">Выпуск траншей</span>
+          <h4 class="step-card-title">Зачисление в Фонд «Ноев Ковчег»</h4>
+          <p class="step-card-desc">Привлечённые €100M зачисляются в специальный escrow-счёт под двойным контролем — Минфин РА + независимый трасти.</p>
+          <div class="step-card-legal">Закон РА «О бюджетной системе» · Постановление Правительства РА о Фонде</div>
+        </article>
+        <div class="step-marker">13</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <!-- Фаза 3 -->
+      <div class="step phase-3">
+        <div class="step-spacer"></div>
+        <div class="step-marker">14</div>
+        <article class="step-card">
+          <span class="step-card-phase">Реализация проектов</span>
+          <h4 class="step-card-title">Финансирование национальных проектов</h4>
+          <p class="step-card-desc">Минфин РА финансирует из Фонда конкретные нац. проекты — школы, больницы, дороги, агрокомплексы, IT-кампусы — по программе, утверждённой Парламентом РА.</p>
+          <div class="step-card-legal">Закон РА «О публичных закупках» · бюджетное право</div>
+        </article>
+      </div>
+
+      <div class="step phase-3">
+        <article class="step-card">
+          <span class="step-card-phase">Реализация проектов</span>
+          <h4 class="step-card-title">Стройка и независимый аудит</h4>
+          <p class="step-card-desc">Заказчики-госорганизации проводят строительство под контролем платформы и независимого аудитора. Прозрачность расходов через DLT.</p>
+          <div class="step-card-legal">Закон «О градостроительстве» · Закон «Об аудите» · стандарты IFRS</div>
+        </article>
+        <div class="step-marker">15</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <div class="step phase-3">
+        <div class="step-spacer"></div>
+        <div class="step-marker">16</div>
+        <article class="step-card">
+          <span class="step-card-phase">Реализация проектов</span>
+          <h4 class="step-card-title">Возврат cash flow в Фонд</h4>
+          <p class="step-card-desc">Часть коммерчески окупаемых объектов (агро, туризм, платная инфраструктура) генерирует денежный поток, поступающий в Фонд для выплаты купонов держателям траншей.</p>
+          <div class="step-card-legal">Концессионное право РА · договоры PPP · Фаза 2 — автоматизация смарт-контрактом</div>
+        </article>
+      </div>
+
+      <div class="step phase-3">
+        <article class="step-card">
+          <span class="step-card-phase">Реализация проектов</span>
+          <h4 class="step-card-title">Обновление NAV пула</h4>
+          <p class="step-card-desc">NAV пула обновляется ежеквартально с учётом построенных объектов. Стоимость junior tranche отражает рост.</p>
+          <div class="step-card-legal">HO-159-N ст. 21 (требования к ART-эмитенту) · IFRS 13 (Fair Value)</div>
+        </article>
+        <div class="step-marker">17</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <!-- Фаза 4 -->
+      <div class="step phase-4">
+        <div class="step-spacer"></div>
+        <div class="step-marker">18</div>
+        <article class="step-card">
+          <span class="step-card-phase">Закрытие цикла</span>
+          <h4 class="step-card-title">Погашение Senior Tranche</h4>
+          <p class="step-card-desc">На седьмом году Минфин РА в комбинации с накопленным cash flow проектов выкупает старшие долговые токены по номиналу. Инвесторы получают тело + все купоны за 7 лет.</p>
+          <div class="step-card-legal">Закон «О РЦБ» · ГК РА ст. 408+ · Фаза 2 — погашение цифровым драмом ЦБ РА</div>
+        </article>
+      </div>
+
+      <div class="step phase-4">
+        <article class="step-card">
+          <span class="step-card-phase">Закрытие цикла</span>
+          <h4 class="step-card-title">Выкуп Junior Tranche</h4>
+          <p class="step-card-desc">Эмитент (CASP) выкупает ART по обновлённому NAV у держателей, желающих выйти. Часть инвесторов остаётся в пуле — он переходит в новый цикл (revolving fund).</p>
+          <div class="step-card-legal">HO-159-N ст. 22 (право выкупа ART) · Регл. 7/04</div>
+        </article>
+        <div class="step-marker">19</div>
+        <div class="step-spacer"></div>
+      </div>
+
+      <div class="step phase-4">
+        <div class="step-spacer"></div>
+        <div class="step-marker">20</div>
+        <article class="step-card">
+          <span class="step-card-phase">Закрытие цикла</span>
+          <h4 class="step-card-title">Снятие обременения и выплата собственнику</h4>
+          <p class="step-card-desc">Обременения с активов собственников снимаются в Кадастре РА. Собственники получают: актив (он всё это время был у них) + накопленные купоны 2.75% × 7 лет ≈ 19% + бонус 7–8%.</p>
+          <div class="step-card-legal">Закон «О кадастре» ст. 28 · ГК РА ст. 250</div>
+        </article>
+      </div>
+
+      <div class="step phase-4">
+        <article class="step-card">
+          <span class="step-card-phase">Закрытие цикла</span>
+          <h4 class="step-card-title">Опциональное реинвестирование</h4>
+          <p class="step-card-desc">Собственник может реинвестировать актив в новый цикл с повышенным купоном tier-2 и бонусом «Соинвестора-Ветерана». Запускается следующий пул.</p>
+          <div class="step-card-legal">HO-159-N ст. 16(5) · договорное право РА · Фаза 2 — автоматизация v2</div>
+        </article>
+        <div class="step-marker">21</div>
+        <div class="step-spacer"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КАЛЬКУЛЯТОР ДЛЯ СОБСТВЕННИКА -->
+<section class="calculator" id="calculator">
+  <div class="container">
+    <div class="calculator-grid">
+      <div class="calc-text">
+        <span class="eyebrow">Калькулятор</span>
+        <h2>Что получает собственник за свой актив</h2>
+        <p class="lead">Введите оценочную стоимость вашей недвижимости — рассчитаем все составляющие дохода за полный цикл 7 лет: купон, бесплатную страховку, экономию на налоге, бонус и итоговую сумму в денежном эквиваленте.</p>
+
+        <div class="calc-inputs">
+          <div class="calc-currency-toggle" role="tablist" aria-label="Валюта">
+            <button class="active" data-currency="EUR">€ Евро</button>
+            <button data-currency="USD">$ Доллар</button>
+            <button data-currency="AMD">֏ Драм</button>
+          </div>
+
+          <div class="calc-input-group">
+            <label for="assetValue">Оценочная стоимость актива</label>
+            <input type="number" id="assetValue" value="200000" min="10000" step="1000" inputmode="numeric" />
+          </div>
+
+          <div class="calc-input-group">
+            <label for="cycleYears">Срок цикла (лет)</label>
+            <div class="calc-row">
+              <input type="range" id="cycleYears" min="5" max="10" value="7" step="1" />
+              <span class="calc-readout"><span id="cycleYearsValue">7</span> лет</span>
+            </div>
+          </div>
+
+          <div class="calc-input-group">
+            <label for="bonusPercent">Бонус в конце цикла</label>
+            <div class="calc-row">
+              <input type="range" id="bonusPercent" min="5" max="10" value="7.5" step="0.5" />
+              <span class="calc-readout"><span id="bonusPercentValue">7.5</span>%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-results">
+        <h3>Доход за весь цикл</h3>
+        <div class="calc-result-row">
+          <span class="calc-result-label">Купоны 2.75% годовых</span>
+          <span class="calc-result-value" id="resCoupons">€38 500<span class="pct">19.25%</span></span>
+        </div>
+        <div class="calc-result-row">
+          <span class="calc-result-label">Стоимость бесплатной страховки</span>
+          <span class="calc-result-value" id="resInsurance">€5 600<span class="pct">2.80%</span></span>
+        </div>
+        <div class="calc-result-row">
+          <span class="calc-result-label">Экономия на налоге на имущество (0.6%)</span>
+          <span class="calc-result-value" id="resTax">€8 400<span class="pct">4.20%</span></span>
+        </div>
+        <div class="calc-result-row">
+          <span class="calc-result-label">Единовременный бонус в конце</span>
+          <span class="calc-result-value" id="resBonus">€15 000<span class="pct">7.50%</span></span>
+        </div>
+        <div class="calc-total">
+          <div class="calc-result-row" style="padding: 0; border: none;">
+            <span class="calc-result-label">Итого денежный эквивалент</span>
+            <span class="calc-result-value" id="resTotal">€67 500</span>
+          </div>
+          <div class="calc-result-row" style="padding: 0.6rem 0 0; border: none;">
+            <span class="calc-result-label">Эквивалент годовой доходности</span>
+            <span class="calc-result-value" id="resAnnual" style="font-size: 1.4rem;">≈ 4.4% годовых сверху</span>
+          </div>
+        </div>
+        <div class="calc-note">
+          Расчёт ориентировочный. Актив остаётся у собственника на протяжении всего цикла. Сравнение делается с альтернативными инструментами (банковский депозит, аренда), очищенными от связанных издержек и рисков.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ЦИФРЫ ПИЛОТА -->
+<section class="numbers" id="numbers">
+  <div class="container">
+    <div class="numbers-intro">
+      <span class="eyebrow">Пилотный пул</span>
+      <h2>Шесть ключевых параметров первого цикла</h2>
+      <p class="subhead">Один пилот €100M на 7 лет — доказательная база для перехода ко второй фазе с участием Центрального банка РА в качестве контрагента.</p>
+    </div>
+
+    <div class="numbers-grid">
+      <div class="number-cell">
+        <div class="number-big" data-target="100">0<span class="unit">M €</span></div>
+        <div class="number-label">Размер пула</div>
+      </div>
+      <div class="number-cell">
+        <div class="number-big" data-target="500">0<span class="unit">соб.</span></div>
+        <div class="number-label">Собственников ≈</div>
+      </div>
+      <div class="number-cell">
+        <div class="number-big" data-target="7">0<span class="unit">лет</span></div>
+        <div class="number-label">Цикл</div>
+      </div>
+      <div class="number-cell">
+        <div class="number-big" data-target="5.5" data-decimals="1">0<span class="unit">%</span></div>
+        <div class="number-label">Senior купон</div>
+      </div>
+      <div class="number-cell">
+        <div class="number-big" data-target="13.5" data-decimals="1">0<span class="unit">%</span></div>
+        <div class="number-label">Junior до</div>
+      </div>
+      <div class="number-cell">
+        <div class="number-big" data-target="320">0<span class="unit">M ֏</span></div>
+        <div class="number-label">Капитал CASP</div>
+      </div>
+      <div class="number-cell">
+        <div class="number-big" data-target="2.75" data-decimals="2">0<span class="unit">%</span></div>
+        <div class="number-label">Купон собственнику</div>
+      </div>
+      <div class="number-cell">
+        <div class="number-big" data-target="9">0<span class="unit">M €</span></div>
+        <div class="number-label">Доход платформы</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ДОРОЖНАЯ КАРТА -->
+<section class="roadmap" id="roadmap">
+  <div class="container">
+    <div class="roadmap-intro">
+      <span class="eyebrow">Дорожная карта</span>
+      <h2>Четыре фазы — от подготовки до тиража</h2>
+      <p class="subhead">Каждая фаза имеет жёсткий критерий перехода («хард-гейт»), без выполнения которого следующая фаза не запускается.</p>
+    </div>
+
+    <div class="roadmap-grid">
+      <div class="phase-card">
+        <div class="phase-num">Фаза 0 · мес 0–6</div>
+        <h3>Подготовка</h3>
+        <div class="phase-period">первые шесть месяцев</div>
+        <div class="phase-content">
+          <ul>
+            <li>Учреждение СП с армянским банком-партнёром</li>
+            <li>Международная IP-оценка (Duff &amp; Phelps / Kroll / KPMG-VME)</li>
+            <li>Подготовка комплекта проектной документации</li>
+            <li>Политическая подготовка с Минфином и ЦБ РА</li>
+          </ul>
+        </div>
+        <div class="phase-gate">Постановление Правительства РА о бюджетной гарантии (возможна коррекция)</div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-num">Фаза 1 · мес 6–24</div>
+        <h3>Пилот €100M</h3>
+        <div class="phase-period">полтора года</div>
+        <div class="phase-content">
+          <ul>
+            <li>Получение лицензии CASP в ЦБ РА</li>
+            <li>Накопление пула из 500+ собственников</li>
+            <li>Выпуск двух траншей</li>
+            <li>Финансирование 5–10 национальных проектов</li>
+          </ul>
+        </div>
+        <div class="phase-gate">&gt;80% проектов сданы в срок · &gt;90% Senior выкуплено · NAV +15% (возможна коррекция)</div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-num">Фаза 2 · мес 24–60</div>
+        <h3>Институционализация</h3>
+        <div class="phase-period">три года</div>
+        <div class="phase-content">
+          <ul>
+            <li>Принятие пакета поправок L1+L2+L3+L5+L6</li>
+            <li>ЦБ РА в качестве контрагента</li>
+            <li>Эмиссия цифрового драма под пул</li>
+            <li>Институциональные инвесторы €1B+</li>
+          </ul>
+        </div>
+        <div class="phase-gate">Пакет принят · ЦБ РА провёл первую эмиссию (возможна коррекция)</div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-num">Фаза 3 · мес 60+</div>
+        <h3>Масштаб и тираж</h3>
+        <div class="phase-period">долгосрочно</div>
+        <div class="phase-content">
+          <ul>
+            <li>Расширение на движимое имущество, IP, акции</li>
+            <li>Региональный тираж: Грузия, Казахстан, ЕАЭС, ЕС</li>
+            <li>Револьвинг 2-го и 3-го циклов</li>
+            <li>Армения как региональный финансовый хаб</li>
+          </ul>
+        </div>
+        <div class="phase-gate">Безграничные горизонты</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРАВОВАЯ ОСНОВА -->
+<section class="legal" id="legal">
+  <div class="container">
+    <div class="legal-intro">
+      <span class="eyebrow">Правовая основа</span>
+      <h2>Закон РА HO-159-N + четыре регламента ЦБ РА</h2>
+      <p class="lead">Армения — одна из первых стран нашего региона, принявшая полноценный закон о криптоактивах европейского образца. Это не риск, а наш фундамент.</p>
+    </div>
+
+    <div class="legal-grid">
+      <div class="legal-doc">
+        <div class="legal-doc-id">HO-159-N · 29.05.2025</div>
+        <h4>Закон РА «О криптоактивах»</h4>
+        <p>Базовый закон по образцу европейского MiCA. Определяет понятия, 9 категорий услуг CASP, режим публичного предложения, полномочия Центрального банка РА.</p>
+        <div class="legal-doc-meta">Вступил в силу 04.07.2025 · 5 глав · 31+ статей</div>
+      </div>
+
+      <div class="legal-doc">
+        <div class="legal-doc-id">Регл. 7/01 · Решение 227-N</div>
+        <h4>Регистрация и лицензирование CASP</h4>
+        <p>Порядок получения лицензии CASP, требования к филиалам иностранных провайдеров, правила квалифицированного участия в капитале.</p>
+        <div class="legal-doc-meta">Вступил в силу 31.01.2026</div>
+      </div>
+
+      <div class="legal-doc">
+        <div class="legal-doc-id">Регл. 7/02 · Решение 228-N</div>
+        <h4>Минимальный совокупный капитал CASP</h4>
+        <p>Капитальные требования: от 10 млн AMD (консультации) до 200 млн AMD (эмиссия ART). Для Платформы Ноев Ковчег совокупный капитал — 320 млн AMD.</p>
+        <div class="legal-doc-meta">Вступил в силу 31.01.2026</div>
+      </div>
+
+      <div class="legal-doc">
+        <div class="legal-doc-id">Регл. 7/04 · Решение 226-N</div>
+        <h4>Whitepaper · Документ предложения</h4>
+        <p>Форма и содержание документа предложения криптоактива. Требования к идентификации эмитента, описанию рисков, технологии, экономической модели.</p>
+        <div class="legal-doc-meta">Вступил в силу 31.01.2026 · 29 приложений</div>
+      </div>
+
+      <div class="legal-doc">
+        <div class="legal-doc-id">Регл. 7/05 · Решение 229-N</div>
+        <h4>Регистрация управляющих CASP</h4>
+        <p>Требования к руководителям лицензированных CASP-провайдеров и руководителям филиалов иностранных провайдеров. Fit-and-proper тест.</p>
+        <div class="legal-doc-meta">Вступил в силу 31.01.2026</div>
+      </div>
+
+      <div class="legal-doc">
+        <div class="legal-doc-id">Закон «О ЦБ РА»</div>
+        <h4>Закон о Центральном банке Армении</h4>
+        <p>Полномочия регулятора. В Фазе 1 ЦБ РА — надзорный регулятор; в Фазе 2 (после поправки L1) — может принимать пул в обеспечение и эмитировать драм для Казначейства.</p>
+        <div class="legal-doc-meta">Действующая редакция · поправки запланированы на Фазу 2</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- СЕМЬ ПРЕИМУЩЕСТВ -->
+<section class="advantages" id="advantages">
+  <div class="container">
+    <div class="advantages-intro">
+      <span class="eyebrow">Эксклюзивность</span>
+      <h2>Семь причин, по которым нет аналогов</h2>
+      <p class="subhead">Каждое из преимуществ — измеримо и верифицируемо. Аналогичной комбинации в одной юрисдикции на сегодняшний день не существует.</p>
+    </div>
+
+    <div class="adv-grid">
+      <div class="adv-cell">
+        <div class="adv-num">I</div>
+        <h4>Регуляторная чистота</h4>
+        <p>Закон о криптоактивах в Армении — самый прогрессивный в нашем регионе. Построен по образцу европейского MiCA — наша платформа сразу будет признана и в ЕС, и инвесторами с европейским мандатом.</p>
+      </div>
+      <div class="adv-cell">
+        <div class="adv-num">II</div>
+        <h4>Win-Win-Win</h4>
+        <p>В традиционном финансировании всегда кто-то проигрывает. У нас — все три стороны (собственник, инвестор, государство) в плюсе одновременно. Это структурная редкость.</p>
+      </div>
+      <div class="adv-cell">
+        <div class="adv-num">III</div>
+        <h4>Канал диаспоры</h4>
+        <p>Семь миллионов армян по всему миру. Их сбережения — десятки миллиардов долларов. Israel Bonds за 75 лет привлекли $50B+ в Израиль. Армянская диаспора в пропорции к экономике — больше.</p>
+      </div>
+      <div class="adv-cell">
+        <div class="adv-num">IV</div>
+        <h4>Реальное обеспечение</h4>
+        <p>В отличие от спекулятивных криптотокенов, наши инструменты обеспечены квадратными метрами армянской недвижимости плюс страховкой плюс — на старший транш — гарантией Минфина РА.</p>
+      </div>
+      <div class="adv-cell">
+        <div class="adv-num">V</div>
+        <h4>Финансовый суверенитет</h4>
+        <p>Деньги без МВФ, без увеличения внешнего государственного долга, без условий международных кредиторов. Армения может ускорить выполнение национальных проектов на 5–7 лет.</p>
+      </div>
+      <div class="adv-cell">
+        <div class="adv-num">VI</div>
+        <h4>Двухфазная стратегия</h4>
+        <p>На Фазе 1 запускаемся в действующем праве. На Фазе 2 — после доказательства модели — пакет поправок возвращает оригинальную элегантность с эмиссией драма ЦБ под пул. Путь до €1B+ оборота.</p>
+      </div>
+      <div class="adv-cell">
+        <div class="adv-num">VII</div>
+        <h4>Прозрачность DLT</h4>
+        <p>Каждая транзакция — прозрачна. Каждый собственник видит свой актив. Каждый инвестор видит состав пула. Каждое действие государства из Фонда — публично проверяемо. Уровень прозрачности, недоступный классическим финансовым институциям.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ОБ АВТОРЕ И КОНТАКТЫ -->
+<section class="contacts" id="contacts">
+  <div class="container">
+    <div class="contacts-grid">
+      <div class="contacts-left">
+        <div class="author-portrait">
+          <div class="author-portrait-monogram">
+            <div class="ka">К</div>
+            <div class="name">Кагиров А-Х. А.</div>
+          </div>
+        </div>
+        <div class="contacts-bio">
+          <h3>Кагиров Абдул-Хаким Ахмадович</h3>
+          <div class="role">Аслан Каа · Автор и правообладатель проекта</div>
+          <p>Founder, CEO. Идеолог и разработчик архитектуры платформы «Ноев Ковчег». Готов вести проект до промышленного внедрения в Республике Армения и далее — на тираж в Грузию, Казахстан, страны ЕАЭС и ЕС.</p>
+        </div>
+      </div>
+
+      <div class="contacts-right">
+        <span class="eyebrow">Контакты для деловой переписки</span>
+        <h2 style="margin-top: 1.2rem;">Связаться напрямую</h2>
+        <p class="lead" style="color: var(--color-parchment); opacity: 0.85; max-width: 30em; margin-top: 1rem;">Готов к встречам с представителями Минфина и ЦБ РА, инвестиционными фондами, банками-партнёрами и представителями диаспоры.</p>
+
+        <div class="contact-rows">
+          <div class="contact-row">
+            <div class="label">Сайт</div>
+            <div class="value"><a href="https://www.aslankaa.com" target="_blank" rel="noopener">www.aslankaa.com</a></div>
+          </div>
+          <div class="contact-row">
+            <div class="label">Электронная почта</div>
+            <div class="value">
+              <a href="mailto:aslankaa@yandex.ru">aslankaa@yandex.ru</a><br>
+              <a href="mailto:aslankaa@yandex.ru">aslankaa@yandex.ru</a>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="label">Телефоны</div>
+            <div class="value">
+              <a href="tel:+79697955555">+7 (969) 795-55-55</a><br>
+              <a href="tel:+79252037777">+7 (925) 203-77-77</a>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="label">Языки общения</div>
+            <div class="value" style="font-family: var(--font-sub); font-style: italic; font-size: 1.05rem;">Русский · English · по запросу — арм., фр.</div>
+          </div>
+        </div>
+
+        <div class="socials">
+          <div class="socials-label">Социальные сети</div>
+          <div class="socials-grid">
+            <a class="social" href="https://t.me/aslan_kaa" target="_blank" rel="noopener">
+              <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2 C6.48,2 2,6.48 2,12 C2,17.52 6.48,22 12,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 12,2 Z M16.64,8.2 L15.04,15.84 C14.92,16.4 14.6,16.52 14.16,16.28 L11.6,14.4 L10.36,15.6 C10.24,15.72 10.12,15.84 9.88,15.84 L10.04,13.32 L14.84,9 C15.04,8.84 14.8,8.72 14.52,8.92 L8.6,12.6 L6.04,11.8 C5.48,11.6 5.48,11.24 6.16,11 L15.92,7.32 C16.36,7.12 16.76,7.4 16.64,8.2 Z"/></svg>
+              Telegram <strong>@aslan_kaa</strong>
+            </a>
+            <a class="social" href="https://instagram.com/aslan_kaa" target="_blank" rel="noopener">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>
+              Instagram <strong>@aslan_kaa</strong>
+            </a>
+            <a class="social" href="https://vk.com/id453725994" target="_blank" rel="noopener">
+              <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.785,16.241 C12.785,16.241 13.214,16.196 13.435,15.962 C13.638,15.749 13.631,15.346 13.631,15.346 C13.631,15.346 13.604,13.439 14.49,13.155 C15.362,12.875 16.482,15.011 17.669,15.832 C18.566,16.453 19.247,16.317 19.247,16.317 L22.421,16.273 C22.421,16.273 24.082,16.171 23.295,14.866 C23.231,14.759 22.836,13.898 20.937,12.13 C18.948,10.279 19.215,10.578 21.611,7.382 C23.07,5.435 23.654,4.247 23.471,3.74 C23.298,3.256 22.227,3.385 22.227,3.385 L18.661,3.407 C18.661,3.407 18.397,3.371 18.2,3.488 C18.008,3.604 17.884,3.873 17.884,3.873 C17.884,3.873 17.319,5.378 16.564,6.658 C14.971,9.358 14.334,9.5 14.073,9.332 C13.467,8.94 13.618,7.76 13.618,6.922 C13.618,4.304 14.015,3.213 12.846,2.93 C12.458,2.836 12.172,2.774 11.18,2.764 C9.907,2.751 8.83,2.768 8.221,3.067 C7.815,3.266 7.502,3.71 7.692,3.735 C7.928,3.766 8.461,3.879 8.744,4.265 C9.108,4.762 9.095,5.881 9.095,5.881 C9.095,5.881 9.305,8.964 8.605,9.346 C8.124,9.609 7.464,9.073 6.044,6.625 C5.317,5.371 4.768,3.985 4.768,3.985 C4.768,3.985 4.662,3.726 4.473,3.587 C4.244,3.418 3.923,3.365 3.923,3.365 L0.534,3.387 C0.534,3.387 0.025,3.401 -0.162,3.622 C-0.328,3.819 -0.175,4.225 -0.175,4.225 C-0.175,4.225 2.479,10.434 5.484,13.563 C8.24,16.432 11.369,16.241 11.369,16.241 L12.785,16.241 Z" transform="translate(0.5, 1.2)"/></svg>
+              VK <strong>id453725994</strong>
+            </a>
+            <a class="social" href="https://facebook.com/aslan.kaa" target="_blank" rel="noopener">
+              <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M22,12 C22,6.48 17.52,2 12,2 C6.48,2 2,6.48 2,12 C2,16.84 5.44,20.87 10,21.8 L10,15 L8,15 L8,12 L10,12 L10,9.5 C10,7.57 11.57,6 13.5,6 L16,6 L16,9 L14,9 C13.45,9 13,9.45 13,10 L13,12 L16,12 L15.5,15 L13,15 L13,21.95 C18.05,21.45 22,17.19 22,12 Z"/></svg>
+              Facebook <strong>aslan.kaa</strong>
+            </a>
+            <a class="social" href="https://x.com/aslanofff" target="_blank" rel="noopener">
+              <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244,2.25 L21.552,2.25 L14.325,10.51 L22.827,21.75 L16.17,21.75 L10.956,14.933 L4.99,21.75 L1.68,21.75 L9.41,12.915 L1.254,2.25 L8.08,2.25 L12.793,8.481 L18.244,2.25 Z M17.083,19.77 L18.916,19.77 L7.084,4.126 L5.117,4.126 L17.083,19.77 Z"/></svg>
+              X <strong>@aslanofff</strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ФУТЕР -->
+<footer class="footer">
+  <div class="footer-mark" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><path d="M2,16 Q6,12 12,14 T22,16 L22,18 Q18,20 12,18 T2,18 Z M5,14 Q6,8 12,8 Q18,8 19,14 L17,14 Q16,11 12,11 Q8,11 7,14 Z"/></svg>
+  </div>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-doc-id">Документ NK-HTML-001/2026</div>
+      <div class="footer-copy">
+        © Кагиров Абдул-Хаким Ахмадович, 2026.<br>
+        Все права защищены. Воспроизведение и распространение запрещены без письменного согласия правообладателя.
+      </div>
+      <div class="footer-conv">
+        Охраняется в соответствии с Всемирной конвенцией об авторском праве (Женева, 6 сентября 1952 г.) и Бернской конвенцией об охране литературных и художественных произведений (Берн, 9 сентября 1886 г.).<br>
+        Watermark · © Kagirov A-Kh. A. · 2026 · ALL RIGHTS RESERVED
+      </div>
+      <div class="footer-bottom">
+        <span>ПЛАТФОРМА «НОЕВ КОВЧЕГ» · РЕСПУБЛИКА АРМЕНИЯ · 2026</span>
+        <span>aslankaa@yandex.ru · +7 (969) 795-55-55</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ──────────────────────────────────────────────────────────────────
+   ИНТЕРАКТИВ — КАЛЬКУЛЯТОР, ФИЛЬТР ШАГОВ, СЧЁТЧИКИ, FADE-IN
+   © Кагиров Абдул-Хаким Ахмадович, 2026
+   ────────────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  /* ─── КАЛЬКУЛЯТОР ─── */
+  const COUPON_ANNUAL = 0.0275;
+  const INSURANCE_ANNUAL = 0.004;
+  const PROPERTY_TAX_ANNUAL = 0.006;
+
+  const currencies = {
+    EUR: { symbol: '€', position: 'before', code: 'EUR' },
+    USD: { symbol: '$', position: 'before', code: 'USD' },
+    AMD: { symbol: '֏', position: 'after', code: 'AMD' }
+  };
+  let currentCurrency = 'EUR';
+
+  const fmt = (num) => {
+    const c = currencies[currentCurrency];
+    const rounded = Math.round(num);
+    const formatted = rounded.toLocaleString('ru-RU').replace(/,/g, ' ');
+    return c.position === 'before' ? c.symbol + formatted : formatted + ' ' + c.symbol;
+  };
+
+  const calculate = () => {
+    const value = Number(document.getElementById('assetValue').value) || 0;
+    const years = Number(document.getElementById('cycleYears').value) || 7;
+    const bonus = Number(document.getElementById('bonusPercent').value) / 100 || 0.075;
+
+    const coupons = value * COUPON_ANNUAL * years;
+    const insurance = value * INSURANCE_ANNUAL * years;
+    const tax = value * PROPERTY_TAX_ANNUAL * years;
+    const bonusAmount = value * bonus;
+    const total = coupons + insurance + tax + bonusAmount;
+    const annualEq = (total / value / years) * 100;
+
+    const setRow = (id, num, base) => {
+      const el = document.getElementById(id);
+      const pct = base > 0 ? (num / base * 100).toFixed(2) : '0';
+      el.innerHTML = fmt(num) + '<span class="pct">' + pct + '%</span>';
+    };
+
+    setRow('resCoupons', coupons, value);
+    setRow('resInsurance', insurance, value);
+    setRow('resTax', tax, value);
+    setRow('resBonus', bonusAmount, value);
+
+    document.getElementById('resTotal').textContent = fmt(total);
+    document.getElementById('resAnnual').textContent = '≈ ' + annualEq.toFixed(2) + '% годовых сверху';
+
+    document.getElementById('cycleYearsValue').textContent = years;
+    document.getElementById('bonusPercentValue').textContent = bonus * 100;
+  };
+
+  ['assetValue', 'cycleYears', 'bonusPercent'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', calculate);
+      el.addEventListener('change', calculate);
+    }
+  });
+
+  document.querySelectorAll('.calc-currency-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.calc-currency-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCurrency = btn.dataset.currency;
+      const input = document.getElementById('assetValue');
+      // Перевод примерных значений между валютами для удобства
+      const presets = { EUR: 200000, USD: 220000, AMD: 80000000 };
+      input.value = presets[currentCurrency];
+      calculate();
+    });
+  });
+
+  calculate();
+
+  /* ─── ФИЛЬТР ПО ФАЗАМ ─── */
+  document.querySelectorAll('.phase-filter button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.phase-filter button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const phase = btn.dataset.phase;
+      document.querySelectorAll('.timeline .step').forEach(step => {
+        if (phase === 'all' || step.classList.contains('phase-' + phase)) {
+          step.classList.remove('hidden');
+        } else {
+          step.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  /* ─── СЧЁТЧИКИ С АНИМАЦИЕЙ ─── */
+  const animateCounter = (el) => {
+    const target = parseFloat(el.dataset.target);
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const duration = 1400;
+    const startTime = performance.now();
+    const unitEl = el.querySelector('.unit');
+    const unitHtml = unitEl ? unitEl.outerHTML : '';
+
+    const tick = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = (target * eased).toFixed(decimals);
+      el.innerHTML = current + unitHtml;
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.innerHTML = target.toFixed(decimals) + unitHtml;
+    };
+    requestAnimationFrame(tick);
+  };
+
+  /* ─── INTERSECTION OBSERVER: ТОЛЬКО ДЛЯ ЧИСЛЕННЫХ СЧЁТЧИКОВ ─── */
+  /* (секции не скрываем по умолчанию — длинные блоки могут не пересечь threshold) */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (entry.target.classList.contains('number-big') && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = '1';
+          animateCounter(entry.target);
+        }
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.number-big').forEach(el => {
+    observer.observe(el);
+  });
+
+  /* ─── ПЛАВНЫЙ СКРОЛЛ ДЛЯ ЯКОРНЫХ ССЫЛОК ─── */
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.length > 1 && document.querySelector(href)) {
+        e.preventDefault();
+        document.querySelector(href).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  /* ─── СПИСОК НА ПЕЧАТЬ ─── */
+  console.log('%c© Кагиров Абдул-Хаким Ахмадович, 2026. Все права защищены.', 'color:#c89b3c;font-weight:bold;font-size:13px');
+  console.log('%cПлатформа «Ноев Ковчег» · Документ NK-HTML-001/2026', 'color:#0a1628;font-size:12px');
+})();
+</script>
+
+</body>
+</html>

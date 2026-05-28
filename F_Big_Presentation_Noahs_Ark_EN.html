@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="description" content="Noah's Ark Platform — keynote presentation. Off-budget financing of the Republic of Armenia's national projects through tokenization of pledged real estate." />
+<meta name="author" content="Kagirov Abdul-Hakim Akhmadovich (Aslan Kaa)" />
+<meta name="copyright" content="© Kagirov Abdul-Hakim Akhmadovich, 2026. All rights reserved." />
+<meta name="robots" content="noindex" />
+<title>Noah's Ark Platform · Keynote Presentation · NK-PRES-001-EN/2026</title>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230a1628'/><path d='M10,75 L30,45 L40,55 L55,25 L70,40 L85,30 L90,75 Z' fill='%23c89b3c'/></svg>" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,800;1,6..96,400;1,6..96,800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;0,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --color-midnight: #0a1628;
+  --color-midnight-soft: #1a2438;
+  --color-haze: #3d4f6b;
+  --color-gold: #c89b3c;
+  --color-gold-light: #e0bc6a;
+  --color-gold-deep: #8b6818;
+  --color-wine: #8b1538;
+  --color-parchment: #f4ede0;
+  --color-parchment-dim: #e8dfcd;
+  --color-cream: #faf6ec;
+  --color-ink: #1a2438;
+  --font-display: 'Bodoni Moda', 'Times New Roman', serif;
+  --font-sub: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Spectral', Georgia, serif;
+  --font-ui: 'Manrope', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: var(--color-midnight); font-family: var(--font-body); color: var(--color-parchment); -webkit-font-smoothing: antialiased; }
+
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+body::after { content: '© Kagirov A-Kh. A. · 2026 · UCC Geneva 1952 · Berne Convention 1886 · ALL RIGHTS RESERVED'; position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); font-family: var(--font-ui); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--color-gold); opacity: 0.4; z-index: 99; pointer-events: none; text-transform: uppercase; }
+
+.deck { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+
+.slide { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: clamp(2rem, 6vw, 6rem); opacity: 0; visibility: hidden; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s linear 0.6s; background: var(--color-midnight); overflow-y: auto; }
+.slide.active { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s linear 0s; z-index: 10; }
+
+.slide.cream { background: var(--color-cream); color: var(--color-ink); }
+.slide.parchment { background: var(--color-parchment); color: var(--color-ink); }
+.slide.wine { background: var(--color-wine); color: var(--color-cream); }
+.slide.gold { background: var(--color-gold-deep); color: var(--color-cream); }
+
+.eyebrow { font-family: var(--font-ui); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--color-gold); display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; }
+.eyebrow::before { content: ''; width: 1.6rem; height: 1px; background: currentColor; }
+.slide.cream .eyebrow, .slide.parchment .eyebrow { color: var(--color-gold-deep); }
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; }
+h1 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; }
+h2 { font-size: clamp(2.5rem, 6vw, 5rem); }
+h3 { font-size: clamp(1.6rem, 3vw, 2.5rem); }
+.italic { font-family: var(--font-sub); font-style: italic; font-weight: 400; }
+
+.subhead { font-family: var(--font-sub); font-style: italic; font-size: clamp(1.4rem, 2.4vw, 2rem); line-height: 1.4; margin-top: 1.5rem; max-width: 36em; opacity: 0.9; }
+.lead { font-size: clamp(1.05rem, 1.6vw, 1.3rem); line-height: 1.6; margin-top: 1.5rem; max-width: 38em; }
+.body-text { font-size: clamp(0.95rem, 1.4vw, 1.15rem); line-height: 1.65; max-width: 38em; }
+
+p + p { margin-top: 1rem; }
+strong { font-weight: 600; }
+.gold { color: var(--color-gold); }
+.gold-light { color: var(--color-gold-light); }
+.midnight { color: var(--color-midnight); }
+.wine { color: var(--color-wine); }
+.parchment { color: var(--color-parchment); }
+.cream { color: var(--color-cream); }
+
+.nav-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 50px; background: linear-gradient(to top, rgba(10,22,40,0.85), transparent); display: flex; align-items: flex-end; justify-content: space-between; padding: 0 24px 8px; pointer-events: none; z-index: 50; }
+.nav-bar > * { pointer-events: auto; }
+.nav-counter { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--color-gold); background: rgba(0,0,0,0.4); padding: 4px 12px; border: 1px solid var(--color-gold-deep); }
+.nav-controls { display: flex; gap: 8px; }
+.nav-btn { width: 36px; height: 36px; background: rgba(0,0,0,0.4); border: 1px solid var(--color-gold-deep); color: var(--color-gold); font-family: var(--font-display); font-size: 1.2rem; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; }
+.nav-btn:hover { background: var(--color-gold); color: var(--color-midnight); }
+
+.progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--color-gold); z-index: 60; transition: width 0.3s; }
+
+.cover { background: var(--color-midnight); display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+.cover::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 30%, rgba(200,155,60,0.18), transparent 55%), radial-gradient(ellipse at 30% 70%, rgba(139,21,56,0.12), transparent 55%); }
+.cover-celestial { position: absolute; top: 15%; right: 15%; width: clamp(80px, 10vw, 140px); height: clamp(80px, 10vw, 140px); border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--color-gold-light), var(--color-gold) 60%, transparent 70%); box-shadow: 0 0 80px 20px rgba(200,155,60,0.25); }
+.cover-ararat { position: absolute; bottom: 0; left: 0; right: 0; height: 35%; }
+.cover-ararat svg { width: 100%; height: 100%; }
+.cover-ararat path { fill: var(--color-midnight-soft); }
+.cover-content { position: relative; z-index: 2; max-width: 80%; }
+.cover h1 { color: var(--color-parchment); margin-bottom: 1rem; }
+.cover h1 .accent { color: var(--color-gold-light); font-style: italic; font-weight: 400; display: block; }
+.cover-meta { font-family: var(--font-sub); font-style: italic; font-size: 1.3rem; color: var(--color-gold-light); margin-top: 2rem; opacity: 0.95; }
+.cover-author { margin-top: 2.5rem; font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.2em; color: var(--color-gold); text-transform: uppercase; }
+.cover-doc-id { position: absolute; bottom: 50px; right: 30px; font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.3em; color: var(--color-gold); opacity: 0.6; text-transform: uppercase; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+@media (max-width: 880px) { .two-col { grid-template-columns: 1fr; gap: 2rem; } }
+
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; margin-top: 3rem; }
+@media (max-width: 880px) { .three-col { grid-template-columns: 1fr; } }
+
+.card { padding: 2rem; border-left: 3px solid var(--color-gold); background: rgba(244,237,224,0.05); }
+.slide.cream .card, .slide.parchment .card { background: rgba(10,22,40,0.04); border-left-color: var(--color-wine); }
+.card-num { font-family: var(--font-display); font-style: italic; font-size: 3rem; color: var(--color-gold); opacity: 0.7; line-height: 1; margin-bottom: 1rem; }
+.slide.cream .card-num, .slide.parchment .card-num { color: var(--color-wine); }
+.card h3 { font-size: 1.3rem; margin-bottom: 0.6rem; line-height: 1.2; }
+.card p { font-size: 0.95rem; line-height: 1.55; opacity: 0.9; }
+
+.numbers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid rgba(200,155,60,0.3); border-bottom: 1px solid rgba(200,155,60,0.3); margin-top: 3rem; }
+@media (max-width: 880px) { .numbers-grid { grid-template-columns: repeat(2, 1fr); } }
+.num-cell { padding: 2rem 1.5rem; text-align: center; border-right: 1px solid rgba(200,155,60,0.3); }
+.num-cell:last-child { border-right: none; }
+.num-cell-big { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.4rem, 5vw, 3.6rem); color: var(--color-gold); line-height: 1; letter-spacing: -0.02em; }
+.num-cell-big .unit { font-family: var(--font-sub); font-style: italic; font-weight: 400; font-size: 0.5em; color: var(--color-gold-light); margin-left: 0.1em; }
+.num-cell-label { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-parchment); opacity: 0.8; margin-top: 0.7rem; }
+.slide.cream .num-cell-label, .slide.parchment .num-cell-label { color: var(--color-ink); opacity: 0.7; }
+.slide.cream .num-cell-big, .slide.parchment .num-cell-big { color: var(--color-wine); }
+.slide.cream .num-cell-big .unit, .slide.parchment .num-cell-big .unit { color: var(--color-gold-deep); }
+
+.list-elegant { list-style: none; margin-top: 2rem; font-family: var(--font-body); font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.7; }
+.list-elegant li { padding: 0.8rem 0; border-bottom: 1px solid rgba(200,155,60,0.2); display: flex; gap: 1rem; }
+.list-elegant li:last-child { border-bottom: none; }
+.list-elegant li::before { content: '◆'; color: var(--color-gold); font-size: 0.7em; margin-top: 0.4em; }
+
+.quote { font-family: var(--font-sub); font-style: italic; font-size: clamp(2rem, 4.5vw, 3.2rem); line-height: 1.3; color: var(--color-gold-light); max-width: 24em; position: relative; padding-left: 2rem; }
+.quote::before { content: '"'; position: absolute; left: -0.5rem; top: -0.3em; font-family: var(--font-display); font-size: 4em; color: var(--color-gold); opacity: 0.5; line-height: 1; }
+.quote-author { font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-gold); margin-top: 2rem; opacity: 0.85; }
+
+.timeline-h { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+@media (max-width: 880px) { .timeline-h { grid-template-columns: 1fr; } }
+.tl-card { background: rgba(244,237,224,0.05); border-top: 3px solid var(--color-gold); padding: 1.8rem 1.4rem; }
+.tl-card:nth-child(1) { border-top-color: var(--color-haze); }
+.tl-card:nth-child(2) { border-top-color: var(--color-gold); }
+.tl-card:nth-child(3) { border-top-color: var(--color-wine); }
+.tl-card:nth-child(4) { border-top-color: var(--color-gold-light); }
+.tl-num { font-family: var(--font-display); font-style: italic; font-weight: 600; color: var(--color-gold); font-size: 0.9rem; letter-spacing: 0.2em; margin-bottom: 0.6rem; text-transform: uppercase; }
+.tl-card h3 { font-size: 1.4rem; margin-bottom: 0.4rem; line-height: 1.2; }
+.tl-card .period { font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light); margin-bottom: 1rem; }
+.tl-card ul { list-style: none; font-size: 0.95rem; line-height: 1.55; opacity: 0.9; }
+.tl-card li { padding-left: 1rem; position: relative; margin-bottom: 0.4rem; }
+.tl-card li::before { content: '·'; position: absolute; left: 0; color: var(--color-gold); }
+
+.contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 3rem; margin-top: 2.5rem; }
+@media (max-width: 600px) { .contact-grid { grid-template-columns: 1fr; } }
+.contact-row { border-top: 1px solid rgba(200,155,60,0.3); padding-top: 0.9rem; }
+.contact-label { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-gold-light); margin-bottom: 0.3rem; }
+.contact-value { font-family: var(--font-display); font-size: 1.05rem; color: var(--color-parchment); }
+
+.industries-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2rem; }
+@media (max-width: 880px) { .industries-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .industries-grid { grid-template-columns: 1fr; } }
+.industry { background: rgba(244,237,224,0.06); border: 1px solid rgba(200,155,60,0.25); padding: 1.4rem 1.2rem; text-align: left; transition: all .25s; }
+.industry:hover { background: rgba(200,155,60,0.12); border-color: var(--color-gold); }
+.industry-icon { font-family: var(--font-display); font-style: italic; font-size: 1.3rem; color: var(--color-gold); margin-bottom: 0.5rem; }
+.industry h4 { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; color: var(--color-parchment); margin-bottom: 0.3rem; }
+.industry p { font-size: 0.85rem; line-height: 1.5; opacity: 0.85; }
+
+.advantages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; margin-top: 2rem; border: 1px solid rgba(200,155,60,0.3); }
+.adv-cell { padding: 1.6rem 1.4rem; border-right: 1px solid rgba(200,155,60,0.3); border-bottom: 1px solid rgba(200,155,60,0.3); }
+.adv-rom { font-family: var(--font-display); font-style: italic; color: var(--color-gold); font-size: 1.1rem; margin-bottom: 0.6rem; }
+.adv-cell h4 { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--color-parchment); margin-bottom: 0.5rem; }
+.adv-cell p { font-size: 0.85rem; line-height: 1.55; opacity: 0.9; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</head>
+
+<body>
+
+<a href="index.html" onclick="if(document.referrer&&document.referrer.indexOf(location.origin)===0){event.preventDefault();history.back();}" style="position:fixed;top:18px;left:22px;z-index:99999;background:rgba(0,0,0,0.78);color:#fff;font-family:Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:1.2px;padding:9px 18px;border-radius:24px;text-decoration:none;border:1px solid rgba(95,163,233,0.5);text-transform:uppercase;">← Back to Aslan Kaa's site</a>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+<!-- ═══════════════ SLIDE 1: COVER ═══════════════ -->
+<section class="slide cover active" data-slide="1">
+  <div class="cover-celestial"></div>
+  <div class="cover-ararat">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+      <path d="M0,400 L80,320 L160,280 L240,240 L340,200 L420,160 L490,90 L560,40 L620,20 L680,60 L740,140 L800,200 L860,250 L920,210 L980,170 L1040,200 L1100,250 L1160,290 L1200,310 L1200,400 Z"/>
+    </svg>
+  </div>
+  <div class="cover-content">
+    <span class="eyebrow" style="justify-content: center;">Keynote presentation · May 2026</span>
+    <h1>
+      Noah's Ark
+      <span class="accent">Platform</span>
+    </h1>
+    <div class="cover-meta">Off-budget financing of the Republic of Armenia's national projects<br>through tokenization of pledged real estate</div>
+    <div class="cover-author">Kagirov Abdul-Hakim Akhmadovich · Aslan Kaa</div>
+  </div>
+  <div class="cover-doc-id">NK-PRES-001-EN/2026</div>
+</section>
+
+<!-- ═══════════════ SLIDE 2: WHAT THIS CONVERSATION IS ABOUT ═══════════════ -->
+<section class="slide" data-slide="2">
+  <span class="eyebrow">Slide 02 · Foreword</span>
+  <h2>What this conversation is about</h2>
+  <div class="quote" style="margin-top: 3rem;">
+    This is a conversation about how Armenia can accelerate its development by ten years
+    without growing its external debt, without raising taxes, without giving up a single apartment to anyone.
+  </div>
+  <div class="quote-author">— Kagirov A.-Kh. A., author of the project</div>
+</section>
+
+<!-- ═══════════════ SLIDE 3: ARMENIA TODAY — 3 CONSTRAINTS ═══════════════ -->
+<section class="slide parchment" data-slide="3">
+  <span class="eyebrow">Slide 03 · The reality today</span>
+  <h2>Three constraints that<br>hold back Armenia's development</h2>
+  <div class="three-col">
+    <div class="card">
+      <div class="card-num">01</div>
+      <h3>Budget is constrained</h3>
+      <p>The pace of national project execution is limited by budget revenue and the conditions of international lenders. External debt cannot grow indefinitely; rates on external markets are high.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">02</div>
+      <h3>Diaspora is not engaged</h3>
+      <p>Seven million Armenians abroad hold tens of billions of dollars of capital. Today there is no legally clean, transparent, and profitable instrument designed specifically for diaspora investment in the Homeland.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">03</div>
+      <h3>Sleeping assets</h3>
+      <p>Hundreds of thousands of apartments, houses, and land plots in Armenia belong to owners who do not actively use them. This colossal "sleeping capital" is a resource for infrastructure financing without loss of ownership.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 4: HISTORIC OPPORTUNITY ═══════════════ -->
+<section class="slide" data-slide="4">
+  <span class="eyebrow">Slide 04 · The window of opportunity</span>
+  <h2>A unique convergence<br><span class="italic gold-light">of circumstances</span></h2>
+  <ul class="list-elegant">
+    <li><strong>The RA Law on Crypto-Assets HO-159-N</strong> was adopted on 29 May 2025 and entered into force on 4 July 2025 — Armenia is one of the first countries in our region with a comprehensive MiCA-style law</li>
+    <li><strong>CBA Regulations 7/01, 7/02, 7/04, 7/05</strong> entered into force on 31 January 2026 — the legal infrastructure is fully in place</li>
+    <li><strong>The Armenian diaspora is ready to invest</strong> — this is the moment for Armenia 2.0</li>
+    <li><strong>Distributed ledger technology has matured</strong> — institutional-grade tools and audits are now standard</li>
+    <li><strong>The regional context is favorable</strong> — Georgia, Kazakhstan, the UAE as potential replication markets</li>
+    <li><strong>Capital seeks real-asset alternatives</strong> — traditional fixed income yields are low, demand for collateralized instruments is rising</li>
+  </ul>
+</section>
+
+<!-- ═══════════════ SLIDE 5: SOLUTION IN ONE THOUGHT ═══════════════ -->
+<section class="slide cream" data-slide="5">
+  <span class="eyebrow">Slide 05 · The big idea</span>
+  <h2 class="midnight">One cycle —<br>three winning parties</h2>
+  <div class="quote" style="color: var(--color-midnight); margin-top: 2rem;">
+    The property owner in Armenia keeps ownership and earns income.<br>
+    The diaspora investor gets a collateralized, high-yield instrument.<br>
+    The state of Armenia receives €100M of off-budget financing.
+  </div>
+  <p class="lead" style="color: var(--color-wine); margin-top: 3rem; font-style: italic; font-family: var(--font-sub); font-size: 1.5rem;">
+    All three parties win. Without losses.<br>Without external debt growth. Without intermediaries.
+  </p>
+</section>
+
+<!-- ═══════════════ SLIDE 6: TRIAD ═══════════════ -->
+<section class="slide" data-slide="6">
+  <span class="eyebrow">Slide 06 · Three-fold solution</span>
+  <h2>What each party receives</h2>
+  <div class="three-col" style="margin-top: 2rem;">
+    <div class="card" style="border-left-color: var(--color-gold);">
+      <div class="card-num">🏠</div>
+      <h3 class="gold-light">Owner</h3>
+      <ul style="list-style: none; font-size: 0.95rem; line-height: 1.7; margin-top: 1rem;">
+        <li>· The asset stays with the owner</li>
+        <li>· 2.75% annual coupon in Armenian Drams</li>
+        <li>· Free insurance</li>
+        <li>· 0% property tax</li>
+        <li>· 7–8% bonus at end of cycle</li>
+        <li>· "Co-Investor of Armenia" status</li>
+      </ul>
+      <p style="margin-top: 1rem; font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light);">
+        ≈ 4.4% annual yield above alternatives without losing ownership
+      </p>
+    </div>
+    <div class="card" style="border-left-color: var(--color-wine);">
+      <div class="card-num" style="color: var(--color-wine); opacity: 1;">💰</div>
+      <h3 class="gold-light">Investor</h3>
+      <ul style="list-style: none; font-size: 0.95rem; line-height: 1.7; margin-top: 1rem;">
+        <li>· Senior — 5.5% coupon + RA MoF guarantee</li>
+        <li>· Junior (ART) — up to 13.5% per year</li>
+        <li>· Real collateral: Armenian real estate + insurance</li>
+        <li>· 0% capital gains tax for non-resident individuals</li>
+        <li>· DLT transparency in real time</li>
+      </ul>
+      <p style="margin-top: 1rem; font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light);">
+        The most protected digital asset in the region
+      </p>
+    </div>
+    <div class="card" style="border-left-color: var(--color-gold-light);">
+      <div class="card-num">🇦🇲</div>
+      <h3 class="gold-light">State</h3>
+      <ul style="list-style: none; font-size: 0.95rem; line-height: 1.7; margin-top: 1rem;">
+        <li>· Up to €1 billion in off-budget financing</li>
+        <li>· Without external sovereign debt growth</li>
+        <li>· National program acceleration of 5–7 years</li>
+        <li>· Financial sovereignty</li>
+        <li>· Armenia becomes a regional financial hub</li>
+      </ul>
+      <p style="margin-top: 1rem; font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light);">
+        Long-term strategic positioning of the RA
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 7: 21 STEPS — SUMMARIZED ═══════════════ -->
+<section class="slide parchment" data-slide="7">
+  <span class="eyebrow">Slide 07 · Asset lifecycle</span>
+  <h2>21 steps — from registration<br>to return</h2>
+  <p class="subhead" style="color: var(--color-ink-soft);">Every step is mapped to an article of HO-159-N or to a CBA Regulation.</p>
+  <div class="timeline-h">
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num" style="color: var(--color-haze);">Phase 1</div>
+      <h3 class="midnight">Pool formation</h3>
+      <div class="period">8 steps · 4–8 months</div>
+      <ul>
+        <li>Registration · KYC</li>
+        <li>Declaration · Valuation</li>
+        <li>Insurance · CFA1</li>
+        <li>Custody · Coupon start</li>
+      </ul>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num">Phase 2</div>
+      <h3 class="midnight">Tranche issuance</h3>
+      <div class="period">5 steps · 1–2 months</div>
+      <ul>
+        <li>Whitepaper</li>
+        <li>CBA confirmation</li>
+        <li>Senior tranche (70%)</li>
+        <li>Junior ART (30%)</li>
+        <li>Funds to the Fund</li>
+      </ul>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num" style="color: var(--color-wine);">Phase 3</div>
+      <h3 class="midnight">Project execution</h3>
+      <div class="period">4 steps · 3–7 years</div>
+      <ul>
+        <li>Project funding</li>
+        <li>Construction + audit</li>
+        <li>Cash flow returns</li>
+        <li>NAV updates</li>
+      </ul>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num">Phase 4</div>
+      <h3 class="midnight">Cycle closure</h3>
+      <div class="period">4 steps · year 7+</div>
+      <ul>
+        <li>Senior redemption</li>
+        <li>Junior buyback</li>
+        <li>Encumbrance lifting</li>
+        <li>Reinvestment</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 8: PILOT NUMBERS ═══════════════ -->
+<section class="slide" data-slide="8">
+  <span class="eyebrow">Slide 08 · Pilot pool €100M</span>
+  <h2>Eight parameters that<br>define success</h2>
+  <div class="numbers-grid">
+    <div class="num-cell">
+      <div class="num-cell-big">100<span class="unit">M €</span></div>
+      <div class="num-cell-label">Pool size</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">500</div>
+      <div class="num-cell-label">Owners</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">7<span class="unit">yrs</span></div>
+      <div class="num-cell-label">Cycle</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">5.5<span class="unit">%</span></div>
+      <div class="num-cell-label">Senior coupon</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">13.5<span class="unit">%</span></div>
+      <div class="num-cell-label">Junior up to</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">320<span class="unit">M ֏</span></div>
+      <div class="num-cell-label">CASP capital</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">2.75<span class="unit">%</span></div>
+      <div class="num-cell-label">Owner coupon</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">38<span class="unit">M €</span></div>
+      <div class="num-cell-label">RA budget NPV savings</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 9: VALUE FOR ARMENIA ═══════════════ -->
+<section class="slide" data-slide="9">
+  <span class="eyebrow">Slide 09 · Industry impact</span>
+  <h2>What the Noah's Ark<br><span class="italic gold-light">Fund finances</span></h2>
+  <p class="lead">Nine sectors of Armenia's national economy accelerated through targeted financing of national projects from the Fund:</p>
+  <div class="industries-grid">
+    <div class="industry">
+      <div class="industry-icon">i</div>
+      <h4>Roads &amp; transport</h4>
+      <p>Highways, bridges, airports, rail modernization — connecting regions and border hubs</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">ii</div>
+      <h4>Energy</h4>
+      <p>Small hydropower, solar plants, wind energy, distribution grid modernization</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">iii</div>
+      <h4>Agro-industry</h4>
+      <p>Processing complexes, irrigation, premium winemaking, export of Armenian brandies, cheeses, and fruits</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">iv</div>
+      <h4>Tourism &amp; hospitality</h4>
+      <p>Hotels in Gyumri, Dilijan, Sevan; restoration of historical sites; tourist routes Garni–Geghard–Tatev</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">v</div>
+      <h4>IT campuses</h4>
+      <p>Technology parks in Yerevan, Gyumri, Vanadzor; centers of expertise in AI, blockchain, cybersecurity</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">vi</div>
+      <h4>Education</h4>
+      <p>Schools and universities with modern equipment; programs for diaspora returnees</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">vii</div>
+      <h4>Healthcare</h4>
+      <p>Regional hospitals, telemedicine, equipment for top clinics in Yerevan</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">viii</div>
+      <h4>Housing for repatriates</h4>
+      <p>Affordable housing for returning diaspora members; simplified repatriation programs</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">ix</div>
+      <h4>Culture &amp; heritage</h4>
+      <p>Restoration of churches, museums, cultural centers; archive digitization; promotion of the Armenian cultural brand</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 10: ROADMAP ═══════════════ -->
+<section class="slide parchment" data-slide="10">
+  <span class="eyebrow">Slide 10 · Roadmap</span>
+  <h2>Four phases — with hard<br>transition gates</h2>
+  <div class="timeline-h">
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num" style="color: var(--color-haze);">Phase 0 · m. 0–6</div>
+      <h3 class="midnight">Preparation</h3>
+      <ul>
+        <li>JV with the RA bank-partner</li>
+        <li>International IP valuation</li>
+        <li>Documentation pack</li>
+        <li>Political alignment</li>
+      </ul>
+      <div style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed rgba(0,0,0,0.15); font-size: 0.8rem; color: var(--color-wine); font-family: var(--font-ui);">◆ Gate: RA Government Resolution (subject to adjustment)</div>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num">Phase 1 · m. 6–24</div>
+      <h3 class="midnight">Pilot €100M</h3>
+      <ul>
+        <li>CASP licensing</li>
+        <li>Pool formation</li>
+        <li>Two tranche issuance</li>
+        <li>5–10 national projects</li>
+      </ul>
+      <div style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed rgba(0,0,0,0.15); font-size: 0.8rem; color: var(--color-wine); font-family: var(--font-ui);">◆ &gt;80% on time · &gt;90% redeemed · NAV +15% (subject to adjustment)</div>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num" style="color: var(--color-wine);">Phase 2 · m. 24–60</div>
+      <h3 class="midnight">Institutionalization</h3>
+      <ul>
+        <li>Amendments L1+L2+L3+L5+L6</li>
+        <li>CBA as counterparty</li>
+        <li>Digital Dram issuance against the pool</li>
+        <li>Institutional investors €1B+</li>
+      </ul>
+      <div style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed rgba(0,0,0,0.15); font-size: 0.8rem; color: var(--color-wine); font-family: var(--font-ui);">◆ Package adopted · CBA's first issuance (subject to adjustment)</div>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num">Phase 3 · m. 60+</div>
+      <h3 class="midnight">Scale and replication</h3>
+      <ul>
+        <li>Movables, IP, equity</li>
+        <li>Georgia, Kazakhstan, EAEU, EU</li>
+        <li>Revolving cycles 2 and 3</li>
+        <li>RA as regional hub</li>
+      </ul>
+      <div style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed rgba(0,0,0,0.15); font-size: 0.8rem; color: var(--color-gold-deep); font-family: var(--font-ui);">◆ No-limit horizons</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 11: SEVEN ADVANTAGES ═══════════════ -->
+<section class="slide" data-slide="11">
+  <span class="eyebrow">Slide 11 · Competitive advantages</span>
+  <h2>Seven reasons<br><span class="italic gold-light">there are no equivalents</span></h2>
+  <div class="advantages-grid">
+    <div class="adv-cell">
+      <div class="adv-rom">I</div>
+      <h4>Regulatory clarity</h4>
+      <p>Armenia's HO-159-N is built on EU MiCA. The Platform is immediately recognized in the EU.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">II</div>
+      <h4>Win-Win-Win</h4>
+      <p>All three parties (owner, investor, state) win simultaneously. No losses anywhere.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">III</div>
+      <h4>Diaspora channel</h4>
+      <p>Seven million Armenians worldwide. Israel Bonds raised $50B+ in 75 years. Armenian diaspora in proportion — larger.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">IV</div>
+      <h4>Real collateral</h4>
+      <p>Armenian real estate + insurance + RA MoF guarantee. Defense-in-depth.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">V</div>
+      <h4>Financial sovereignty</h4>
+      <p>Funds without IMF, without external debt, without conditions. National programs accelerated by 5–7 years.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">VI</div>
+      <h4>Two-phase strategy</h4>
+      <p>Quick start plus ambitious scaling. Path to €1B+ annual turnover.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">VII</div>
+      <h4>DLT transparency</h4>
+      <p>Every transaction, every asset, every government action — publicly verifiable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 12: EXCLUSIVITY ═══════════════ -->
+<section class="slide gold" data-slide="12">
+  <span class="eyebrow" style="color: var(--color-cream);">Slide 12 · Idea exclusivity</span>
+  <h2 class="cream">No equivalents exist.<br>Not in Armenia.<br>Not in the region. Not in the world.</h2>
+  <p class="lead cream">
+    The components exist separately: real estate tokenization, diaspora bonds, project finance. But no one has assembled them into a single system — <strong>under one jurisdiction, with one operator, under a unified regulatory regime, with sovereign guarantee participation and full asset-owner protection</strong>.
+  </p>
+  <p class="lead cream" style="margin-top: 2rem;">
+    This gives Armenia a unique opportunity to become a <strong>regional financial hub</strong> for similar structures. Today — Armenia. Tomorrow — the model is replicated in Georgia, Kazakhstan, the Gulf states, the Balkans. And the <strong>headquarters, intellectual core, and regulatory expertise</strong> remain in Yerevan.
+  </p>
+  <div class="quote" style="color: var(--color-cream); margin-top: 3rem;">
+    This is not a financial product.<br>This is long-term strategic positioning.
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 13: ABOUT THE AUTHOR ═══════════════ -->
+<section class="slide" data-slide="13">
+  <span class="eyebrow">Slide 13 · Team and author</span>
+  <h2>Author and rights holder</h2>
+  <div class="two-col" style="margin-top: 3rem;">
+    <div>
+      <div style="aspect-ratio: 3/4; background: linear-gradient(135deg, var(--color-midnight-soft), var(--color-midnight)); border: 1px solid var(--color-gold-deep); display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 360px;">
+        <div style="font-family: var(--font-display); font-size: 8rem; font-weight: 800; color: var(--color-gold); line-height: 1; letter-spacing: -0.05em;">K</div>
+        <div style="font-family: var(--font-sub); font-style: italic; font-size: 1.1rem; color: var(--color-gold-light); margin-top: 0.5rem;">Kagirov A-Kh. A.</div>
+      </div>
+    </div>
+    <div>
+      <h3 class="parchment">Kagirov Abdul-Hakim<br>Akhmadovich</h3>
+      <p style="font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light); font-size: 1.3rem; margin-top: 0.5rem;">Aslan Kaa · Founder & CEO</p>
+      <p class="body-text" style="margin-top: 2rem;">
+        Architect and ideologue of the Noah's Ark Platform. Ready to lead the project from concept to industrial deployment in the Republic of Armenia and onward to replication in Georgia, Kazakhstan, EAEU, and EU countries.
+      </p>
+      <p class="body-text" style="margin-top: 1rem;">
+        The intellectual property of the project is the principal intangible asset, contributed to the joint venture's authorized capital following an international independent valuation by a firm of <strong>Duff & Phelps / Kroll / Houlihan Lokey / KPMG-VME / EY-VME</strong> standing.
+      </p>
+      <p class="body-text" style="margin-top: 1rem;">
+        The team is being assembled from leading specialists at the JV's incorporation stage.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 14: CONTACTS ═══════════════ -->
+<section class="slide" data-slide="14">
+  <span class="eyebrow">Slide 14 · Contacts for business correspondence</span>
+  <h2>Get in touch directly</h2>
+  <p class="subhead">Available for meetings with representatives of the RA Ministry of Finance and the Central Bank of Armenia, investment funds, partner banks, and members of the diaspora — in person or by video.</p>
+  <div class="contact-grid">
+    <div class="contact-row">
+      <div class="contact-label">Website</div>
+      <div class="contact-value">www.aslankaa.com</div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-label">Email</div>
+      <div class="contact-value">aslankaa@yandex.ru<br>aslankaa@yandex.ru</div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-label">Phones</div>
+      <div class="contact-value">+7 (969) 795-55-55<br>+7 (925) 203-77-77</div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-label">Languages</div>
+      <div class="contact-value italic">Russian · English · on request — Armenian, French</div>
+    </div>
+    <div class="contact-row" style="grid-column: 1 / -1;">
+      <div class="contact-label">Social networks</div>
+      <div class="contact-value" style="font-family: var(--font-ui); font-size: 0.95rem; line-height: 1.8; color: var(--color-gold-light);">
+        Telegram <strong style="color: var(--color-parchment);">@aslan_kaa</strong> ·
+        Instagram <strong style="color: var(--color-parchment);">@aslan_kaa</strong> ·
+        VK <strong style="color: var(--color-parchment);">id453725994</strong> ·
+        Facebook <strong style="color: var(--color-parchment);">aslan.kaa</strong> ·
+        X <strong style="color: var(--color-parchment);">@aslanofff</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLIDE 15: FINAL ═══════════════ -->
+<section class="slide cover" data-slide="15">
+  <div class="cover-celestial"></div>
+  <div class="cover-ararat">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+      <path d="M0,400 L80,320 L160,280 L240,240 L340,200 L420,160 L490,90 L560,40 L620,20 L680,60 L740,140 L800,200 L860,250 L920,210 L980,170 L1040,200 L1100,250 L1160,290 L1200,310 L1200,400 Z"/>
+    </svg>
+  </div>
+  <div class="cover-content">
+    <span class="eyebrow" style="justify-content: center;">Thank you</span>
+    <h1 style="font-size: clamp(2.5rem, 6vw, 5rem);">
+      <span class="italic gold-light">Ready</span> for your<br>
+      questions and proposals
+    </h1>
+    <div class="cover-meta">Noah's Ark Platform · Republic of Armenia · May 2026</div>
+    <div class="cover-author">Kagirov Abdul-Hakim Akhmadovich · Aslan Kaa</div>
+    <div style="margin-top: 2.5rem; font-family: var(--font-sub); font-style: italic; font-size: 1.1rem; color: var(--color-gold);">
+      ◆ ◆ ◆
+    </div>
+  </div>
+  <div class="cover-doc-id">© 2026 · NK-PRES-001-EN/2026</div>
+</section>
+
+</div>
+
+<div class="nav-bar">
+  <div class="nav-counter"><span id="cur">1</span> / <span id="total">15</span></div>
+  <div class="nav-controls">
+    <button class="nav-btn" id="prev" aria-label="Previous">‹</button>
+    <button class="nav-btn" id="next" aria-label="Next">›</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  document.getElementById('total').textContent = total;
+
+  const show = (idx) => {
+    if (idx < 0) idx = total - 1;
+    if (idx >= total) idx = 0;
+    slides[current].classList.remove('active');
+    slides[idx].classList.add('active');
+    current = idx;
+    document.getElementById('cur').textContent = idx + 1;
+    document.getElementById('progress').style.width = ((idx + 1) / total * 100) + '%';
+  };
+
+  document.getElementById('prev').addEventListener('click', () => show(current - 1));
+  document.getElementById('next').addEventListener('click', () => show(current + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault(); show(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault(); show(current - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault(); show(0);
+    } else if (e.key === 'End') {
+      e.preventDefault(); show(total - 1);
+    } else if (e.key >= '0' && e.key <= '9') {
+      e.preventDefault();
+      const num = parseInt(e.key);
+      if (num === 0) show(9);
+      else if (num <= total) show(num - 1);
+    }
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 60) {
+      if (dx > 0) show(current - 1);
+      else show(current + 1);
+    }
+  });
+
+  document.getElementById('progress').style.width = (1 / total * 100) + '%';
+
+  console.log('%c© Kagirov Abdul-Hakim Akhmadovich, 2026.', 'color:#c89b3c;font-weight:bold;font-size:13px');
+  console.log('%cNoah’s Ark Platform · Keynote · Document NK-PRES-001-EN/2026', 'color:#0a1628;font-size:12px');
+  console.log('%cNavigation: ← → arrows, or digits 1-9, or swipes on mobile', 'color:#666;font-size:11px');
+})();
+</script>
+
+</body>
+</html>

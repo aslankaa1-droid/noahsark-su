@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="description" content="Платформа Ноев Ковчег — большая презентация проекта. Финансирование национальных проектов Республики Армения через токенизацию залоговой недвижимости." />
+<meta name="author" content="Кагиров Абдул-Хаким Ахмадович (Аслан Каа)" />
+<meta name="copyright" content="© Кагиров Абдул-Хаким Ахмадович, 2026. Все права защищены." />
+<meta name="robots" content="noindex" />
+<title>Платформа Ноев Ковчег · Большая презентация · NK-PRES-001/2026</title>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230a1628'/><path d='M10,75 L30,45 L40,55 L55,25 L70,40 L85,30 L90,75 Z' fill='%23c89b3c'/></svg>" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,800;1,6..96,400;1,6..96,800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;0,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --color-midnight: #0a1628;
+  --color-midnight-soft: #1a2438;
+  --color-haze: #3d4f6b;
+  --color-gold: #c89b3c;
+  --color-gold-light: #e0bc6a;
+  --color-gold-deep: #8b6818;
+  --color-wine: #8b1538;
+  --color-parchment: #f4ede0;
+  --color-parchment-dim: #e8dfcd;
+  --color-cream: #faf6ec;
+  --color-ink: #1a2438;
+
+  --font-display: 'Bodoni Moda', 'Times New Roman', serif;
+  --font-sub: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Spectral', Georgia, serif;
+  --font-ui: 'Manrope', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-midnight);
+  font-family: var(--font-body);
+  color: var(--color-parchment);
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 100;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* Watermark на всех слайдах */
+body::after {
+  content: '© Кагиров А-Х. А. · 2026 · ВКАП Женева 1952 · Бернская конвенция 1886 · ВСЕ ПРАВА ЗАЩИЩЕНЫ';
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--color-gold);
+  opacity: 0.4;
+  z-index: 99;
+  pointer-events: none;
+  text-transform: uppercase;
+}
+
+.deck { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 6vw, 6rem);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s linear 0.6s;
+  background: var(--color-midnight);
+  overflow-y: auto;
+}
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease, visibility 0s linear 0s;
+  z-index: 10;
+}
+
+/* СПЕЦИАЛЬНЫЕ ФОНЫ */
+.slide.cream { background: var(--color-cream); color: var(--color-ink); }
+.slide.parchment { background: var(--color-parchment); color: var(--color-ink); }
+.slide.wine { background: var(--color-wine); color: var(--color-cream); }
+.slide.gold { background: var(--color-gold-deep); color: var(--color-cream); }
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+.eyebrow::before {
+  content: '';
+  width: 1.6rem;
+  height: 1px;
+  background: currentColor;
+}
+.slide.cream .eyebrow,
+.slide.parchment .eyebrow { color: var(--color-gold-deep); }
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; }
+h1 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; }
+h2 { font-size: clamp(2.5rem, 6vw, 5rem); }
+h3 { font-size: clamp(1.6rem, 3vw, 2.5rem); }
+.italic { font-family: var(--font-sub); font-style: italic; font-weight: 400; }
+
+.subhead {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  line-height: 1.4;
+  margin-top: 1.5rem;
+  max-width: 36em;
+  opacity: 0.9;
+}
+
+.lead {
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.6;
+  margin-top: 1.5rem;
+  max-width: 38em;
+}
+
+.body-text {
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  line-height: 1.65;
+  max-width: 38em;
+}
+
+p + p { margin-top: 1rem; }
+strong { font-weight: 600; }
+.gold { color: var(--color-gold); }
+.gold-light { color: var(--color-gold-light); }
+.midnight { color: var(--color-midnight); }
+.wine { color: var(--color-wine); }
+.parchment { color: var(--color-parchment); }
+.cream { color: var(--color-cream); }
+
+/* НАВИГАЦИЯ */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(to top, rgba(10,22,40,0.85), transparent);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 24px 8px;
+  pointer-events: none;
+  z-index: 50;
+}
+.nav-bar > * { pointer-events: auto; }
+.nav-counter {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--color-gold);
+  background: rgba(0,0,0,0.4);
+  padding: 4px 12px;
+  border: 1px solid var(--color-gold-deep);
+}
+.nav-controls { display: flex; gap: 8px; }
+.nav-btn {
+  width: 36px; height: 36px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--color-gold-deep);
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-btn:hover { background: var(--color-gold); color: var(--color-midnight); }
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--color-gold);
+  z-index: 60;
+  transition: width 0.3s;
+}
+
+/* ─── СЛАЙД 1: COVER ─── */
+.cover {
+  background: var(--color-midnight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 30%, rgba(200,155,60,0.18), transparent 55%),
+    radial-gradient(ellipse at 30% 70%, rgba(139,21,56,0.12), transparent 55%);
+}
+.cover-celestial {
+  position: absolute;
+  top: 15%;
+  right: 15%;
+  width: clamp(80px, 10vw, 140px);
+  height: clamp(80px, 10vw, 140px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--color-gold-light), var(--color-gold) 60%, transparent 70%);
+  box-shadow: 0 0 80px 20px rgba(200,155,60,0.25);
+}
+.cover-ararat {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 35%;
+}
+.cover-ararat svg { width: 100%; height: 100%; }
+.cover-ararat path { fill: var(--color-midnight-soft); }
+.cover-content { position: relative; z-index: 2; max-width: 80%; }
+.cover h1 { color: var(--color-parchment); margin-bottom: 1rem; }
+.cover h1 .accent { color: var(--color-gold-light); font-style: italic; font-weight: 400; display: block; }
+.cover-meta {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--color-gold-light);
+  margin-top: 2rem;
+  opacity: 0.95;
+}
+.cover-author {
+  margin-top: 2.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--color-gold);
+  text-transform: uppercase;
+}
+.cover-doc-id {
+  position: absolute;
+  bottom: 50px;
+  right: 30px;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--color-gold);
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+/* ─── ОБЩИЕ КОМПОНЕНТЫ СЛАЙДОВ ─── */
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 880px) { .two-col { grid-template-columns: 1fr; gap: 2rem; } }
+
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+@media (max-width: 880px) { .three-col { grid-template-columns: 1fr; } }
+
+.card {
+  padding: 2rem;
+  border-left: 3px solid var(--color-gold);
+  background: rgba(244,237,224,0.05);
+}
+.slide.cream .card,
+.slide.parchment .card { background: rgba(10,22,40,0.04); border-left-color: var(--color-wine); }
+
+.card-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 3rem;
+  color: var(--color-gold);
+  opacity: 0.7;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.slide.cream .card-num,
+.slide.parchment .card-num { color: var(--color-wine); }
+
+.card h3 { font-size: 1.3rem; margin-bottom: 0.6rem; line-height: 1.2; }
+.card p { font-size: 0.95rem; line-height: 1.55; opacity: 0.9; }
+
+.big-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(4rem, 12vw, 9rem);
+  line-height: 1;
+  color: var(--color-gold);
+  letter-spacing: -0.04em;
+}
+.big-num .unit {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.4em;
+  color: var(--color-gold-light);
+  margin-left: 0.1em;
+}
+.big-num-label {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-parchment);
+  opacity: 0.85;
+  margin-top: 1rem;
+}
+
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(200,155,60,0.3);
+  border-bottom: 1px solid rgba(200,155,60,0.3);
+  margin-top: 3rem;
+}
+@media (max-width: 880px) { .numbers-grid { grid-template-columns: repeat(2, 1fr); } }
+.num-cell {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border-right: 1px solid rgba(200,155,60,0.3);
+}
+.num-cell:last-child { border-right: none; }
+.num-cell-big {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  color: var(--color-gold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.num-cell-big .unit {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.5em;
+  color: var(--color-gold-light);
+  margin-left: 0.1em;
+}
+.num-cell-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-parchment);
+  opacity: 0.8;
+  margin-top: 0.7rem;
+}
+.slide.cream .num-cell-label, .slide.parchment .num-cell-label { color: var(--color-ink); opacity: 0.7; }
+.slide.cream .num-cell-big, .slide.parchment .num-cell-big { color: var(--color-wine); }
+.slide.cream .num-cell-big .unit, .slide.parchment .num-cell-big .unit { color: var(--color-gold-deep); }
+
+.list-elegant {
+  list-style: none;
+  margin-top: 2rem;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.7;
+}
+.list-elegant li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(200,155,60,0.2);
+  display: flex;
+  gap: 1rem;
+}
+.list-elegant li:last-child { border-bottom: none; }
+.list-elegant li::before {
+  content: '◆';
+  color: var(--color-gold);
+  font-size: 0.7em;
+  margin-top: 0.4em;
+}
+
+.quote {
+  font-family: var(--font-sub);
+  font-style: italic;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.3;
+  color: var(--color-gold-light);
+  max-width: 24em;
+  position: relative;
+  padding-left: 2rem;
+}
+.quote::before {
+  content: '«';
+  position: absolute;
+  left: -0.5rem;
+  top: -0.3em;
+  font-family: var(--font-display);
+  font-size: 4em;
+  color: var(--color-gold);
+  opacity: 0.5;
+  line-height: 1;
+}
+.quote-author {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-top: 2rem;
+  opacity: 0.85;
+}
+
+.timeline-h {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+@media (max-width: 880px) { .timeline-h { grid-template-columns: 1fr; } }
+.tl-card {
+  background: rgba(244,237,224,0.05);
+  border-top: 3px solid var(--color-gold);
+  padding: 1.8rem 1.4rem;
+}
+.tl-card:nth-child(1) { border-top-color: var(--color-haze); }
+.tl-card:nth-child(2) { border-top-color: var(--color-gold); }
+.tl-card:nth-child(3) { border-top-color: var(--color-wine); }
+.tl-card:nth-child(4) { border-top-color: var(--color-gold-light); }
+.tl-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--color-gold);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+.tl-card h3 { font-size: 1.4rem; margin-bottom: 0.4rem; line-height: 1.2; }
+.tl-card .period {
+  font-family: var(--font-sub);
+  font-style: italic;
+  color: var(--color-gold-light);
+  margin-bottom: 1rem;
+}
+.tl-card ul { list-style: none; font-size: 0.95rem; line-height: 1.55; opacity: 0.9; }
+.tl-card li { padding-left: 1rem; position: relative; margin-bottom: 0.4rem; }
+.tl-card li::before { content: '·'; position: absolute; left: 0; color: var(--color-gold); }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem 3rem;
+  margin-top: 2.5rem;
+}
+@media (max-width: 600px) { .contact-grid { grid-template-columns: 1fr; } }
+.contact-row {
+  border-top: 1px solid rgba(200,155,60,0.3);
+  padding-top: 0.9rem;
+}
+.contact-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  margin-bottom: 0.3rem;
+}
+.contact-value {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-parchment);
+}
+
+.industries-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+@media (max-width: 880px) { .industries-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .industries-grid { grid-template-columns: 1fr; } }
+.industry {
+  background: rgba(244,237,224,0.06);
+  border: 1px solid rgba(200,155,60,0.25);
+  padding: 1.4rem 1.2rem;
+  text-align: left;
+  transition: all .25s;
+}
+.industry:hover { background: rgba(200,155,60,0.12); border-color: var(--color-gold); }
+.industry-icon {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--color-gold);
+  margin-bottom: 0.5rem;
+}
+.industry h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--color-parchment);
+  margin-bottom: 0.3rem;
+}
+.industry p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.advantages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0;
+  margin-top: 2rem;
+  border: 1px solid rgba(200,155,60,0.3);
+}
+.adv-cell {
+  padding: 1.6rem 1.4rem;
+  border-right: 1px solid rgba(200,155,60,0.3);
+  border-bottom: 1px solid rgba(200,155,60,0.3);
+}
+.adv-rom {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--color-gold);
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+}
+.adv-cell h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--color-parchment);
+  margin-bottom: 0.5rem;
+}
+.adv-cell p { font-size: 0.85rem; line-height: 1.55; opacity: 0.9; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+
+<body>
+
+<a href="index.html" onclick="if(document.referrer&&document.referrer.indexOf(location.origin)===0){event.preventDefault();history.back();}" style="position:fixed;top:18px;left:22px;z-index:99999;background:rgba(0,0,0,0.78);color:#fff;font-family:Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:1.2px;padding:9px 18px;border-radius:24px;text-decoration:none;border:1px solid rgba(95,163,233,0.5);text-transform:uppercase;">← На сайт Аслана Каа</a>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+<!-- ═══════════════ СЛАЙД 1: COVER ═══════════════ -->
+<section class="slide cover active" data-slide="1">
+  <div class="cover-celestial"></div>
+  <div class="cover-ararat">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+      <path d="M0,400 L80,320 L160,280 L240,240 L340,200 L420,160 L490,90 L560,40 L620,20 L680,60 L740,140 L800,200 L860,250 L920,210 L980,170 L1040,200 L1100,250 L1160,290 L1200,310 L1200,400 Z"/>
+    </svg>
+  </div>
+  <div class="cover-content">
+    <span class="eyebrow" style="justify-content: center;">Большая презентация · Май 2026</span>
+    <h1>
+      Платформа
+      <span class="accent">«Ноев Ковчег»</span>
+    </h1>
+    <div class="cover-meta">Финансирование национальных проектов Республики Армения<br>через токенизацию залоговой недвижимости</div>
+    <div class="cover-author">Кагиров Абдул-Хаким Ахмадович · Аслан Каа</div>
+  </div>
+  <div class="cover-doc-id">NK-PRES-001/2026</div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 2: О ЧЁМ ЭТОТ РАЗГОВОР ═══════════════ -->
+<section class="slide" data-slide="2">
+  <span class="eyebrow">Слайд 02 · Вступление</span>
+  <h2>О чём этот разговор</h2>
+  <div class="quote" style="margin-top: 3rem;">
+    Это разговор о том, как Армения может ускорить своё развитие на десять лет,
+    не наращивая внешний долг, не повышая налоги, не отдавая ни одной квартиры в чьи-то руки.
+  </div>
+  <div class="quote-author">— Кагиров А.-Х. А., автор проекта</div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 3: АРМЕНИЯ СЕГОДНЯ — 3 ОГРАНИЧЕНИЯ ═══════════════ -->
+<section class="slide parchment" data-slide="3">
+  <span class="eyebrow">Слайд 03 · Реальность сегодня</span>
+  <h2>Три ограничения, которые<br>сдерживают развитие Армении</h2>
+  <div class="three-col">
+    <div class="card">
+      <div class="card-num">01</div>
+      <h3>Бюджет ограничен</h3>
+      <p>Темпы реализации национальных проектов сдерживаются объёмом бюджета и условиями международных кредиторов. Внешний долг расти бесконечно не может; ставки на внешних рынках высоки.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">02</div>
+      <h3>Диаспора не вовлечена</h3>
+      <p>Семь миллионов армян за рубежом располагают десятками миллиардов долларов капитала. Сегодня нет ни одного юридически чистого, прозрачного и доходного инструмента, специально созданного для инвестиций диаспоры в Родину.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">03</div>
+      <h3>Спящие активы</h3>
+      <p>Сотни тысяч квартир, домов и земельных участков в Армении принадлежат собственникам, которые не используют их активно. Этот колоссальный «спящий капитал» — ресурс для финансирования инфраструктуры без потери владения.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 4: ИСТОРИЧЕСКАЯ ВОЗМОЖНОСТЬ ═══════════════ -->
+<section class="slide" data-slide="4">
+  <span class="eyebrow">Слайд 04 · Окно возможностей</span>
+  <h2>Уникальное стечение<br><span class="italic gold-light">обстоятельств</span></h2>
+  <ul class="list-elegant">
+    <li><strong>Закон РА «О криптоактивах» HO-159-N</strong> принят 29 мая 2025 г. и вступил в силу 4 июля 2025 г. — Армения одна из первых в нашем регионе с полноценным MiCA-подобным законом</li>
+    <li><strong>Регламенты ЦБ РА 7/01, 7/02, 7/04, 7/05</strong> вступили в силу 31 января 2026 г. — правовая инфраструктура полностью готова</li>
+    <li><strong>Армянская диаспора готова инвестировать</strong> — момент для Армении 2.0</li>
+    <li><strong>Технологическая база</strong> распределённых реестров достигла зрелости</li>
+    <li><strong>Региональный контекст</strong> благоприятен — Грузия, Казахстан, ОАЭ как потенциальные тиражные рынки</li>
+    <li><strong>Капитал ищет real-asset alternatives</strong> — традиционные фиксированные доходы низки, спрос на обеспеченные инструменты растёт</li>
+  </ul>
+</section>
+
+<!-- ═══════════════ СЛАЙД 5: РЕШЕНИЕ В ОДНОЙ МЫСЛИ ═══════════════ -->
+<section class="slide cream" data-slide="5">
+  <span class="eyebrow">Слайд 05 · Большая идея</span>
+  <h2 class="midnight">Один цикл —<br>три довольных стороны</h2>
+  <div class="quote" style="color: var(--color-midnight); margin-top: 2rem;">
+    Собственник недвижимости в Армении сохраняет владение и получает доход.<br>
+    Инвестор-диаспоральный соотечественник получает обеспеченный высокодоходный инструмент.<br>
+    Государство Армения получает €100M внебюджетного финансирования.
+  </div>
+  <p class="lead" style="color: var(--color-wine); margin-top: 3rem; font-style: italic; font-family: var(--font-sub); font-size: 1.5rem;">
+    Все три стороны — без потерь.<br>Без увеличения внешнего долга. Без посредников.
+  </p>
+</section>
+
+<!-- ═══════════════ СЛАЙД 6: ТРИАДА СТОРОН ═══════════════ -->
+<section class="slide" data-slide="6">
+  <span class="eyebrow">Слайд 06 · Триединое решение</span>
+  <h2>Что получает каждая сторона</h2>
+  <div class="three-col" style="margin-top: 2rem;">
+    <div class="card" style="border-left-color: var(--color-gold);">
+      <div class="card-num">🏠</div>
+      <h3 class="gold-light">Собственник</h3>
+      <ul style="list-style: none; font-size: 0.95rem; line-height: 1.7; margin-top: 1rem;">
+        <li>· Актив остаётся у него</li>
+        <li>· Купон 2.75% годовых в драмах</li>
+        <li>· Бесплатная страховка</li>
+        <li>· 0% налога на имущество</li>
+        <li>· Бонус 7–8% в конце цикла</li>
+        <li>· Статус «Соинвестор Армении»</li>
+      </ul>
+      <p style="margin-top: 1rem; font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light);">
+        ≈ 4.4% годовых сверх альтернатив без потери владения
+      </p>
+    </div>
+    <div class="card" style="border-left-color: var(--color-wine);">
+      <div class="card-num" style="color: var(--color-wine); opacity: 1;">💰</div>
+      <h3 class="gold-light">Инвестор</h3>
+      <ul style="list-style: none; font-size: 0.95rem; line-height: 1.7; margin-top: 1rem;">
+        <li>· Senior — 5.5% купон + гарантия Минфина РА</li>
+        <li>· Junior (ART) — до 13.5% годовых</li>
+        <li>· Реальное обеспечение: армянская недвижимость + страховка</li>
+        <li>· 0% налога на крипто-прирост для нерезидентов</li>
+        <li>· Прозрачность DLT в режиме реального времени</li>
+      </ul>
+      <p style="margin-top: 1rem; font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light);">
+        Самый защищённый цифровой актив региона
+      </p>
+    </div>
+    <div class="card" style="border-left-color: var(--color-gold-light);">
+      <div class="card-num">🇦🇲</div>
+      <h3 class="gold-light">Государство</h3>
+      <ul style="list-style: none; font-size: 0.95rem; line-height: 1.7; margin-top: 1rem;">
+        <li>· До €1 миллиарда внебюджетного финансирования</li>
+        <li>· Без увеличения внешнего госдолга</li>
+        <li>· Ускорение нацпроектов на 5–7 лет</li>
+        <li>· Финансовый суверенитет</li>
+        <li>· Армения становится региональным финансовым хабом</li>
+      </ul>
+      <p style="margin-top: 1rem; font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light);">
+        Долгосрочное стратегическое позиционирование РА
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 7: 21 ШАГ — УПРОЩЁННО ═══════════════ -->
+<section class="slide parchment" data-slide="7">
+  <span class="eyebrow">Слайд 07 · Жизненный цикл актива</span>
+  <h2>21 шаг — от регистрации<br>до возврата</h2>
+  <p class="subhead" style="color: var(--color-ink-soft);">Каждый шаг привязан к статье HO-159-N или Регламентам ЦБ РА.</p>
+  <div class="timeline-h">
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num" style="color: var(--color-haze);">Фаза 1</div>
+      <h3 class="midnight">Накопление пула</h3>
+      <div class="period">8 шагов · 4–8 месяцев</div>
+      <ul>
+        <li>Регистрация · KYC</li>
+        <li>Декларация · Оценка</li>
+        <li>Страхование · CFA1</li>
+        <li>Кастоди · Старт купона</li>
+      </ul>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num">Фаза 2</div>
+      <h3 class="midnight">Выпуск траншей</h3>
+      <div class="period">5 шагов · 1–2 месяца</div>
+      <ul>
+        <li>Whitepaper</li>
+        <li>Подтверждение ЦБ РА</li>
+        <li>Senior tranche (70%)</li>
+        <li>Junior ART (30%)</li>
+        <li>Зачисление в Фонд</li>
+      </ul>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num" style="color: var(--color-wine);">Фаза 3</div>
+      <h3 class="midnight">Реализация</h3>
+      <div class="period">4 шага · 3–7 лет</div>
+      <ul>
+        <li>Финансирование проектов</li>
+        <li>Стройка + аудит</li>
+        <li>Возврат cash flow</li>
+        <li>Обновление NAV</li>
+      </ul>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num">Фаза 4</div>
+      <h3 class="midnight">Закрытие</h3>
+      <div class="period">4 шага · год 7+</div>
+      <ul>
+        <li>Погашение Senior</li>
+        <li>Выкуп Junior</li>
+        <li>Снятие обременения</li>
+        <li>Реинвестирование</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 8: ЦИФРЫ ПИЛОТА ═══════════════ -->
+<section class="slide" data-slide="8">
+  <span class="eyebrow">Слайд 08 · Пилотный пул €100M</span>
+  <h2>Восемь параметров, которые<br>определяют успех</h2>
+  <div class="numbers-grid">
+    <div class="num-cell">
+      <div class="num-cell-big">100<span class="unit">M €</span></div>
+      <div class="num-cell-label">Размер пула</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">500</div>
+      <div class="num-cell-label">Собственников</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">7<span class="unit">лет</span></div>
+      <div class="num-cell-label">Цикл</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">5.5<span class="unit">%</span></div>
+      <div class="num-cell-label">Senior купон</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">13.5<span class="unit">%</span></div>
+      <div class="num-cell-label">Junior до</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">320<span class="unit">M ֏</span></div>
+      <div class="num-cell-label">Капитал CASP</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">2.75<span class="unit">%</span></div>
+      <div class="num-cell-label">Купон собственнику</div>
+    </div>
+    <div class="num-cell">
+      <div class="num-cell-big">38<span class="unit">M €</span></div>
+      <div class="num-cell-label">NPV экономии РА</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 9: ЦЕННОСТЬ ДЛЯ АРМЕНИИ ═══════════════ -->
+<section class="slide" data-slide="9">
+  <span class="eyebrow">Слайд 09 · Влияние на отрасли</span>
+  <h2>Что финансирует Фонд<br><span class="italic gold-light">«Ноев Ковчег»</span></h2>
+  <p class="lead">Девять отраслей народного хозяйства Армении, ускоряемых через целевое финансирование национальных проектов из Фонда:</p>
+  <div class="industries-grid">
+    <div class="industry">
+      <div class="industry-icon">i</div>
+      <h4>Дороги и транспорт</h4>
+      <p>Автомагистрали, мосты, аэропорты, ж/д модернизация — соединяющие регионы и приграничные хабы</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">ii</div>
+      <h4>Энергетика</h4>
+      <p>Малые ГЭС, солнечные станции, ветроэнергетика, модернизация распределительной сети</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">iii</div>
+      <h4>Агропромышленность</h4>
+      <p>Перерабатывающие комплексы, орошение, элитное виноделие, экспорт армянских коньяков, сыров, фруктов</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">iv</div>
+      <h4>Туризм и гостеприимство</h4>
+      <p>Отели в Гюмри, Дилижане, Севане; реставрация исторических объектов; туристические маршруты Гарни-Гегард-Татев</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">v</div>
+      <h4>IT-кампусы</h4>
+      <p>Технологические парки в Ереване, Гюмри, Ванадзоре; центры компетенций по AI, блокчейну, кибербезопасности</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">vi</div>
+      <h4>Образование</h4>
+      <p>Школы и университеты с современным оборудованием; программы для возвращенцев из диаспоры</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">vii</div>
+      <h4>Здравоохранение</h4>
+      <p>Региональные больницы, телемедицина, оборудование экспертных клиник в Ереване</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">viii</div>
+      <h4>Жильё для репатриантов</h4>
+      <p>Доступное жильё для возвращающихся представителей диаспоры; программы упрощённой репатриации</p>
+    </div>
+    <div class="industry">
+      <div class="industry-icon">ix</div>
+      <h4>Культура и наследие</h4>
+      <p>Реставрация церквей, музеев, культурных центров; цифровизация архивов; продвижение армянского культурного бренда</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 10: ДОРОЖНАЯ КАРТА ═══════════════ -->
+<section class="slide parchment" data-slide="10">
+  <span class="eyebrow">Слайд 10 · Дорожная карта</span>
+  <h2>Четыре фазы — с жёсткими<br>хард-гейтами перехода</h2>
+  <div class="timeline-h">
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num" style="color: var(--color-haze);">Фаза 0 · мес 0–6</div>
+      <h3 class="midnight">Подготовка</h3>
+      <ul>
+        <li>Учреждение СП с банком РА</li>
+        <li>Международная IP-оценка</li>
+        <li>Подготовка документации</li>
+        <li>Политическая подготовка</li>
+      </ul>
+      <div style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed rgba(0,0,0,0.15); font-size: 0.8rem; color: var(--color-wine); font-family: var(--font-ui);">◆ Хард-гейт: Постановление Правительства РА (возможна коррекция)</div>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num">Фаза 1 · мес 6–24</div>
+      <h3 class="midnight">Пилот €100M</h3>
+      <ul>
+        <li>Лицензия CASP</li>
+        <li>Накопление пула</li>
+        <li>Выпуск 2-х траншей</li>
+        <li>5–10 нац. проектов</li>
+      </ul>
+      <div style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed rgba(0,0,0,0.15); font-size: 0.8rem; color: var(--color-wine); font-family: var(--font-ui);">◆ &gt;80% сданы · &gt;90% выкуплено · NAV +15% (возможна коррекция)</div>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num" style="color: var(--color-wine);">Фаза 2 · мес 24–60</div>
+      <h3 class="midnight">Институционализация</h3>
+      <ul>
+        <li>Поправки L1+L2+L3+L5+L6</li>
+        <li>ЦБ РА как контрагент</li>
+        <li>Эмиссия драма под пул</li>
+        <li>Институционалы €1B+</li>
+      </ul>
+      <div style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed rgba(0,0,0,0.15); font-size: 0.8rem; color: var(--color-wine); font-family: var(--font-ui);">◆ Пакет принят · ЦБ РА провёл первую эмиссию (возможна коррекция)</div>
+    </div>
+    <div class="tl-card" style="background: rgba(10,22,40,0.04);">
+      <div class="tl-num">Фаза 3 · мес 60+</div>
+      <h3 class="midnight">Масштаб и тираж</h3>
+      <ul>
+        <li>Движимое имущество, IP, акции</li>
+        <li>Грузия, Казахстан, ЕАЭС, ЕС</li>
+        <li>Револьвинг 2-го и 3-го циклов</li>
+        <li>РА как региональный хаб</li>
+      </ul>
+      <div style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed rgba(0,0,0,0.15); font-size: 0.8rem; color: var(--color-gold-deep); font-family: var(--font-ui);">◆ Безграничные горизонты</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 11: СЕМЬ ПРЕИМУЩЕСТВ ═══════════════ -->
+<section class="slide" data-slide="11">
+  <span class="eyebrow">Слайд 11 · Конкурентные преимущества</span>
+  <h2>Семь причин, по которым<br><span class="italic gold-light">нет аналогов</span></h2>
+  <div class="advantages-grid">
+    <div class="adv-cell">
+      <div class="adv-rom">I</div>
+      <h4>Регуляторная чистота</h4>
+      <p>Закон HO-159-N в Армении построен по образцу EU MiCA. Платформа сразу признаётся в ЕС.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">II</div>
+      <h4>Win-Win-Win</h4>
+      <p>Все три стороны (собственник, инвестор, государство) в плюсе одновременно. Без потерь.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">III</div>
+      <h4>Канал диаспоры</h4>
+      <p>Семь миллионов армян по миру. Israel Bonds за 75 лет — $50B+. Армянская диаспора в пропорции — больше.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">IV</div>
+      <h4>Реальное обеспечение</h4>
+      <p>Армянская недвижимость + страховка + бюджетная гарантия. Defense-in-depth.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">V</div>
+      <h4>Финансовый суверенитет</h4>
+      <p>Деньги без МВФ, без внешнего долга, без условий. Ускорение нацпроектов на 5–7 лет.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">VI</div>
+      <h4>Двухфазная стратегия</h4>
+      <p>Быстрый старт + амбициозное масштабирование. Путь до €1B+ годового оборота.</p>
+    </div>
+    <div class="adv-cell">
+      <div class="adv-rom">VII</div>
+      <h4>Прозрачность DLT</h4>
+      <p>Каждая транзакция, каждый актив, каждое государственное действие — публично проверяемо.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 12: ЭКСКЛЮЗИВНОСТЬ ═══════════════ -->
+<section class="slide gold" data-slide="12">
+  <span class="eyebrow" style="color: var(--color-cream);">Слайд 12 · Эксклюзивность идеи</span>
+  <h2 class="cream">Аналогов нет.<br>Ни в Армении.<br>Ни в регионе. Ни в мире.</h2>
+  <p class="lead cream">
+    Есть отдельные компоненты: токенизация недвижимости, диаспоральные облигации, проектное финансирование. Но никто не собрал их в единую систему — <strong>под одной юрисдикцией, с одним оператором, под единым регуляторным режимом, с участием суверенной гарантии и полной защиты собственника актива</strong>.
+  </p>
+  <p class="lead cream" style="margin-top: 2rem;">
+    Это даёт Армении уникальную возможность стать <strong>региональным финансовым хабом</strong> для подобных конструкций. Сегодня — Армения. Завтра — модель тиражируется на Грузию, Казахстан, страны Залива, Балканы. И <strong>головной офис, интеллектуальный центр и регуляторная экспертиза</strong> остаются в Ереване.
+  </p>
+  <div class="quote" style="color: var(--color-cream); margin-top: 3rem;">
+    Это не финансовый продукт.<br>Это долгосрочное стратегическое позиционирование.
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 13: ОБ АВТОРЕ ═══════════════ -->
+<section class="slide" data-slide="13">
+  <span class="eyebrow">Слайд 13 · Команда и автор</span>
+  <h2>Автор и правообладатель</h2>
+  <div class="two-col" style="margin-top: 3rem;">
+    <div>
+      <div style="aspect-ratio: 3/4; background: linear-gradient(135deg, var(--color-midnight-soft), var(--color-midnight)); border: 1px solid var(--color-gold-deep); display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 360px;">
+        <div style="font-family: var(--font-display); font-size: 8rem; font-weight: 800; color: var(--color-gold); line-height: 1; letter-spacing: -0.05em;">К</div>
+        <div style="font-family: var(--font-sub); font-style: italic; font-size: 1.1rem; color: var(--color-gold-light); margin-top: 0.5rem;">Кагиров А-Х. А.</div>
+      </div>
+    </div>
+    <div>
+      <h3 class="parchment">Кагиров Абдул-Хаким<br>Ахмадович</h3>
+      <p style="font-family: var(--font-sub); font-style: italic; color: var(--color-gold-light); font-size: 1.3rem; margin-top: 0.5rem;">Аслан Каа · Founder & CEO</p>
+      <p class="body-text" style="margin-top: 2rem;">
+        Идеолог и архитектор Платформы «Ноев Ковчег». Готов вести проект до промышленного внедрения в Республике Армения и далее на тираж в Грузию, Казахстан, страны ЕАЭС и Европейского Союза.
+      </p>
+      <p class="body-text" style="margin-top: 1rem;">
+        Интеллектуальная собственность проекта — основной нематериальный актив, вносимый в уставный капитал совместного предприятия с армянским банком-партнёром по результатам международной независимой оценки фирмой уровня <strong>Duff & Phelps / Kroll / Houlihan Lokey / KPMG-VME / EY-VME</strong>.
+      </p>
+      <p class="body-text" style="margin-top: 1rem;">
+        Команда формируется из ведущих профильных специалистов на этапе учреждения СП.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 14: КОНТАКТЫ ═══════════════ -->
+<section class="slide" data-slide="14">
+  <span class="eyebrow">Слайд 14 · Контакты для деловой переписки</span>
+  <h2>Связаться напрямую</h2>
+  <p class="subhead">Готов к встречам с представителями Минфина и ЦБ РА, инвестиционными фондами, банками-партнёрами и представителями диаспоры в любой удобной форме.</p>
+  <div class="contact-grid">
+    <div class="contact-row">
+      <div class="contact-label">Сайт</div>
+      <div class="contact-value">www.aslankaa.com</div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-label">Электронная почта</div>
+      <div class="contact-value">aslankaa@yandex.ru<br>aslankaa@yandex.ru</div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-label">Телефоны</div>
+      <div class="contact-value">+7 (969) 795-55-55<br>+7 (925) 203-77-77</div>
+    </div>
+    <div class="contact-row">
+      <div class="contact-label">Языки общения</div>
+      <div class="contact-value italic">Русский · English · по запросу — арм., фр.</div>
+    </div>
+    <div class="contact-row" style="grid-column: 1 / -1;">
+      <div class="contact-label">Социальные сети</div>
+      <div class="contact-value" style="font-family: var(--font-ui); font-size: 0.95rem; line-height: 1.8; color: var(--color-gold-light);">
+        Telegram <strong style="color: var(--color-parchment);">@aslan_kaa</strong> ·
+        Instagram <strong style="color: var(--color-parchment);">@aslan_kaa</strong> ·
+        VK <strong style="color: var(--color-parchment);">id453725994</strong> ·
+        Facebook <strong style="color: var(--color-parchment);">aslan.kaa</strong> ·
+        X <strong style="color: var(--color-parchment);">@aslanofff</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ СЛАЙД 15: ФИНАЛ ═══════════════ -->
+<section class="slide cover" data-slide="15">
+  <div class="cover-celestial"></div>
+  <div class="cover-ararat">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+      <path d="M0,400 L80,320 L160,280 L240,240 L340,200 L420,160 L490,90 L560,40 L620,20 L680,60 L740,140 L800,200 L860,250 L920,210 L980,170 L1040,200 L1100,250 L1160,290 L1200,310 L1200,400 Z"/>
+    </svg>
+  </div>
+  <div class="cover-content">
+    <span class="eyebrow" style="justify-content: center;">Спасибо за внимание</span>
+    <h1 style="font-size: clamp(2.5rem, 6vw, 5rem);">
+      <span class="italic gold-light">Готов</span> к вашим вопросам<br>
+      и предложениям
+    </h1>
+    <div class="cover-meta">Платформа «Ноев Ковчег» · Республика Армения · Май 2026</div>
+    <div class="cover-author">Кагиров Абдул-Хаким Ахмадович · Аслан Каа</div>
+    <div style="margin-top: 2.5rem; font-family: var(--font-sub); font-style: italic; font-size: 1.1rem; color: var(--color-gold);">
+      ◆ ◆ ◆
+    </div>
+  </div>
+  <div class="cover-doc-id">© 2026 · NK-PRES-001/2026</div>
+</section>
+
+</div>
+
+<!-- НАВИГАЦИЯ -->
+<div class="nav-bar">
+  <div class="nav-counter"><span id="cur">1</span> / <span id="total">15</span></div>
+  <div class="nav-controls">
+    <button class="nav-btn" id="prev" aria-label="Предыдущий">‹</button>
+    <button class="nav-btn" id="next" aria-label="Следующий">›</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  document.getElementById('total').textContent = total;
+
+  const show = (idx) => {
+    if (idx < 0) idx = total - 1;
+    if (idx >= total) idx = 0;
+    slides[current].classList.remove('active');
+    slides[idx].classList.add('active');
+    current = idx;
+    document.getElementById('cur').textContent = idx + 1;
+    document.getElementById('progress').style.width = ((idx + 1) / total * 100) + '%';
+  };
+
+  document.getElementById('prev').addEventListener('click', () => show(current - 1));
+  document.getElementById('next').addEventListener('click', () => show(current + 1));
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault();
+      show(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      show(current - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      show(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      show(total - 1);
+    } else if (e.key >= '0' && e.key <= '9') {
+      e.preventDefault();
+      const num = parseInt(e.key);
+      if (num === 0) show(9);
+      else if (num <= total) show(num - 1);
+    }
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 60) {
+      if (dx > 0) show(current - 1);
+      else show(current + 1);
+    }
+  });
+
+  // Initial progress
+  document.getElementById('progress').style.width = (1 / total * 100) + '%';
+
+  console.log('%c© Кагиров Абдул-Хаким Ахмадович, 2026.', 'color:#c89b3c;font-weight:bold;font-size:13px');
+  console.log('%cБольшая презентация · Документ NK-PRES-001/2026', 'color:#0a1628;font-size:12px');
+  console.log('%cНавигация: ← → клавиши, или цифры 1-9, или свайпы на мобильном', 'color:#666;font-size:11px');
+})();
+</script>
+
+</body>
+</html>

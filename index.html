@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Платформа «Ноев Ковчег» — ЦФА · Цифровые финансовые активы</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0f1a;
+    --panel:#141c2c;
+    --line:#243248;
+    --ink:#e8eaf0;
+    --ink-2:#a8b0c4;
+    --ink-3:#6e7793;
+    --accent:#5fa3e9;
+    --accent-2:#86c1f5;
+    --gold:#d4a857;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    min-height:100%;background:var(--bg);color:var(--ink);
+    font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased
+  }
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(95,163,233,.14), transparent 55%),
+      radial-gradient(ellipse at 85% 15%, rgba(212,168,87,.07), transparent 60%),
+      var(--bg);
+    display:flex;flex-direction:column;
+  }
+  .topbar{
+    padding:2rem 4vw;
+    display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+    color:var(--ink-3);font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;
+  }
+  .topbar b{color:var(--accent);letter-spacing:.18em}
+  .back-link{
+    color:var(--ink-2);text-decoration:none;font-weight:600;
+    border:1px solid var(--line);border-radius:6px;
+    padding:7px 12px;font-size:.72rem;letter-spacing:.18em;
+    transition:all .15s;
+  }
+  .back-link:hover{color:var(--accent);border-color:var(--accent)}
+  main{
+    flex:1;display:flex;flex-direction:column;justify-content:center;
+    padding:2vh 5vw 4vh;max-width:1280px;margin:0 auto;width:100%;
+  }
+  .eyebrow{
+    display:inline-block;font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;padding-top:.4em;border-top:1px solid var(--accent);
+    margin-bottom:1.4rem;
+  }
+  h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.6rem,5.6vw,5.4rem);font-weight:500;line-height:1.04;letter-spacing:-.01em;
+  }
+  h1 em{font-style:normal;color:var(--accent);font-weight:600}
+  .sub{
+    margin-top:1.4rem;font-size:clamp(1rem,1.4vw,1.25rem);color:var(--ink-2);
+    max-width:62ch;line-height:1.55;font-weight:300;
+  }
+  .pick{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
+  .opt{
+    background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    padding:2rem 1.8rem;position:relative;overflow:hidden;
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .opt:hover{
+    transform:translateY(-3px);border-color:var(--accent);
+    box-shadow:0 20px 60px -20px rgba(95,163,233,.28);
+  }
+  .opt .lang{
+    font-family:'Cormorant Garamond',serif;
+    font-size:3rem;font-weight:600;color:var(--accent);line-height:1;
+    margin-bottom:.4rem;letter-spacing:-.01em;
+  }
+  .opt .langfull{
+    font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--ink-3);margin-bottom:1.4rem;
+  }
+  .opt .ttl{
+    font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;
+    color:var(--ink);line-height:1.2;margin-bottom:.7rem;
+  }
+  .opt .desc{color:var(--ink-2);font-size:.92rem;line-height:1.5;margin-bottom:1.4rem}
+  .opt .links{display:flex;flex-direction:column;gap:.5rem}
+  .opt .links a{
+    display:flex;justify-content:space-between;align-items:center;
+    text-decoration:none;color:var(--ink);
+    background:rgba(255,255,255,.03);border:1px solid var(--line);
+    border-radius:10px;padding:.85rem 1rem;
+    transition:all .15s;font-weight:500;font-size:.95rem;
+  }
+  .opt .links a:hover{border-color:var(--accent);color:var(--accent);background:rgba(95,163,233,.06)}
+  .opt .links a .arr{font-size:.85rem;color:var(--ink-3);transition:all .15s}
+  .opt .links a:hover .arr{transform:translateX(3px);color:var(--accent)}
+  .opt .links a .label{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-right:.6em}
+  .meta-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1rem 2.5rem;
+    margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--line);
+  }
+  .meta-grid .col .label{
+    font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-3);margin-bottom:.4rem;
+  }
+  .meta-grid .col .val{color:var(--ink-2);font-size:.95rem;line-height:1.5}
+  .meta-grid .col .val b{color:var(--accent-2);font-weight:600}
+  footer{
+    padding:1.6rem 4vw 2.2rem;
+    color:var(--ink-3);font-size:.78rem;letter-spacing:.14em;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  @media (max-width: 760px){
+    .pick{grid-template-columns:1fr}
+    .meta-grid{grid-template-columns:1fr}
+    .topbar{flex-direction:column;gap:.5rem;align-items:flex-start}
+    footer{flex-direction:column;gap:.6rem;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back-link" href="../index.html" onclick="if(document.referrer&&document.referrer.indexOf(location.origin)===0){event.preventDefault();history.back();}">← На сайт Аслана Каа</a>
+  <span><b>Платформа «Ноев Ковчег»</b> · 2026</span>
+  <span>Confidential / Конфиденциально</span>
+</div>
+
+<main>
+  <span class="eyebrow">ЦФА · Цифровые Финансовые Активы · Digital Asset Platform</span>
+  <h1>Платформа<br/><em>«Ноев Ковчег»</em></h1>
+  <p class="sub">ИТ-инфраструктура для использования цифровых активов в финансовом секторе экономики — рост макроэкономических показателей без гиперинфляции и без привлечения связанных кредитов. Выберите язык, чтобы открыть материалы.</p>
+
+  <div class="pick">
+    <div class="opt" lang="ru">
+      <div class="lang">Ru</div>
+      <div class="langfull">Русская версия</div>
+      <div class="ttl">Платформа «Ноев Ковчег»</div>
+      <div class="desc">Полный пакет материалов на русском: большая презентация для инвесторов и партнёров + рабочий HTML-прототип платформы.</div>
+      <div class="links">
+        <a href="F_Большая_презентация_Ноев_Ковчег.html" target="_blank" rel="noopener">
+          <span><span class="label">01</span>Большая презентация</span><span class="arr">→</span>
+        </a>
+        <a href="B_HTML_прототип_Ноев_Ковчег.html" target="_blank" rel="noopener">
+          <span><span class="label">02</span>HTML-прототип платформы</span><span class="arr">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="opt" lang="en">
+      <div class="lang">En</div>
+      <div class="langfull">English version</div>
+      <div class="ttl">Noah's Ark Platform</div>
+      <div class="desc">Full investor &amp; partner pack in English: the big presentation deck and a working HTML prototype of the platform.</div>
+      <div class="links">
+        <a href="F_Big_Presentation_Noahs_Ark_EN.html" target="_blank" rel="noopener">
+          <span><span class="label">01</span>Big presentation</span><span class="arr">→</span>
+        </a>
+        <a href="B_HTML_Prototype_Noahs_Ark_EN.html" target="_blank" rel="noopener">
+          <span><span class="label">02</span>HTML prototype</span><span class="arr">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="meta-grid">
+    <div class="col">
+      <div class="label">Format · Формат</div>
+      <div class="val">Standalone HTML deck<br/>+ working HTML prototype</div>
+    </div>
+    <div class="col">
+      <div class="label">Audience · Аудитория</div>
+      <div class="val">Investors, partners, regulators<br/>Инвесторы, партнёры, регуляторы</div>
+    </div>
+    <div class="col">
+      <div class="label">Owner · Владелец проекта</div>
+      <div class="val"><b>Aslan Kaa · Аслан Каа</b><br/>Платформа «Ноев Ковчег»</div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>Aslan Kaa · aslankaa@yandex.ru · www.aslankaa.com</span>
+  <span>© 2026 Платформа «Ноев Ковчег»</span>
+</footer>
+
+</body>
+</html>
