@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Mobile app · Noah's Ark Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/doc.css">
+<link rel="stylesheet" href="../_assets/gate.css">
+<style>
+  .modules{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1rem;margin:1.6rem 0 2rem}
+  .mod{
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:1.3rem 1.4rem;
+  }
+  .mod .mod-num{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-2);font-weight:600;margin-bottom:.4rem}
+  .mod .mod-ttl{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:.5rem;line-height:1.25}
+  .mod .mod-desc{font-size:.9rem;color:var(--ink-2);line-height:1.55}
+  .cta{
+    display:inline-flex;align-items:center;gap:.7rem;
+    background:linear-gradient(135deg, rgba(95,163,233,.18), rgba(212,168,87,.12));
+    border:1px solid var(--line-2);border-radius:12px;
+    padding:1rem 1.6rem;color:var(--ink);text-decoration:none;font-weight:600;
+    margin-top:.8rem;transition:all .15s;
+  }
+  .cta:hover{border-color:var(--accent);text-decoration:none;transform:translateY(-2px)}
+  .cta .arr{color:var(--accent)}
+</style>
+</head>
+<body>
+<script src="../_assets/gate.js"></script>
+<nav class="docbar">
+  <a class="back" href="../index.html">← back to hub</a>
+  <span><b>Noah's Ark Platform</b> · <span style="letter-spacing:.16em">Mobile app</span></span>
+  <span>2026</span>
+</nav>
+
+<article>
+  <h1>Noah's Ark mobile app</h1>
+  <p class="lead">A cross-platform iOS / Android application for three user roles: owners of collateral real estate (Armenian residents and diaspora), investors, and the regulator-observer (Central Bank of Armenia). Phased architecture: Phase 1 — PWA; Phase 2 — React Native with native modules.</p>
+
+  <a class="cta" href="pwa/" target="_blank" rel="noopener">
+    Open the working PWA demo
+    <span class="arr">→</span>
+  </a>
+
+  <h2>Ten modules of the app</h2>
+
+  <div class="modules">
+    <div class="mod">
+      <div class="mod-num">00</div>
+      <div class="mod-ttl">Design spec & product strategy</div>
+      <div class="mod-desc">UX concept (Ararat + gold + parchment), personas, journey maps, Phase 1 KPIs.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">M1</div>
+      <div class="mod-ttl">Showcase & calculator</div>
+      <div class="mod-desc">Showcase of platform projects, yield calculator for owner and investor, entry funnel.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">M2</div>
+      <div class="mod-ttl">Owner cabinet</div>
+      <div class="mod-desc">Onboarding an object, KYC, e-signature of the Rights-Disclaimer Declaration, status by phase, coupons and insurance.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">M3</div>
+      <div class="mod-ttl">Investor cabinet</div>
+      <div class="mod-desc">Senior and Junior tokens, portfolio, distributions, KYC/AML, tax documentation by investor jurisdiction.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">M4</div>
+      <div class="mod-ttl">Regulator portal</div>
+      <div class="mod-desc">Read-only access for the CBA to the pool's key metrics, NAV, risk analytics, and audit trail.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">05</div>
+      <div class="mod-ttl">API specification</div>
+      <div class="mod-desc">OpenAPI 3.1, contracts between the app and the platform, data schemas, orchestration of custody / KYC / NAV.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">06</div>
+      <div class="mod-ttl">Working PWA</div>
+      <div class="mod-desc">Runnable Progressive Web App: HTML/CSS/JS + manifest + service-worker, offline cache of key screens.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">07</div>
+      <div class="mod-ttl">React Native source</div>
+      <div class="mod-desc">App.tsx + src/, Expo / EAS build, ready for App Store and Google Play submission (Phase 2).</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">08</div>
+      <div class="mod-ttl">Marketing / store assets</div>
+      <div class="mod-desc">1024×1024 icons, store-ready screenshots for all required formats, descriptions.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-num">09</div>
+      <div class="mod-ttl">Deployment & submission</div>
+      <div class="mod-desc">EAS build checklists, App Store Connect, Google Play Console, privacy policy.</div>
+    </div>
+  </div>
+
+  <h2>Current status</h2>
+  <ul>
+    <li><strong>Phase 1 (PWA)</strong> — working demo available via the link above; full source — in the project repo.</li>
+    <li><strong>Phase 2 (React Native)</strong> — the App.tsx + src/ + EAS source is prepared; the production build awaits the MVP cut of the platform backend.</li>
+    <li><strong>Backend</strong> — described in C-2 Technical architecture and the API specification (module 05). The MVP implementation is the next roadmap block after Gate G1.</li>
+  </ul>
+
+  <h2>Related documents</h2>
+  <ul>
+    <li><a href="../docs/C_Техническая_архитектура.html">Technical architecture of the platform (C-2)</a> — backend, custody, KYC, NAV engine (RU only at present)</li>
+    <li><a href="../docs/A_Концепт.html">Concept of the platform (A)</a> — product positioning (RU only at present)</li>
+    <li><a href="../B_HTML_Prototype_Noahs_Ark_EN.html">HTML prototype of the web cabinets</a> — desktop counterpart of the same scenarios</li>
+  </ul>
+</article>
+
+<footer class="docfoot">
+  <span>Aslan Kaa · aslankaa@yandex.ru · aslankaa.com</span>
+  <span>© 2026 · Noah's Ark Platform</span>
+</footer>
+</body>
+</html>

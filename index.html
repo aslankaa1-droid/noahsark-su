@@ -120,6 +120,13 @@
     font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:600;
     color:var(--ink);line-height:1.25;margin-bottom:.45rem;
   }
+  .card .lang-status{
+    font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+    margin-bottom:.7rem;display:inline-flex;align-items:center;gap:.4em;
+  }
+  .card .lang-status.ok{color:#86c993}
+  .card .lang-status.wip{color:#d4a857}
+  .card .lang-status .dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
   .card .desc{color:var(--ink-2);font-size:.92rem;line-height:1.55;margin-bottom:1.3rem;flex:1}
   .card .links{display:flex;flex-direction:column;gap:.45rem}
   .card .links a{
@@ -226,12 +233,15 @@
         <span data-i18n-ru>ЦБ РА 7/01–7/05</span>
         <span data-i18n-en>CBA 7/01–7/05</span>
       </span>
-      <span class="tag">RU · EN · FR · AR</span>
       <span class="tag">
-        <span data-i18n-ru>Аудит 7 агентов</span>
-        <span data-i18n-en>7-agent audit</span>
+        <span data-i18n-ru>Аудит 7 экспертиз</span>
+        <span data-i18n-en>7-discipline audit</span>
       </span>
     </div>
+    <p class="sub" style="margin-top:1.6rem;font-size:.92rem;color:var(--ink-3);max-width:62ch;">
+      <span data-i18n-ru><b style="color:var(--gold-2)">Языки материалов:</b> оценка проекта — RU/EN/FR/AR; большая презентация и HTML-прототип — RU/EN. Pitch deck, одностраничник, юр-обвязка (D1–D5), Устав СП (D2), концепт и техническая архитектура, аудит — пока только RU; EN-переводы готовятся.</span>
+      <span data-i18n-en><b style="color:var(--gold-2)">Languages:</b> the valuation report is available in RU/EN/FR/AR; the big presentation and the HTML prototype — RU/EN. The pitch deck, one-pager, legal pack (D1–D5), JV Charter (D2), concept and technical architecture, and the audit — currently RU only; EN translations are in progress.</span>
+    </p>
   </section>
 
   <!-- 01 PRESENTATIONS -->
@@ -251,6 +261,7 @@
         <span data-i18n-ru>Большая презентация</span>
         <span data-i18n-en>Big presentation deck</span>
       </div>
+      <div class="lang-status ok"><span class="dot"></span>RU · EN</div>
       <div class="desc">
         <span data-i18n-ru>Полный пакет для инвесторов и партнёров: концепт, рынок, юр-обвязка, экономика пилота, дорожная карта.</span>
         <span data-i18n-en>Full investor &amp; partner pack: concept, market, legal frame, pilot economics, roadmap.</span>
@@ -270,13 +281,17 @@
         <span data-i18n-ru>Короткая презентация (pitch deck)</span>
         <span data-i18n-en>Short pitch deck</span>
       </div>
+      <div class="lang-status ok"><span class="dot"></span>RU · EN</div>
       <div class="desc">
         <span data-i18n-ru>14 слайдов для встреч с Минфином РА, ЕБРР, ВБ, IFC, диаспорой и fintech-фондами.</span>
         <span data-i18n-en>14 slides for meetings with the MoF of Armenia, EBRD, World Bank, IFC, diaspora and fintech funds.</span>
       </div>
       <div class="links">
         <a href="pitch.html" target="_blank" rel="noopener">
-          <span><span class="label">RU</span>Pitch deck (14 слайдов · 14 slides)</span><span class="arr">→</span>
+          <span><span class="label">RU</span>Pitch deck (14 слайдов)</span><span class="arr">→</span>
+        </a>
+        <a href="pitch-en.html" target="_blank" rel="noopener">
+          <span><span class="label">EN</span>Pitch deck (14 slides)</span><span class="arr">→</span>
         </a>
       </div>
     </div>
@@ -286,13 +301,17 @@
         <span data-i18n-ru>Одностраничник</span>
         <span data-i18n-en>One-pager</span>
       </div>
+      <div class="lang-status ok"><span class="dot"></span>RU · EN</div>
       <div class="desc">
         <span data-i18n-ru>Ключевые тезисы на одну страницу для первого касания: что, для кого, как монетизируется, на что нужны деньги.</span>
         <span data-i18n-en>Key theses on a single page for the first touch: what, for whom, how it monetizes, what the money is for.</span>
       </div>
       <div class="links">
         <a href="onepager.html" target="_blank" rel="noopener">
-          <span><span class="label">RU</span>Одностраничник · One-pager</span><span class="arr">→</span>
+          <span><span class="label">RU</span>Одностраничник</span><span class="arr">→</span>
+        </a>
+        <a href="onepager-en.html" target="_blank" rel="noopener">
+          <span><span class="label">EN</span>One-pager</span><span class="arr">→</span>
         </a>
       </div>
     </div>
@@ -315,6 +334,7 @@
         <span data-i18n-ru>HTML-прототип платформы</span>
         <span data-i18n-en>HTML prototype</span>
       </div>
+      <div class="lang-status ok"><span class="dot"></span>RU · EN</div>
       <div class="desc">
         <span data-i18n-ru>Интерактивный прототип веб-кабинетов: собственник недвижимости, инвестор, регулятор.</span>
         <span data-i18n-en>Interactive prototype of the web cabinets: real-estate owner, investor, regulator.</span>
@@ -334,16 +354,17 @@
         <span data-i18n-ru>Мобильное приложение</span>
         <span data-i18n-en>Mobile app</span>
       </div>
+      <div class="lang-status ok"><span class="dot"></span>RU · EN</div>
       <div class="desc">
         <span data-i18n-ru>10 модулей: showcase + калькулятор, кабинеты собственника / инвестора / регулятора, API-спецификация, PWA-сборка, React Native исходник.</span>
         <span data-i18n-en>10 modules: showcase + calculator, owner / investor / regulator cabinets, API spec, PWA build, React Native source.</span>
       </div>
       <div class="links">
         <a href="mobile/index.html" target="_blank" rel="noopener">
-          <span><span class="label">RU · EN</span>
-            <span data-i18n-ru>Обзор приложения</span>
-            <span data-i18n-en>App overview</span>
-          </span><span class="arr">→</span>
+          <span><span class="label">RU</span>Обзор приложения</span><span class="arr">→</span>
+        </a>
+        <a href="mobile/index-en.html" target="_blank" rel="noopener">
+          <span><span class="label">EN</span>App overview</span><span class="arr">→</span>
         </a>
         <a href="mobile/pwa/" target="_blank" rel="noopener">
           <span><span class="label">PWA</span>
@@ -372,15 +393,24 @@
         <span data-i18n-ru>Концепт и тех-архитектура</span>
         <span data-i18n-en>Concept &amp; tech architecture</span>
       </div>
+      <div class="lang-status ok"><span class="dot"></span>RU · EN</div>
       <div class="desc">
         <span data-i18n-ru>Базовая концепция платформы, пояснительная записка, техническая архитектура (Phase 1 / Phase 2), декларация об отказе от прав.</span>
         <span data-i18n-en>Platform concept, explanatory note, technical architecture (Phase 1 / Phase 2), rights-disclaimer declaration.</span>
       </div>
       <div class="links">
-        <a href="docs/A_Концепт.html" target="_blank" rel="noopener"><span><span class="label">A</span>Концепт платформы</span><span class="arr">→</span></a>
-        <a href="docs/B_Декларация.html" target="_blank" rel="noopener"><span><span class="label">B</span>Декларация об отказе от прав</span><span class="arr">→</span></a>
-        <a href="docs/C_Пояснительная_записка.html" target="_blank" rel="noopener"><span><span class="label">C-1</span>Пояснительная записка</span><span class="arr">→</span></a>
-        <a href="docs/C_Техническая_архитектура.html" target="_blank" rel="noopener"><span><span class="label">C-2</span>Техническая архитектура</span><span class="arr">→</span></a>
+        <div class="group-title">A — <span data-i18n-ru>Концепт платформы</span><span data-i18n-en>Concept of the platform</span></div>
+        <a href="docs/A_Концепт.html" target="_blank" rel="noopener"><span><span class="label">RU</span>Концепт</span><span class="arr">→</span></a>
+        <a href="docs/A_Concept_EN.html" target="_blank" rel="noopener"><span><span class="label">EN</span>Concept</span><span class="arr">→</span></a>
+        <div class="group-title">B — <span data-i18n-ru>Декларация об отказе от прав</span><span data-i18n-en>Rights-Disclaimer Declaration</span></div>
+        <a href="docs/B_Декларация.html" target="_blank" rel="noopener"><span><span class="label">RU</span>Декларация</span><span class="arr">→</span></a>
+        <a href="docs/B_Rights_Disclaimer_EN.html" target="_blank" rel="noopener"><span><span class="label">EN</span>Declaration</span><span class="arr">→</span></a>
+        <div class="group-title">C-1 — <span data-i18n-ru>Пояснительная записка</span><span data-i18n-en>Explanatory note</span></div>
+        <a href="docs/C_Пояснительная_записка.html" target="_blank" rel="noopener"><span><span class="label">RU</span>Записка</span><span class="arr">→</span></a>
+        <a href="docs/C_Explanatory_Note_EN.html" target="_blank" rel="noopener"><span><span class="label">EN</span>Note</span><span class="arr">→</span></a>
+        <div class="group-title">C-2 — <span data-i18n-ru>Техническая архитектура</span><span data-i18n-en>Technical architecture</span></div>
+        <a href="docs/C_Техническая_архитектура.html" target="_blank" rel="noopener"><span><span class="label">RU</span>Архитектура</span><span class="arr">→</span></a>
+        <a href="docs/C_Technical_Architecture_EN.html" target="_blank" rel="noopener"><span><span class="label">EN</span>Architecture</span><span class="arr">→</span></a>
       </div>
     </div>
     <div class="card">
@@ -389,16 +419,23 @@
         <span data-i18n-ru>Юр-обвязка проекта</span>
         <span data-i18n-en>Legal frame</span>
       </div>
+      <div class="lang-status wip"><span class="dot"></span><span data-i18n-ru>RU полностью · EN в работе (D2 готов)</span><span data-i18n-en>RU complete · EN in progress (D2 ready)</span></div>
       <div class="desc">
         <span data-i18n-ru>Whitepaper по Регламенту 7/04, устав СП, постановление Правительства РА о бюджетной гарантии, пакет поправок и IP-стратегия.</span>
         <span data-i18n-en>Whitepaper under Regulation 7/04, JV charter, RA Government decree on budgetary guarantee, amendments pack, and IP strategy.</span>
       </div>
       <div class="links">
-        <a href="docs/D1_Whitepaper.html" target="_blank" rel="noopener"><span><span class="label">D1</span>Whitepaper (Регл. 7/04)</span><span class="arr">→</span></a>
-        <a href="docs/D2_Устав_СП.html" target="_blank" rel="noopener"><span><span class="label">D2</span>Устав СП</span><span class="arr">→</span></a>
-        <a href="docs/D3_Постановление.html" target="_blank" rel="noopener"><span><span class="label">D3</span>Постановление Правительства РА</span><span class="arr">→</span></a>
-        <a href="docs/D4_Поправки.html" target="_blank" rel="noopener"><span><span class="label">D4</span>Пакет поправок L2/L3/L5/L6</span><span class="arr">→</span></a>
-        <a href="docs/D5_IP_Стратегия.html" target="_blank" rel="noopener"><span><span class="label">D5</span>IP-стратегия</span><span class="arr">→</span></a>
+        <div class="group-title">D1 — Whitepaper</div>
+        <a href="docs/D1_Whitepaper.html" target="_blank" rel="noopener"><span><span class="label">RU</span>Whitepaper</span><span class="arr">→</span></a>
+        <div class="group-title">D2 — <span data-i18n-ru>Устав СП</span><span data-i18n-en>JV Charter</span></div>
+        <a href="docs/D2_Устав_СП.html" target="_blank" rel="noopener"><span><span class="label">RU</span>Устав СП</span><span class="arr">→</span></a>
+        <a href="docs/D2_JV_Charter_EN.html" target="_blank" rel="noopener"><span><span class="label">EN</span>JV Charter</span><span class="arr">→</span></a>
+        <div class="group-title">D3 — <span data-i18n-ru>Постановление Правительства РА</span><span data-i18n-en>RA Government Decree</span></div>
+        <a href="docs/D3_Постановление.html" target="_blank" rel="noopener"><span><span class="label">RU</span>Постановление</span><span class="arr">→</span></a>
+        <div class="group-title">D4 — <span data-i18n-ru>Пакет поправок L2/L3/L5/L6</span><span data-i18n-en>Amendments pack L2/L3/L5/L6</span></div>
+        <a href="docs/D4_Поправки.html" target="_blank" rel="noopener"><span><span class="label">RU</span>Поправки</span><span class="arr">→</span></a>
+        <div class="group-title">D5 — IP <span data-i18n-ru>стратегия</span><span data-i18n-en>strategy</span></div>
+        <a href="docs/D5_IP_Стратегия.html" target="_blank" rel="noopener"><span><span class="label">RU</span>IP-стратегия</span><span class="arr">→</span></a>
       </div>
     </div>
     <div class="card">
@@ -407,6 +444,7 @@
         <span data-i18n-ru>Финансовая модель</span>
         <span data-i18n-en>Financial model</span>
       </div>
+      <div class="lang-status wip"><span class="dot"></span><span data-i18n-ru>RU · EN готовится</span><span data-i18n-en>RU · EN coming</span></div>
       <div class="desc">
         <span data-i18n-ru>Расчёт пилота €100M, AUM Y10, EBITDA, IRR, экзит-сценарии, стресс-тесты, Hollister-revised restatement.</span>
         <span data-i18n-en>Pilot calculation €100M, AUM Y10, EBITDA, IRR, exit scenarios, stress tests, Hollister-revised restatement.</span>
@@ -434,6 +472,7 @@
         <span data-i18n-ru>Отчёт об оценке</span>
         <span data-i18n-en>Valuation report</span>
       </div>
+      <div class="lang-status ok"><span class="dot"></span>RU · EN · FR · AR</div>
       <div class="desc">
         <span data-i18n-ru>Pre-money EV €18M (Base), диапазон €10.5–34M, 60%-доля €5.27–14.7M. WACC build-up 30.10%.</span>
         <span data-i18n-en>Pre-money EV €18M (Base), range €10.5–34M, 60% share €5.27–14.7M. WACC build-up 30.10%.</span>
@@ -464,6 +503,7 @@
         <span data-i18n-ru>Сводный отчёт</span>
         <span data-i18n-en>Summary report</span>
       </div>
+      <div class="lang-status wip"><span class="dot"></span><span data-i18n-ru>RU · EN готовится</span><span data-i18n-en>RU · EN coming</span></div>
       <div class="desc">
         <span data-i18n-ru>Резюме 7 экспертиз, ранжированный список замечаний и rebuttal по каждому блоку.</span>
         <span data-i18n-en>Summary of the 7 reviews, ranked findings, and rebuttal per block.</span>
@@ -478,6 +518,7 @@
         <span data-i18n-ru>7 индивидуальных отчётов</span>
         <span data-i18n-en>7 individual reports</span>
       </div>
+      <div class="lang-status wip"><span class="dot"></span><span data-i18n-ru>RU · EN готовится</span><span data-i18n-en>RU · EN coming</span></div>
       <div class="desc">
         <span data-i18n-ru>Каждая экспертиза — отдельный документ. Все ранжированы по уровню риска и со ссылками на исходные блоки проекта.</span>
         <span data-i18n-en>Each review is a standalone document, ranked by risk level and cross-referenced to the source project blocks.</span>
