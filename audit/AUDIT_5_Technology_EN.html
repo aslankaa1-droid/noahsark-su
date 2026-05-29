@@ -1,0 +1,1611 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Technology and DLT Production-Readiness Audit · Noah's Ark Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_assets/doc.css">
+<link rel="stylesheet" href="../_assets/gate.css">
+</head>
+<body>
+<script src="../_assets/gate.js"></script>
+<nav class="docbar">
+  <a class="back" href="../index.html">← back to hub</a>
+  <span><b>Noah's Ark Platform</b> · <span style="letter-spacing:.16em">Audit · 5/7</span></span>
+  <span>2026-05-11</span>
+</nav>
+<article>
+<h1 id="audit-5-technology-dlt">AUDIT 5 — TECHNOLOGY &amp; DLT</h1>
+<h2 id="noahs-ark-platform-production-readiness-audit">Noah’s Ark
+Platform · Production-Readiness Audit</h2>
+<h3
+id="software-architecture-dlt-smart-contracts-custody-mobile-stack">Software
+Architecture, DLT, Smart Contracts, Custody, Mobile Stack</h3>
+<hr />
+<p><strong>Document:</strong> NK-AUDIT-005/2026 <strong>Date:</strong>
+11 May 2026 <strong>Type:</strong> Independent Technical Audit,
+Production-Readiness Review <strong>Scope:</strong> DLT choice · Smart
+contracts · Custody · Oracle/NAV · KYC architecture · Mobile (PWA + RN)
+· Tech debt · Roadmap to Series A</p>
+<p><strong>Auditor:</strong> Yuki Tanaka, MSc Computer Science (MIT) CTO
+TokenForge · ex-Polygon Labs Principal Architect · ex-Coinbase Crypto
+Custody Lead 15+ years in blockchain infrastructure · specialisation:
+RWA tokenization, smart contract security, regulatory-grade DLT.</p>
+<p><strong>Audit object (as of 11.05.2026):</strong> -
+<code>C_Техническая_архитектура.md</code> — Software Architecture
+Document, C4 (NK-ARCH-001/2026) -
+<code>B_HTML_прототип_Ноев_Ковчег.html</code> — UX prototype -
+<code>Мобильное Приложение Ноев Ковчег/00_DESIGN_SPEC_Mobile_App.md</code>
+— Master design spec -
+<code>Мобильное Приложение Ноев Ковчег/05_API_Specification/openapi.yaml</code>
+— REST API spec -
+<code>Мобильное Приложение Ноев Ковчег/06_Working_PWA/index.html</code>
+— Working PWA prototype</p>
+<p><strong>Applicable law:</strong> HO-159-N + CBA Regulations
+7/01–7/05; RA Personal Data Protection Law; GDPR; MiCA (as a reference);
+FATF Rec. 16.</p>
+<hr />
+<h2 id="executive-summary">1. EXECUTIVE SUMMARY</h2>
+<p><strong>Verdict:</strong> The project is at the “architecture-ready,
+code-not-ready” stage. The SAD (NK-ARCH-001/2026) is competent, the
+defense-in-depth logic is correct, the choice of Polygon PoS is
+defensible for a CASP under HO-159-N with caveats. Between the document
+and working code, however, there is a 9–12 person-month delta: nothing
+currently runs on mainnet, smart contracts are described at the level of
+a state machine, the custody ceremony has not been performed, the oracle
+stack is theoretical, the regulator node is a proof of concept.
+Production-readiness: <strong>2/10</strong>. Architectural maturity:
+<strong>7/10</strong>. Series A readiness after execution of a 12-month
+roadmap: <strong>8/10</strong>.</p>
+<p><strong>Three critical gaps:</strong></p>
+<ol type="1">
+<li><p><strong>No smart-contract codebase.</strong> The SAD describes 7
+contracts (CFA1Token, SeniorTrancheBond, JuniorTrancheART, PoolEscrow,
+InsuranceBridge, GovernanceContract, OracleAdapter) but no Solidity
+repository exists. Without 6 months of development + 2 independent
+audits ($200–400k) the CBA’s CASP licence under Reg. 7/01 cannot be
+obtained — the regulation requires “technical capacity to perform
+obligations”.</p></li>
+<li><p><strong>Custody architecture is declared but the HSM ceremony has
+not been performed.</strong> Multi-sig 3-of-5 is described, but the FIPS
+140-2 Level 3 HSM (CloudHSM/Thales Luna) has not been procured and no
+key ceremony with independent observers has been planned. For a €100M
+pool this is a blocker under Reg. 7/02 (minimum capital as an indicator
+of operational maturity + custody).</p></li>
+<li><p><strong>The NAV oracle (P4 patent) is the most vulnerable
+link.</strong> Quarterly NAV update of real estate from the RA Cadastre
+is an off-chain process with no proven on-chain analogues. The
+architecture uses “Chainlink Functions or proprietary” — that is not a
+solution yet. Without formalising the oracle stack (at least 3
+independent appraisers + median + on-chain signature verification +
+time-lock), NAV manipulation remains a single point of failure.</p></li>
+</ol>
+<p><strong>Three priority recommendations (next 90 days):</strong></p>
+<ol type="1">
+<li><strong>Hire CTO + Lead Solidity + Lead SRE (3 FTE).</strong> By 1
+August 2026. Budget $90–120k/quarter. Without a core engineering team
+further progress is not possible.</li>
+<li><strong>Start smart-contract development on testnet (Polygon
+Amoy).</strong> Open a GitHub repo with OpenZeppelin Contracts v5.x as
+the base, start with CFA1Token + PoolEscrow, deploy to Mumbai/Amoy
+testnet within 60 days.</li>
+<li><strong>Conclude a contract with Trail of Bits or OpenZeppelin for
+pre-audit consulting.</strong> $40–60k for 6 weeks of architectural
+review before the full audit — removes 60–70% of findings before the
+expensive audit.</li>
+</ol>
+<p><strong>Time to production mainnet:</strong> realistic — 10–12 months
+subject to adequate funding (see §6 Cost Estimate).</p>
+<hr />
+<h2 id="findings">2. FINDINGS</h2>
+<h3 id="dlt-choice-polygon-pos">2.1 DLT Choice — Polygon PoS</h3>
+<p><strong>Status:</strong> Defensible decision but requires periodic
+re-evaluation.</p>
+<p><strong>Pros for a CASP under HO-159-N:</strong> - EVM compatibility
+opens access to the largest audit ecosystem (Trail of Bits,
+OpenZeppelin, ConsenSys Diligence, Certora) — for a regulated CASP this
+matters more than performance benefits. - Low gas costs: a quarterly NAV
+update on a €100M pool = $0.50–$2 per tx on Polygon vs $80–$300 on
+Ethereum L1 (per open documentation Q1 2026). For 28 quarterly Senior
+coupons + monthly Owner coupons (≈100 transactions/month) the cumulative
+annual gas — &lt; $1,000. - Permissioned extensibility: Polygon
+Supernets / Edge allow a permissioned chain to be deployed if the CBA
+requires full sovereignty. The SAD correctly notes “DLT-agnostic at the
+Smart Contract Bridge level”. - MiCA readiness: Polygon Labs is in
+dialogue with ESMA, which matters more for EU diaspora investors than
+for Armenia itself.</p>
+<p><strong>Cons / risks:</strong> - <strong>Centralisation
+concerns.</strong> In Q1 2026 Polygon PoS has ≈100 validators, the top-5
+control &gt; 40% stake (per open data Polygonscan/Staking Dashboard).
+This is <strong>not decentralised in the Ethereum L1 sense</strong>, but
+<strong>decentralised enough for a CASP</strong>. What matters to the
+regulator is that the Platform does not control consensus — that removes
+the “is it really a DLT?” question. - <strong>Polygon TVL and activity
+in 2026:</strong> per open documentation Q1 2026, Polygon PoS TVL
+fluctuates in the $0.8–1.2B range, with 200–400k DAU. It is L2 #4–5 by
+volume after Arbitrum, Optimism, Base. Not dominant but stable. For the
+RWA track Polygon occupies a strong position (Centrifuge, Hamilton Lane
+partial deployment) — which gives a network effect. - <strong>Bridge
+risk.</strong> If the regulator requires “everything on Ethereum L1”,
+migrating through the Polygon ↔︎ Ethereum bridge is a non-trivial
+operation (the historical PolyNetwork incident is a lesson).</p>
+<p><strong>Alternatives — comparison:</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>DLT</th>
+<th>Pros for Noah’s Ark</th>
+<th>Cons</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Polygon PoS</strong> (current)</td>
+<td>EVM, cheap gas, audit ecosystem, MiCA dialogue</td>
+<td>Centralisation concerns, bridge risk</td>
+<td><strong>Confirm for Phase 1</strong></td>
+</tr>
+<tr>
+<td><strong>Avalanche Subnets</strong></td>
+<td>Permissioned-by-design, EVM, regulator-friendly (BlackRock BUIDL
+precedent)</td>
+<td>Fewer audit firms know it, lower TVL</td>
+<td>Strong alternative — consider for Phase 2</td>
+</tr>
+<tr>
+<td><strong>Hyperledger Besu</strong> (private permissioned)</td>
+<td>Full sovereignty, CBA controls validators, AML built-in</td>
+<td>No external liquidity, no diaspora access without a bridge</td>
+<td>NOT suitable — we lose the main value (diaspora access)</td>
+</tr>
+<tr>
+<td><strong>Cosmos SDK (AppChain)</strong></td>
+<td>Sovereign, IBC bridges, regulatory tuning</td>
+<td>No EVM (or via Ethermint), fewer auditors</td>
+<td>Pass — not worth the complexity</td>
+</tr>
+<tr>
+<td><strong>Polkadot parachain</strong></td>
+<td>Shared security, sovereignty</td>
+<td>Slot lease cost, niche ecosystem</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td><strong>Ethereum L1</strong></td>
+<td>Maximum decentralisation, deepest audit pool</td>
+<td>Gas $80–300/tx unacceptable for quarterly NAV</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td><strong>Polygon zkEVM</strong></td>
+<td>Zero-knowledge proofs, EU regulatory edge</td>
+<td>Less mature, higher gas costs vs PoS</td>
+<td>Reserve — for Phase 2 if ZK is required for NAV privacy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Final DLT recommendation:</strong> Polygon PoS as Phase 1
+with an explicit exit strategy to an Avalanche Subnet or Polygon zkEVM
+in Phase 2 (year 3+). Lock the DLT-agnostic boundary at the Smart
+Contract Bridge — which the SAD already does.</p>
+<p><strong>Transaction cost for a €100M pool (calculation):</strong> -
+Token mints (once at IPO): 70,000 Senior + 300,000 Junior = 370,000
+mints. On Polygon PoS at 50 gwei: ~$0.01 per mint =
+<strong>$3,700</strong>. - NAV updates quarterly: 4 × year × $1 =
+<strong>$4/year</strong>. - Owner coupons monthly (≈100 owners): 1,200
+tx × $0.5 = <strong>$600/year</strong>. - Senior coupon distributions
+quarterly (1 batch tx for up to 70k holders via Merkle drop): 4 × $20 =
+<strong>$80/year</strong>. - Custody operations (multi-sig add/remove):
+≈50 tx × $2 = <strong>$100/year</strong>. - <strong>TOTAL year
+1:</strong> ≈$4,500 in gas costs. Negligible vs operational opex.</p>
+<h3 id="smart-contract-architecture">2.2 Smart Contract
+Architecture</h3>
+<p>The SAD describes 7 contracts. I go through each.</p>
+<p><strong>CFA1Token (utility token, HO-159-N Art. 3):</strong></p>
+<p>The SAD proposes <strong>ERC-721 + soulbound</strong>
+(non-transferable). This is the <strong>right decision</strong> — CFA1
+represents the owner’s share in a specific asset with a specific
+cadastral reference. ERC-20 would be a fungibility mismatch.</p>
+<p>Recommendation: use <strong>ERC-5192 (Minimal Soulbound NFT,
+EIP-final)</strong> as the base. This is a standard auditors know. Do
+not improvise soulboundness via <code>revert</code> in
+<code>_beforeTokenTransfer</code> — that works but is less auditable.
+Per open documentation Q1 2026, OpenZeppelin Contracts v5.x have a
+preview implementation.</p>
+<p><strong>SeniorTrancheBond (security token):</strong></p>
+<p>The SAD proposes <strong>ERC-1400 or ERC-3643</strong>.
+<strong>ERC-3643 (T-REX) is preferred</strong> for a regulated CASP for
+three reasons: 1. T-REX is a live production standard used in EU
+regulated tokenization (Tokeny Solutions). MiCA-aligned. 2. ERC-1400 is
+a draft not approved by the Ethereum Foundation. Auditors are less
+confident. 3. T-REX builds in OnchainID — this resolves identity/KYC
+binding at the token level.</p>
+<p><strong>Junior Tranche ART (HO-159-N Art. 16):</strong></p>
+<p>The SAD proposes “an ERC-20 extension with NAV tracking (rebase or
+price oracle)”. <strong>The price-oracle approach (not rebase!)</strong>
+is the only correct one for a regulated ART.</p>
+<p>Why not rebase: rebase changes each holder’s supply. This creates a
+UX disaster with custody providers, tax reporting (RF FNS, EU diaspora
+jurisdictions), DeFi integrations. Per open documentation Q1 2026, no
+regulated stablecoin/ART operator uses rebase in production (Maple
+Finance, Centrifuge, Ondo — all price oracle).</p>
+<p>Concrete architecture: <code>JuniorTrancheART</code> = ERC-20 fixed
+supply (300k tokens, immutable post-issuance) + an external
+<code>NAVOracle</code> contract writing <code>navPerToken</code>
+quarterly. This gives an audit trail and removes supply-level
+manipulation risk.</p>
+<p><strong>PoolEscrow (multi-sig 3-of-5):</strong></p>
+<p>A 3-of-5 threshold is the <strong>correct choice</strong>. Analysis:
+- 2-of-5 — too weak (2-person collusion). - 4-of-5 — too strict (loss of
+2 keys blocks operations; recovery expensive). - 3-of-5 — Coinbase
+Custody / BitGo industry standard. Tolerates 2 losses, requires sabotage
+of 3.</p>
+<p>However the SAD lists “CEO + CTO + CFO + CCO + Independent Trustee”
+as 5 signers. This is a <strong>weak choice</strong> for two reasons: 1.
+4 of 5 are internal Platform employees. The Independent Trustee should
+be a legal/regulated entity (an Armenian law firm or a Big4 escrow), not
+a single individual. 2. <strong>Geographic concentration risk:</strong>
+if 4 live in Yerevan, state pressure compromises the threshold.</p>
+<p><strong>Recommendation:</strong> change the composition to 2 internal
++ 3 external: (CEO + CTO) + (an independent Armenian law firm partner) +
+(an EU-based custody trustee) + (a CBA nominee — a separate read-only
+key, not part of signing — otherwise it conflicts with supervision). The
+threshold remains 3-of-5.</p>
+<p><strong>InsuranceBridge:</strong></p>
+<p>The SAD proposes off-chain proof + on-chain entry.
+<strong>Conceptually correct</strong>, but implementation requires: -
+<strong>Chainlink Any2Any messaging or Hyperlane</strong> for
+cross-chain insurer attestation if the insurer is not an Armenian CASP.
+- <strong>EIP-712 signed messages</strong> from the insurer — not
+“opaque bytes”, but structured typed data. - <strong>7-day
+time-lock</strong> on disputed claims with multi-sig override.</p>
+<p><strong>Regulator Node (CBA):</strong></p>
+<p>The SAD says “read-only”. <strong>This is right both legally and
+technically.</strong></p>
+<p>A read-write regulator node would create a conflict of interest — the
+CBA would be a co-issuer. In the spirit of HO-159-N (Art. 6, 27, 30) the
+regulator is the supervisor, not the co-issuer.</p>
+<p>Technically: a read-only node = a Polygon RPC archive node on the
+Platform’s infrastructure + an additional GraphQL/REST gateway with
+<strong>mTLS authentication</strong> (which the OpenAPI spec proposes in
+<code>securitySchemes: mtlsCert</code>). Architecturally correct.
+Latency target &lt; 100 ms — achievable when hosted in Frankfurt with a
+private VPN tunnel to the CBA.</p>
+<p>Add: <strong>streaming events via WebSocket</strong> with guaranteed
+delivery (at-least-once) for critical events — this is already implied
+in the SAD’s “Push notifications on material events”.</p>
+<h3 id="smart-contract-security">2.3 Smart Contract Security</h3>
+<p><strong>HSM:</strong></p>
+<p>The SAD proposes “AWS CloudHSM (FIPS 140-2 Level 3) or Thales Luna”.
+Comparison:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>HSM</th>
+<th>Pros</th>
+<th>Cons</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AWS CloudHSM</strong></td>
+<td>Managed, scalable, AWS ecosystem, $1.45/hr × node</td>
+<td>AWS vendor lock-in, no offline ceremony</td>
+<td>Phase 1 — yes</td>
+</tr>
+<tr>
+<td><strong>Thales Luna Network HSM</strong></td>
+<td>FIPS 140-3 Level 3, banking-grade, offline-capable</td>
+<td>CapEx $15–30k/unit + maintenance</td>
+<td>Phase 2 — at €100M+ TVL</td>
+</tr>
+<tr>
+<td><strong>Yubico YubiHSM 2</strong></td>
+<td>$650/unit, FIPS 140-2 Level 3, USB form factor</td>
+<td>Low throughput, does not scale</td>
+<td>Only for DR backup keys</td>
+</tr>
+<tr>
+<td><strong>Gemalto SafeNet</strong></td>
+<td>Industry standard, banking class</td>
+<td>Same class as Thales Luna (now one company)</td>
+<td>Equivalent to Thales</td>
+</tr>
+<tr>
+<td><strong>Fireblocks (managed MPC)</strong></td>
+<td>Not a pure HSM, but MPC + policy engine, $300/mo+</td>
+<td>Vendor-managed (custody risk), but easier ceremony</td>
+<td><strong>Strong alternative to multi-sig + HSM</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recommendation:</strong> Phase 1 (up to €25M TVL) — AWS
+CloudHSM + 5 YubiHSM 2 as cold backup for Shamir-share keys. Phase 2
+(€25–100M) — migrate to Thales Luna in a Yerevan datacenter (a
+requirement of the RA Personal Data Protection Law for critical
+residents’ keys). Phase 3 (€100M+) — hybrid Fireblocks + Thales for
+separation of hot/warm/cold.</p>
+<p><strong>Audit Strategy:</strong></p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Auditor</th>
+<th>Cost (1k LoC)</th>
+<th>Time</th>
+<th>Specialty</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Trail of Bits</strong></td>
+<td>$80–120k</td>
+<td>6–8 weeks</td>
+<td>Security-first, MIT/CMU PhDs</td>
+<td><strong>Pre-audit + Audit 1</strong></td>
+</tr>
+<tr>
+<td><strong>OpenZeppelin</strong></td>
+<td>$60–100k</td>
+<td>4–6 weeks</td>
+<td>Standards/upgradeability</td>
+<td><strong>Audit 2</strong> (parallel)</td>
+</tr>
+<tr>
+<td><strong>ConsenSys Diligence</strong></td>
+<td>$70–110k</td>
+<td>5–7 weeks</td>
+<td>Mainnet experience</td>
+<td>Reserve</td>
+</tr>
+<tr>
+<td><strong>Certora</strong></td>
+<td>$80–150k</td>
+<td>8–12 weeks</td>
+<td>Formal verification (K Framework)</td>
+<td><strong>Reserve for NAVOracle</strong></td>
+</tr>
+<tr>
+<td><strong>Quantstamp</strong></td>
+<td>$40–80k</td>
+<td>4–6 weeks</td>
+<td>Automated + manual</td>
+<td>Not recommended — automation-heavy</td>
+</tr>
+<tr>
+<td><strong>Certik</strong></td>
+<td>$30–60k</td>
+<td>4 weeks</td>
+<td>Volume audits</td>
+<td><strong>Not recommended</strong> — weaker reputation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tender strategy at $50–100k:</strong> at $50k bracket you
+will <strong>not get</strong> a quality audit for a regulated CASP. The
+minimum budget for production readiness is $200–300k for two independent
+audits (Trail of Bits + OpenZeppelin) with $40k pre-audit consulting.
+The SAD correctly estimates $200–400k — but that is the floor, not the
+ceiling.</p>
+<p><strong>Bug Bounty:</strong></p>
+<p>Immunefi for CASP-grade RWA, minimum: $50k critical → $100k for
+production. Per open documentation Q1 2026, an average CASP-tier
+protocol on Immunefi pays $250k–$1M for criticals found in production.
+For €100M TVL the price of security must be ≥ 0.25% TVL = $250k for the
+bounty pool in the first year.</p>
+<p><strong>Formal Verification:</strong></p>
+<p>For <strong>NAVOracle, PoolEscrow and SeniorTrancheBond</strong> —
+yes, required. Certora or K Framework. About $150k on top of the
+standard audit, but it removes manipulation risk for the regulator.</p>
+<p>For CFA1Token, GovernanceContract — no, excessive (standard ERC-721
+behaviour).</p>
+<p><strong>Upgrade mechanism:</strong></p>
+<p>The SAD proposes UUPS proxy with a 7–14 day time-lock. <strong>This
+is right for Phase 1</strong>, but with a nuance:</p>
+<ul>
+<li><strong>UUPS vs Transparent Proxy:</strong> UUPS is cheaper in gas,
+but the <strong>logic contract</strong> holds the upgrade function. If
+the developer makes a mistake in the new version and does not preserve
+the upgrade hook, the contract becomes immutable. For a regulated CASP
+this is an operational risk.</li>
+<li><strong>Alternative: Beacon Proxy (EIP-1967)</strong> — centralised
+upgrade via a beacon. Suits multiple instances (if several pools are
+planned).</li>
+<li><strong>Trust-minimisation tradeoff:</strong> a 14-day time-lock +
+multi-sig 3-of-5 on upgrade is right. Additionally: <strong>immutable
+after 36 months or €500M TVL</strong> — pre-coded upgradability sunset,
+so that investors receive an immutability guarantee.</li>
+</ul>
+<h3 id="custody-architecture-comparison-with-industry-leaders">2.4
+Custody Architecture — Comparison with industry leaders</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Custody</th>
+<th>Model</th>
+<th>Insurance</th>
+<th>Pricing</th>
+<th>Verdict for €100M Noah’s Ark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BitGo Trust</strong></td>
+<td>MPC + HSM, regulated trust (SD/NY)</td>
+<td>$250M Lloyd’s</td>
+<td>50–100 bps AUM</td>
+<td>Industry leader, but <strong>a CASP regulated in Armenia must have
+its own custody</strong> — outsourcing creates a regulatory
+dependency</td>
+</tr>
+<tr>
+<td><strong>Anchorage Digital</strong></td>
+<td>Federally chartered crypto bank (US)</td>
+<td>TBD via FDIC equivalents</td>
+<td>75–150 bps AUM</td>
+<td>US jurisdiction, not ideal for an Armenian CASP</td>
+</tr>
+<tr>
+<td><strong>Fireblocks</strong></td>
+<td>MPC SaaS + policy engine</td>
+<td>$30M crime coverage</td>
+<td>$25–50k/mo + 5–25 bps</td>
+<td><strong>Strong alternative for Phase 1</strong> — removes HSM
+ceremony costs, accelerates time-to-market by 4–6 months</td>
+</tr>
+<tr>
+<td><strong>Copper.co</strong></td>
+<td>MPC + Multi-Party Computation custody</td>
+<td>$500M Lloyd’s via CCS</td>
+<td>Custom</td>
+<td>EU/UK-regulated, <strong>consider for diaspora investors’
+sub-custody</strong></td>
+</tr>
+<tr>
+<td><strong>Self-built (current SAD)</strong></td>
+<td>Multi-sig 3-of-5 + HSM</td>
+<td>Self-arranged via Lloyd’s/Marsh</td>
+<td>$0 + CapEx + 5 FTE</td>
+<td>The long road but the only one — under HO-159-N the CASP licence
+requires custody competence</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Final verdict:</strong> <strong>hybrid</strong> — self-built
+core custody (multi-sig + HSM) for CFA1Token (physically tied to
+Armenian real estate, not exportable from Armenia) + Fireblocks/Copper
+for investor-facing Senior/Junior tokens (where liquidity and UX matter
+more than sovereignty). This removes 60% of Phase 1 operational risk
+while preserving regulatory compliance.</p>
+<p><strong>HSM + MPC:</strong> the SAD mentions HSM but not MPC
+(Multi-Party Computation). <strong>MPC outperforms pure
+multi-sig</strong> in modern production deployments for two reasons: 1.
+MPC does not publish the threshold on-chain (privacy advantage for the
+regulator). 2. MPC supports any signature scheme (not just ECDSA),
+including BLS for aggregation.</p>
+<p><strong>Recommendation:</strong> Phase 2 (after Audit 2) — migrate
+from naive multi-sig to a TSS (Threshold Signature Scheme)
+implementation via ZenGo X / Web3Auth tKey / Fireblocks MPC. Full
+backward compatibility (the contract sees one signature).</p>
+<p><strong>Cold/Hot wallet ratio for €100M:</strong> - <strong>Cold
+(HSM-protected, multi-sig 3-of-5, geographically distributed):</strong>
+90% = €90M. Rare transactions, 24h time-lock. - <strong>Warm
+(HSM-protected, multi-sig 3-of-5, online):</strong> 8% = €8M. Quarterly
+coupons, redemptions. - <strong>Hot (MPC/Fireblocks,
+automated):</strong> 2% = €2M. Daily operations, ≤€500k per tx
+limit.</p>
+<p>This is the <strong>Coinbase Custody / BitGo standard</strong>. The
+SAD does not specify the ratio — I recommend including it
+explicitly.</p>
+<p><strong>Insurance:</strong> Lloyd’s of London via Marsh Crypto —
+$100M coverage will cost a 0.5–1.2% premium =
+<strong>$500k–$1.2M/year</strong>. This is a <strong>large opex
+line</strong>, it must be reflected in the financial model.</p>
+<h3 id="oracle-and-nav-validation-p3p4-patents">2.5 Oracle and NAV
+Validation (P3/P4 Patents)</h3>
+<p><strong>This is the weakest spot of the entire
+architecture.</strong></p>
+<p>The SAD says “Chainlink Functions or proprietary oracle”. That is
+concept level, not solution level.</p>
+<p><strong>Comparison of oracle solutions:</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Oracle</th>
+<th>Type</th>
+<th>Cost</th>
+<th>Pros</th>
+<th>Cons</th>
+<th>Suitable for NAV?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Chainlink CCIP/Functions</strong></td>
+<td>Decentralised oracle network</td>
+<td>$0.10–$5 per query</td>
+<td>Industry standard, audit-friendly</td>
+<td>Generic, not real-estate-aware</td>
+<td><strong>Yes</strong> — as the transport layer</td>
+</tr>
+<tr>
+<td><strong>Pyth Network</strong></td>
+<td>Pull-based oracle, low-latency</td>
+<td>$0.005 per pull</td>
+<td>The fastest, finance assets</td>
+<td>Does not cover real estate</td>
+<td>No (for NAV)</td>
+</tr>
+<tr>
+<td><strong>RedStone</strong></td>
+<td>Modular oracle</td>
+<td>$0.02 per pull</td>
+<td>Custom data feeds</td>
+<td>Less mature</td>
+<td>Reserve</td>
+</tr>
+<tr>
+<td><strong>API3</strong></td>
+<td>First-party oracle (dAPI)</td>
+<td>Custom pricing</td>
+<td>Direct feed from data providers</td>
+<td>Fewer validators</td>
+<td>Possible — for a direct feed from a licensed appraiser</td>
+</tr>
+<tr>
+<td><strong>Tellor</strong></td>
+<td>Permissionless oracle</td>
+<td>Variable</td>
+<td>Crypto-economic security</td>
+<td>Slow, dispute-prone</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Correct NAV oracle architecture for Noah’s Ark:</strong></p>
+<pre><code>Off-chain (licensed RA appraisers, 3+ independent):
+  └─ Each produces a signed attestation (EIP-712) with {timestamp, navPerToken, evidence_hash}
+       └─ Upload to IPFS + sign hash via reputation contract (AMD stake at slashing risk)
+            └─ Chainlink Functions / API3 aggregator (off-chain compute):
+                 └─ Median + outlier rejection (if spread &gt; 5%)
+                      └─ On-chain commit to the NAVOracle contract:
+                           └─ Time-weighted average over a 7-day window for large redemptions
+                                └─ JuniorTrancheART.updateNAV(median) with multi-sig 3-of-5 confirmation for changes &gt; 10%</code></pre>
+<p><strong>Gas cost quarterly:</strong> ≈$5–$20 per NAV update on
+Polygon. Negligible.</p>
+<p><strong>Latency:</strong> off-chain valuation cycle 30–60 days
+(normal for real estate), on-chain commit &lt; 1 hour after
+aggregation.</p>
+<p><strong>Fallback on oracle downtime:</strong> 1. Last known NAV is
+held for 7 days (protection against temporary outage). 2. After 7 days —
+redemptions auto-pause (protection against stale-price arbitrage). 3.
+Multi-sig 3-of-5 may manually force-commit an emergency NAV with public
+justification.</p>
+<p><strong>Regulator audit trail:</strong></p>
+<p>The CBA receives access to: - On-chain history of all
+<code>updateNAV</code> events (immutable). - IPFS attestations from each
+appraiser (with on-chain hash). - Reputation contract state (which
+appraisers are active, which have been slashed). - API endpoint for
+querying NAV at any historical date.</p>
+<p><strong>This covers the P3 (NAV validation) patent — but code must be
+written and proven.</strong></p>
+<p><strong>P4 (KYC + DTA mapping) patent</strong> — separately discussed
+in §2.6.</p>
+<h3 id="kyc-architecture-p4-patent">2.6 KYC Architecture (P4
+Patent)</h3>
+<p><strong>Cross-jurisdictional KYC:</strong></p>
+<p>The Platform addresses 3 investor types: RA Ministry of Finance,
+diaspora (EU/US/RF), institutional. Each = a different jurisdiction =
+different KYC requirements.</p>
+<p><strong>Recommended stack:</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Vendor</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Identity capture</strong></td>
+<td><strong>Sumsub</strong> (primary), Onfido (fallback)</td>
+<td>Document OCR, face match, liveness</td>
+</tr>
+<tr>
+<td><strong>Sanctions/PEP</strong></td>
+<td>Refinitiv World-Check</td>
+<td>OFAC, UN, EU sanctions + PEP lists</td>
+</tr>
+<tr>
+<td><strong>Transaction monitoring</strong></td>
+<td>Chainalysis KYT or Elliptic Navigator</td>
+<td>On-chain AML scoring</td>
+</tr>
+<tr>
+<td><strong>Travel Rule (FATF Rec. 16)</strong></td>
+<td><strong>Notabene</strong> (primary), Sumsub Travel</td>
+<td>Cross-CASP travel rule</td>
+</tr>
+<tr>
+<td><strong>SSI / DID</strong></td>
+<td><strong>Polygon ID v2</strong> (if on Polygon)</td>
+<td>Reusable KYC credential for the diaspora</td>
+</tr>
+<tr>
+<td><strong>Armenian nID integration</strong></td>
+<td>Custom build via egov.am API</td>
+<td>Resident-RA — primary identity</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The SAD lists Onfido/Sumsub/Veriff as “or”. I recommend
+specifics:</strong> - <strong>Primary:</strong> Sumsub — best CIS + EU
+coverage and a good Travel Rule integration. -
+<strong>Fallback:</strong> Onfido — for US/UK diaspora citizens (Sumsub
+is weaker in the US). - <strong>Local:</strong> Veriff not needed
+(overlap with Sumsub).</p>
+<p><strong>SSI / DID for the diaspora:</strong></p>
+<p>Polygon ID v2 (on ZK proofs) — a <strong>strong innovation for the
+diaspora</strong>. The user goes through KYC once with a CASP partner,
+receives a credential, and can present it to Noah’s Ark without a full
+re-KYC (only a ZK proof of a valid credential). Per open documentation
+Q1 2026, Polygon ID is integrated with Sumsub and Quadrata.</p>
+<p><strong>This converts the P4 patent from “concept” to
+“implementation” — I recommend making P4 a central feature of the M3
+mobile app (Investor Cabinet).</strong></p>
+<p><strong>GDPR vs immutable blockchain:</strong></p>
+<p>A classic challenge. The SAD solution references “off-chain PII +
+on-chain hash”. <strong>Correct.</strong> Specifics:</p>
+<ul>
+<li><strong>On-chain:</strong> only the hash of KYC credentials (no
+PII).</li>
+<li><strong>Off-chain:</strong> Hashicorp Vault + isolated PostgreSQL in
+Yerevan (residents) or Frankfurt (non-residents).</li>
+<li><strong>Right to be Forgotten (GDPR Art. 17):</strong> delete the
+off-chain record + revoke the credential via Polygon ID (the credential
+becomes invalid). The on-chain hash remains (immutable) but is useless
+without the off-chain record.</li>
+<li><strong>Retention:</strong> 7 years after termination of the
+relationship (RA AML + EU AMLD). Then full purge.</li>
+</ul>
+<p>This is <strong>GDPR-compliant and AML-compliant at the same
+time.</strong></p>
+<h3 id="mobile-application-pwa-react-native">2.7 Mobile Application (PWA
++ React Native)</h3>
+<p><strong>Phase 1 PWA (<code>06_Working_PWA/index.html</code> — 94k
+LoC):</strong></p>
+<p>Code review: <strong>executed at a professional level.</strong>
+Vanilla JS + CSS custom properties + Service Worker. The stack is
+minimal, no framework boilerplate. This is right for an MVP.</p>
+<p>What is good: - Lighthouse PWA target ≥ 95 — achievable. - WCAG AA
+accessibility — a serious commitment (most fintech PWAs ignore it). -
+Multilingual (RU/EN/HY) with a switcher — critical for the diaspora. -
+Theme auto-detection (dark/light) — UX quality.</p>
+<p>What must be improved: - <strong>Web Push on iOS:</strong> requires
+iOS 16.4+ (the SAD notes this correctly). iOS share in the diaspora is
+high (~50%) — a significant limitation. Mitigation: email + Telegram
+notifications as fallback. - <strong>WebAuthn for biometrics:</strong> I
+do not see WebAuthn integration in the PWA <code>index.html</code>.
+Needs to be added — it is a blocker for user-side smart-contract signing
+(M3). - <strong>Web3 wallet integration:</strong> the PWA should
+integrate with MetaMask Mobile, Rainbow, WalletConnect v2. I do not see
+this in the current code.</p>
+<p><strong>Phase 2 React Native (Expo SDK 51+, TypeScript
+strict):</strong></p>
+<p>A realistic timeline with the current architecture: <strong>6–9
+months</strong> from the start (one senior RN dev + one junior).</p>
+<p>What is good in the architectural choice: - Expo managed — removes
+80% of iOS-build pain. GitHub Actions macOS runners are free for public
+repos. - React Navigation 6 + Zustand + i18next — a solid stack, no
+exotica. - NativeWind + Reanimated — modern, performant.</p>
+<p>What to add: - <strong>WalletConnect v2
+(<code>@walletconnect/react-native-v2</code>)</strong> — for mobile
+wallet integration. - <strong>Detox</strong> for E2E testing — critical
+for fintech apps. - <strong>Sentry</strong> for crash reporting. -
+<strong>Firebase App Check</strong> for anti-tamper (protection against
+reverse engineering).</p>
+<p><strong>Offline-first for the diaspora:</strong></p>
+<p>The SAD mentions “Workbox for offline support” and “queue for
+synchronisation”. This is the right direction. Specifics:</p>
+<ul>
+<li>KYC capture offline → IndexedDB encrypted → background sync.</li>
+<li>Pool data read offline → static cache + diff sync.</li>
+<li>Transactions (orders, signing) — <strong>must be
+online-only</strong> (you cannot sign a transaction offline without
+exposing private keys in storage; even IndexedDB encryption does not
+protect against advanced attacks).</li>
+</ul>
+<p><strong>Push notifications APNS/FCM:</strong> not configured in the
+PWA (only Web Push). This is a Phase 2 / React Native task.</p>
+<p><strong>Biometrics:</strong> - PWA: WebAuthn (Touch ID on iOS 16.4+,
+Face ID, Windows Hello). - React Native:
+<code>expo-local-authentication</code> + Secure Enclave storage for
+biometric-protected keys.</p>
+<h3 id="tech-debt-and-risks-current-state-as-of-11.05.2026">2.8 Tech
+debt and risks (current state as of 11.05.2026)</h3>
+<p><strong>Critical gaps:</strong></p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Gap</th>
+<th>Severity</th>
+<th>Effort</th>
+<th>Blocker for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>No Solidity codebase</td>
+<td>Critical</td>
+<td>6 person-months</td>
+<td>CASP licence, Series A</td>
+</tr>
+<tr>
+<td>2</td>
+<td>No smart-contract audits</td>
+<td>Critical</td>
+<td>$200–400k + 3 months</td>
+<td>Mainnet deploy</td>
+</tr>
+<tr>
+<td>3</td>
+<td>HSM not procured, key ceremony not performed</td>
+<td>Critical</td>
+<td>$50k + 4 weeks</td>
+<td>Custody operations</td>
+</tr>
+<tr>
+<td>4</td>
+<td>NAV oracle architecture is conceptual</td>
+<td>High</td>
+<td>4 person-months</td>
+<td>First token issuance</td>
+</tr>
+<tr>
+<td>5</td>
+<td>KYC vendor contracts not signed</td>
+<td>High</td>
+<td>2 person-months</td>
+<td>First user onboarding</td>
+</tr>
+<tr>
+<td>6</td>
+<td>CBA regulator node — no testnet deployment</td>
+<td>High</td>
+<td>2 person-months</td>
+<td>CASP licence</td>
+</tr>
+<tr>
+<td>7</td>
+<td>PWA Web3 wallet integration missing</td>
+<td>Medium</td>
+<td>1 person-month</td>
+<td>M3 launch</td>
+</tr>
+<tr>
+<td>8</td>
+<td>React Native source not generated</td>
+<td>Medium</td>
+<td>4 person-months</td>
+<td>App Store / Google Play</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Penetration testing not performed</td>
+<td>Medium</td>
+<td>$30k + 6 weeks</td>
+<td>Production launch</td>
+</tr>
+<tr>
+<td>10</td>
+<td>ISO 27001 — not certified</td>
+<td>Low</td>
+<td>$80k + 12 months</td>
+<td>Institutional investor onboarding</td>
+</tr>
+<tr>
+<td>11</td>
+<td>SLO monitoring infrastructure not deployed</td>
+<td>Low</td>
+<td>1 person-month</td>
+<td>Production operations</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Bug bounty programme not launched</td>
+<td>Low</td>
+<td>$250k pool</td>
+<td>Post-mainnet</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Three priority technical steps before Series A:</strong></p>
+<ol type="1">
+<li><strong>Hire the core engineering team (3 FTE: CTO/Lead Solidity,
+Senior Solidity, Senior SRE) by 1 August 2026.</strong></li>
+<li><strong>Launch the smart-contract development repo (private GitHub)
+with OpenZeppelin Contracts v5.x base + the first deployment on Polygon
+Amoy testnet by 30 September 2026.</strong></li>
+<li><strong>Sign a pre-audit consulting contract with Trail of Bits
+($40k, 6 weeks) by 1 November 2026</strong> — removes architectural
+findings before the expensive audit.</li>
+</ol>
+<p><strong>Engineering team for Phase 1 (12 months):</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>FTE</th>
+<th>Salary range (annual, $)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CTO / Head of Engineering</td>
+<td>1</td>
+<td>$180–250k</td>
+<td>Onsite Yerevan or hybrid</td>
+</tr>
+<tr>
+<td>Lead Solidity Engineer</td>
+<td>1</td>
+<td>$140–200k</td>
+<td>Remote OK</td>
+</tr>
+<tr>
+<td>Senior Solidity Engineer</td>
+<td>1</td>
+<td>$100–140k</td>
+<td>Remote OK</td>
+</tr>
+<tr>
+<td>Senior SRE / DevOps</td>
+<td>1</td>
+<td>$110–150k</td>
+<td>Onsite Yerevan preferred (data residency)</td>
+</tr>
+<tr>
+<td>Senior Backend (Node.js/Go)</td>
+<td>2</td>
+<td>$90–130k each</td>
+<td>One Yerevan, one remote</td>
+</tr>
+<tr>
+<td>Senior Frontend / PWA</td>
+<td>1</td>
+<td>$80–120k</td>
+<td>Remote OK</td>
+</tr>
+<tr>
+<td>React Native Engineer</td>
+<td>1</td>
+<td>$90–130k</td>
+<td>Remote OK</td>
+</tr>
+<tr>
+<td>Security Engineer</td>
+<td>1</td>
+<td>$130–180k</td>
+<td>Hybrid</td>
+</tr>
+<tr>
+<td>QA Engineer (with Detox/Playwright)</td>
+<td>1</td>
+<td>$60–90k</td>
+<td>Remote OK</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>10 FTE</strong></td>
+<td><strong>$1.0–1.4M/year</strong></td>
+<td>Yerevan cost-of-living ≈60% of US</td>
+</tr>
+</tbody>
+</table>
+<p>A realistic <strong>blended salary</strong> for a Yerevan-based team
+with ≥40% remote (Yerevan rate + Eastern European remote):
+<strong>$80–100k average</strong> = <strong>$800k–$1.0M/year team
+cost.</strong></p>
+<p><strong>Year-1 CapEx + OpEx tech budget:</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Category</th>
+<th>Year 1 ($)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Engineering team (10 FTE blended)</td>
+<td>950,000</td>
+</tr>
+<tr>
+<td>Cloud infra (AWS Frankfurt + Hetzner Yerevan + Cloudflare)</td>
+<td>80,000</td>
+</tr>
+<tr>
+<td>Smart contract audits (Trail of Bits + OpenZeppelin)</td>
+<td>300,000</td>
+</tr>
+<tr>
+<td>Formal verification (Certora, NAVOracle + PoolEscrow)</td>
+<td>150,000</td>
+</tr>
+<tr>
+<td>HSM (CloudHSM + Yubico backup + ceremony)</td>
+<td>60,000</td>
+</tr>
+<tr>
+<td>KYC stack (Sumsub + Onfido + Chainalysis + Notabene)</td>
+<td>120,000</td>
+</tr>
+<tr>
+<td>Penetration testing (twice)</td>
+<td>60,000</td>
+</tr>
+<tr>
+<td>Bug bounty pool (Immunefi, year-1 reserve)</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>Insurance (Lloyd’s via Marsh, $25M custody)</td>
+<td>200,000</td>
+</tr>
+<tr>
+<td>Polygon ID v2 / SSI integration</td>
+<td>50,000</td>
+</tr>
+<tr>
+<td>Tooling &amp; SaaS (Sentry, Datadog, PagerDuty, GitHub
+Enterprise)</td>
+<td>50,000</td>
+</tr>
+<tr>
+<td>ISO 27001 pre-cert + audit</td>
+<td>80,000</td>
+</tr>
+<tr>
+<td>Contingency (15%)</td>
+<td>320,000</td>
+</tr>
+<tr>
+<td><strong>TOTAL Year-1 Tech Budget</strong></td>
+<td><strong>$2.52M</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="technical-risk-matrix">3. TECHNICAL RISK MATRIX</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Risk</th>
+<th style="text-align: center;">Severity (1-5)</th>
+<th style="text-align: center;">Probability (1-5)</th>
+<th style="text-align: center;">Score</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Smart contract critical vulnerability post-mainnet</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">15</td>
+<td>2 independent audits + formal verification + bug bounty + time-lock
+upgrades</td>
+</tr>
+<tr>
+<td>2</td>
+<td>NAV oracle manipulation</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">15</td>
+<td>3+ independent appraisers, median, slashing reputation,
+time-weighted average for large redemptions</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Multi-sig key compromise (1 key)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">8</td>
+<td>3-of-5 threshold tolerates 2 losses; HSM + geographic distribution +
+quarterly key rotation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Polygon PoS chain reorganization / halt</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td>Multi-sig pause; bridge-ready migration plan; off-chain ledger as
+source of truth</td>
+</tr>
+<tr>
+<td>5</td>
+<td>KYC vendor failure (Sumsub down)</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+<td>Onfido fallback; queue + retry; SLA $1M/year</td>
+</tr>
+<tr>
+<td>6</td>
+<td>DDoS on the API Gateway</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">9</td>
+<td>Cloudflare Enterprise WAF + rate limiting + geo-blocking suspicious
+traffic</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Data residency violation (KYC of RA residents outside RA)</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td>Hard-coded routing rules + audit; Hetzner Yerevan for resident
+PII</td>
+</tr>
+<tr>
+<td>8</td>
+<td>CBA regulator node — outage</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">8</td>
+<td>Active-active in Frankfurt + Yerevan; mTLS auth; SLA 99.95%</td>
+</tr>
+<tr>
+<td>9</td>
+<td>GDPR violation (right to erasure does not work)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">8</td>
+<td>Off-chain PII + on-chain hash architecture; revocation via Polygon
+ID</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Insurance bridge inconsistency (off-chain ≠ on-chain)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">12</td>
+<td>EIP-712 signed attestations; 7-day time-lock dispute window</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Mobile app reverse-engineering / token theft</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">9</td>
+<td>Firebase App Check + biometric + WalletConnect (keys not in
+app)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>iOS Web Push limitation (diaspora without iOS 16.4+)</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">8</td>
+<td>Email + Telegram + SMS fallback</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Upgradability lock-out (UUPS misconfiguration)</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td>UUPS + Transparent Proxy parallel; formal verification of upgrade
+paths</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Insider attack (engineer pushes malicious code)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">8</td>
+<td>2-approver code review; signed commits; SIEM monitoring</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Custody insurance gap (above $100M coverage)</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+<td>Tiered insurance Lloyd’s + reinsurance for &gt;$100M</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Top-3 risks by Score:</strong> 1. Smart contract
+vulnerability (15) → mitigation: dual audit + formal verification. 2.
+NAV oracle manipulation (15) → mitigation: multi-source + median +
+time-weighted + slashing. 3. Insurance bridge inconsistency (12) →
+mitigation: EIP-712 + dispute window.</p>
+<hr />
+<h2 id="recommended-technology-stack">4. RECOMMENDED TECHNOLOGY
+STACK</h2>
+<p><strong>Confirmed (no change):</strong> - Polygon PoS as Phase 1 DLT.
+- React + Next.js / Vanilla JS PWA. - React Native (Expo SDK 51+). - AWS
+Frankfurt (primary) + Hetzner Yerevan (secondary). - Cloudflare Edge. -
+Kubernetes (EKS + K3s). - Terraform + Helm. - PostgreSQL 16 + ClickHouse
++ TimescaleDB. - Redis + Kafka. - AWS CloudHSM. - Prometheus + Grafana +
+Loki + Tempo.</p>
+<p><strong>Updated (recommended changes):</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>What is in the SAD</th>
+<th>Proposed</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ERC-721 soulbound (custom)</td>
+<td><strong>ERC-5192 (Minimal Soulbound NFT)</strong></td>
+<td>Auditable standard</td>
+</tr>
+<tr>
+<td>ERC-1400 <em>or</em> ERC-3643</td>
+<td><strong>ERC-3643 (T-REX)</strong></td>
+<td>MiCA-aligned, production-proven</td>
+</tr>
+<tr>
+<td>“Chainlink Functions or proprietary”</td>
+<td><strong>Chainlink Functions + API3 dAPI + on-chain NAVOracle
+aggregator</strong></td>
+<td>Specifics, multi-source</td>
+</tr>
+<tr>
+<td>Multi-sig only</td>
+<td><strong>Multi-sig 3-of-5 + MPC (Fireblocks or TSS)</strong> Phase
+2</td>
+<td>Privacy + reduced ceremony cost</td>
+</tr>
+<tr>
+<td>Onfido/Sumsub/Veriff (alt)</td>
+<td><strong>Sumsub primary + Onfido fallback</strong></td>
+<td>Specifics on vendor lock-in</td>
+</tr>
+<tr>
+<td>SSI not mentioned</td>
+<td><strong>Polygon ID v2</strong> for diaspora reusable
+credentials</td>
+<td>P4 patent realisation</td>
+</tr>
+<tr>
+<td>Travel Rule vendor not mentioned</td>
+<td><strong>Notabene</strong></td>
+<td>FATF Rec. 16 compliance</td>
+</tr>
+<tr>
+<td>HackerOne for bug bounty</td>
+<td><strong>Immunefi</strong> ($250k pool)</td>
+<td>Web3-native, not web2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Added (new components):</strong> - <strong>Polygon ID
+v2</strong> for SSI/DID. - <strong>Notabene</strong> for Travel Rule. -
+<strong>Detox</strong> for E2E mobile testing. - <strong>Sentry</strong>
+for crash reporting. - <strong>Firebase App Check</strong> for
+anti-tamper mobile. - <strong>GitHub Enterprise</strong> + signed
+commits. - <strong>Snyk</strong> + <strong>Dependabot</strong> +
+<strong>SonarQube</strong> (SAST/SCA).</p>
+<hr />
+<h2 id="tech-roadmap-12-months-to-series-a">5. TECH ROADMAP — 12 MONTHS
+TO SERIES A</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">Month</th>
+<th>Milestone</th>
+<th>Cost</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">M1 (May–Jun 2026)</td>
+<td>Hire CTO, Lead Solidity. Open GitHub repo. Setup CI/CD
+skeleton.</td>
+<td>$80k team</td>
+<td>CEO + CTO</td>
+</tr>
+<tr>
+<td style="text-align: center;">M2 (Jul 2026)</td>
+<td>Hire SRE + Backend. Terraform IaC. Setup AWS Frankfurt + Hetzner
+Yerevan.</td>
+<td>$100k team + $20k infra</td>
+<td>CTO + SRE</td>
+</tr>
+<tr>
+<td style="text-align: center;">M3 (Aug 2026)</td>
+<td>CFA1Token + PoolEscrow on Polygon Amoy testnet. PWA wallet
+integration (WalletConnect v2).</td>
+<td>$130k team</td>
+<td>Lead Solidity</td>
+</tr>
+<tr>
+<td style="text-align: center;">M4 (Sep 2026)</td>
+<td>SeniorTrancheBond + JuniorTrancheART + NAVOracle on testnet. Sumsub
++ Notabene contracts.</td>
+<td>$130k team + $40k KYC setup</td>
+<td>Lead Solidity + Backend</td>
+</tr>
+<tr>
+<td style="text-align: center;">M5 (Oct 2026)</td>
+<td>Pre-audit consulting Trail of Bits ($40k, 6 weeks). Regulator node —
+testnet deploy. Polygon ID v2 integration.</td>
+<td>$130k + $40k pre-audit</td>
+<td>CTO + Trail of Bits</td>
+</tr>
+<tr>
+<td style="text-align: center;">M6 (Nov 2026)</td>
+<td>Full audit Trail of Bits + OpenZeppelin (parallel). Penetration test
+infrastructure. ISO 27001 pre-cert audit.</td>
+<td>$130k + $300k audits + $30k pentest</td>
+<td>External</td>
+</tr>
+<tr>
+<td style="text-align: center;">M7 (Dec 2026)</td>
+<td>Address audit findings. Formal verification NAVOracle + PoolEscrow
+(Certora). React Native MVP build.</td>
+<td>$130k + $150k Certora</td>
+<td>CTO + Certora</td>
+</tr>
+<tr>
+<td style="text-align: center;">M8 (Jan 2027)</td>
+<td>Re-audit findings closure. HSM ceremony in Yerevan. Multi-sig signer
+onboarding.</td>
+<td>$130k + $60k HSM</td>
+<td>CTO + Independent Trustees</td>
+</tr>
+<tr>
+<td style="text-align: center;">M9 (Feb 2027)</td>
+<td>Mainnet deploy contracts (read-only, no minting yet). Insurance
+Lloyd’s binding. Bug bounty launch.</td>
+<td>$130k + $200k insurance + $100k bounty</td>
+<td>CTO + Insurance broker</td>
+</tr>
+<tr>
+<td style="text-align: center;">M10 (Mar 2027)</td>
+<td>First CFA1 mint (pilot 5 assets). Soft launch regulator node in
+production.</td>
+<td>$130k team</td>
+<td>CTO + CBA liaison</td>
+</tr>
+<tr>
+<td style="text-align: center;">M11 (Apr 2027)</td>
+<td>Senior tranche IPO simulation on testnet. M2 mobile app (Owner
+Cabinet) beta.</td>
+<td>$130k team</td>
+<td>Backend + Mobile</td>
+</tr>
+<tr>
+<td style="text-align: center;">M12 (May 2027)</td>
+<td><strong>Production-ready for first Senior tranche issuance.</strong>
+Series A pitch to EBRD / IFC / diaspora family offices.</td>
+<td>$130k team</td>
+<td>CEO + CFO</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cumulative cost (12 months):</strong> see §6.</p>
+<hr />
+<h2 id="cost-estimate-year-1-budget">6. COST ESTIMATE — YEAR 1
+BUDGET</h2>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>Category</th>
+<th style="text-align: right;">Quarter 1</th>
+<th style="text-align: right;">Quarter 2</th>
+<th style="text-align: right;">Quarter 3</th>
+<th style="text-align: right;">Quarter 4</th>
+<th style="text-align: right;"><strong>Year 1 Total</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Engineering team (ramp 3 → 10 FTE)</td>
+<td style="text-align: right;">$180k</td>
+<td style="text-align: right;">$240k</td>
+<td style="text-align: right;">$260k</td>
+<td style="text-align: right;">$270k</td>
+<td style="text-align: right;"><strong>$950k</strong></td>
+</tr>
+<tr>
+<td>Cloud infrastructure</td>
+<td style="text-align: right;">$15k</td>
+<td style="text-align: right;">$20k</td>
+<td style="text-align: right;">$22k</td>
+<td style="text-align: right;">$23k</td>
+<td style="text-align: right;"><strong>$80k</strong></td>
+</tr>
+<tr>
+<td>Smart contract audits</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">$200k</td>
+<td style="text-align: right;">$100k</td>
+<td style="text-align: right;"><strong>$300k</strong></td>
+</tr>
+<tr>
+<td>Formal verification</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">$150k</td>
+<td style="text-align: right;"><strong>$150k</strong></td>
+</tr>
+<tr>
+<td>HSM hardware + ceremony</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">$60k</td>
+<td style="text-align: right;"><strong>$60k</strong></td>
+</tr>
+<tr>
+<td>KYC stack (Sumsub + Onfido + Chainalysis + Notabene)</td>
+<td style="text-align: right;">$20k</td>
+<td style="text-align: right;">$30k</td>
+<td style="text-align: right;">$35k</td>
+<td style="text-align: right;">$35k</td>
+<td style="text-align: right;"><strong>$120k</strong></td>
+</tr>
+<tr>
+<td>Pre-audit consulting (Trail of Bits)</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">$40k</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;"><strong>$40k</strong></td>
+</tr>
+<tr>
+<td>Penetration testing</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">$30k</td>
+<td style="text-align: right;">$30k</td>
+<td style="text-align: right;"><strong>$60k</strong></td>
+</tr>
+<tr>
+<td>Bug bounty pool (Immunefi)</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">$100k</td>
+<td style="text-align: right;"><strong>$100k</strong></td>
+</tr>
+<tr>
+<td>Insurance (Lloyd’s via Marsh)</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">$200k</td>
+<td style="text-align: right;"><strong>$200k</strong></td>
+</tr>
+<tr>
+<td>Polygon ID v2 integration</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">$10k</td>
+<td style="text-align: right;">$30k</td>
+<td style="text-align: right;">$10k</td>
+<td style="text-align: right;"><strong>$50k</strong></td>
+</tr>
+<tr>
+<td>Tooling &amp; SaaS</td>
+<td style="text-align: right;">$10k</td>
+<td style="text-align: right;">$12k</td>
+<td style="text-align: right;">$14k</td>
+<td style="text-align: right;">$14k</td>
+<td style="text-align: right;"><strong>$50k</strong></td>
+</tr>
+<tr>
+<td>ISO 27001 pre-cert + audit</td>
+<td style="text-align: right;">–</td>
+<td style="text-align: right;">$20k</td>
+<td style="text-align: right;">$30k</td>
+<td style="text-align: right;">$30k</td>
+<td style="text-align: right;"><strong>$80k</strong></td>
+</tr>
+<tr>
+<td>Contingency (15%)</td>
+<td style="text-align: right;">$60k</td>
+<td style="text-align: right;">$80k</td>
+<td style="text-align: right;">$90k</td>
+<td style="text-align: right;">$90k</td>
+<td style="text-align: right;"><strong>$320k</strong></td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td style="text-align: right;"><strong>$285k</strong></td>
+<td style="text-align: right;"><strong>$452k</strong></td>
+<td style="text-align: right;"><strong>$711k</strong></td>
+<td style="text-align: right;"><strong>$1.11M</strong></td>
+<td style="text-align: right;"><strong>$2.56M</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Comparison with the SAD’s $470–700k mobile-only
+estimate:</strong> the mobile part is ≈$300–400k of the overall $2.56M
+tech budget. The rest — smart contracts, audits, infrastructure,
+custody, KYC, insurance.</p>
+<p><strong>Year-2 Steady-State Tech OpEx (post-Series A):</strong>
+$1.8–2.2M/year (engineering team grows to 15 FTE + recurring audits +
+insurance renewal + cloud scale + bug bounty).</p>
+<hr />
+<h2 id="audit-conclusion">7. AUDIT CONCLUSION</h2>
+<p>The “Noah’s Ark” architecture (NK-ARCH-001/2026) is a
+<strong>professional SAD at the level of a regulated CASP</strong>.
+Defense-in-depth logic is correct, the choice of Polygon PoS is
+defensible, the legal mapping to HO-159-N + Reg. 7/01–7/05 is complete.
+This is not “whitepaper-vapourware” — a team that knows the industry
+sits behind the document.</p>
+<p>However, <strong>production readiness is missing</strong>. Between
+the SAD and a mainnet-deployable system there are 10–12 months of work
+by 8–10 FTE engineers with a budget of <strong>$2.5–3M for year
+1</strong>. Before that, the CBA will not issue a CASP licence under
+Reg. 7/01: “technical capacity to perform obligations” means code in
+production, not a PDF.</p>
+<p><strong>The project’s technology risk is middle-low</strong> subject
+to adequate funding. All architectural choices are conservative (no
+exotica), an industry stack, proven vendors. The principal risks are
+<strong>execution risk</strong> (team hiring) and <strong>regulatory
+engagement</strong> (the CBA must approve the read-only node before
+mainnet), not <strong>architectural risk</strong>.</p>
+<p><strong>Recommendation for the Series A pitch:</strong> do not
+present the architecture as “ready” — it is ready at the design level,
+not at the implementation level. Present as “architecturally validated,
+execution-funded” — that honesty plays better than overselling in
+discussions with EBRD, IFC, MiCA-aware family offices.</p>
+<hr />
+<h2 id="summary-for-the-client-under-250-words">SUMMARY FOR THE CLIENT
+(under 250 words)</h2>
+<p>Aslan, the technical audit of Noah’s Ark across 8 sections.</p>
+<p><strong>What works.</strong> Document NK-ARCH-001/2026 is a
+professional SAD at the regulated-CASP level. The choice of Polygon PoS
+is defensible (low gas, audit ecosystem, MiCA readiness). Defence is
+multi-layered, the legal mapping is complete, the DLT-agnostic boundary
+is at the right level. The working PWA is competently done (vanilla JS,
+WCAG AA, RU/EN/HY). The OpenAPI spec is correct (mTLS for the regulator,
+JWT for users). The architecture is ready for tech due diligence by
+EBRD/IFC.</p>
+<p><strong>What must be finished (three gaps).</strong> First — no
+Solidity codebase. This is a blocker for the CBA’s CASP licence under
+Reg. 7/01. 6 months of development + 2 independent audits ($300k Trail
+of Bits + OpenZeppelin) required. Second — HSM not procured, key
+ceremony not performed. Without this, €100M custody cannot launch. Third
+— the NAV oracle is at the concept level “Chainlink or proprietary”.
+This is the architecture’s weakest link — 3+ independent RA appraisers +
+median aggregator + on-chain signature verification + time-weighted
+average are required.</p>
+<p><strong>Three first steps before Series A (90 days).</strong> Hire
+CTO + Lead Solidity + Lead SRE (3 FTE, $90–120k/quarter). Start
+smart-contract development on Polygon Amoy testnet with OpenZeppelin
+Contracts v5.x. Sign pre-audit consulting with Trail of Bits ($40k, 6
+weeks) before the expensive audit — removes 60–70% of findings.</p>
+<p><strong>Year-1 tech budget.</strong> $2.56M: team 10 FTE ($950k), 2
+audits ($300k), formal verification ($150k), HSM ($60k), KYC stack
+($120k), Lloyd’s insurance ($200k), the rest — infrastructure + bounty +
+ISO 27001 + contingency.</p>
+<p><strong>Time-to-mainnet:</strong> 10–12 months with adequate funding.
+Production readiness is now 2/10. After the roadmap — 8/10.</p>
+<p>Architectural risk is low. Execution risk is about hiring and
+funding. Technically the project is viable.</p>
+<hr />
+<p><strong>Audit performed by:</strong> <strong>Yuki Tanaka</strong>,
+MSc Computer Science (MIT) CTO, TokenForge · ex-Polygon Labs Principal
+Architect · ex-Coinbase Crypto Custody Lead</p>
+<p><strong>Date:</strong> 11 May 2026 <strong>Document:</strong>
+NK-AUDIT-005/2026</p>
+<hr />
+<p>© Prepared as an independent technical audit for internal evaluation
+of the Noah’s Ark Platform project (rightsholder — Kagirov Abdul-Khakim
+Akhmadovich, 2026). All referenced products and companies are the
+property of their respective rightsholders.</p>
+
+</article>
+<footer class="docfoot">
+  <span>Aslan Kaa · aslankaa@yandex.ru · aslankaa.com</span>
+  <span>© 2026 · Noah's Ark Platform</span>
+</footer>
+</body>
+</html>
