@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /pitch.html
+Disallow: /pitch-en.html
+Disallow: /onepager.html
+Disallow: /onepager-en.html
+Disallow: /valuation/
+Disallow: /audit/
+Disallow: /docs/
+Disallow: /mobile/
+Disallow: /B_HTML_
+Disallow: /F_
+
+Sitemap: https://noahsark.su/sitemap.xml
