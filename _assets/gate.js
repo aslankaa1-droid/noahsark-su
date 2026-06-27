@@ -1,110 +1,51 @@
-/* PIN-gate Платформы Ноев Ковчег. Сессия — 30 дней в localStorage. */
-(function(){
+/* Access gate — клиентский overlay (SHA-256, сессия 30 дней). Пароль у владельца. */
+(function () {
+  'use strict';
   var HASHES = [
-    "0a44cd2cbce532cd9caae282721286ca5ee7d65f3fc119d9e1cd37341144615e",
-    "831f7756d9ceeeaf55c495a005261772fbc546b15704cfa7fd300f9947ceb775",
-    "3e4360471ed97c89d6c0ecb0ae0a888aa28a9576c4429c58f54c40176c1e2714",
-    "0409eab7d375cb35eccaff5c0d58f1cbba07e1987ca60bcb9fb79ae09fd794d2",
-    "8b76a77156d3a40827e29704a590372f844872f961094a7cf774ef67a1be62e9"
+    '30b2148f74281c67f9c7d55a416590b05e36243b5317226de476dd26cbe1823f'
   ];
-  var KEY = "noah-ark-unlocked-v1";
-  var TTL_MS = 30 * 24 * 3600 * 1000;
-
-  function now(){ return Date.now(); }
-  function isUnlocked(){
-    try{
-      var raw = localStorage.getItem(KEY);
-      if(!raw) return false;
-      var v = JSON.parse(raw);
-      if(!v || !v.ts) return false;
-      return (now() - v.ts) < TTL_MS;
-    }catch(e){ return false; }
+  var KEY = 'akaa-gate', DAYS = 30, LEN = 10;
+  function authed() {
+    try { var s = JSON.parse(localStorage.getItem(KEY) || '{}'); return s.ok === true && Date.now() < (s.ts + DAYS * 86400000); }
+    catch (e) { return false; }
   }
-  function setUnlocked(){
-    try{ localStorage.setItem(KEY, JSON.stringify({ts: now()})); }catch(e){}
+  if (authed()) return;
+  var st = document.createElement('style');
+  st.id = 'akaa-gate-style';
+  st.textContent = 'html{visibility:hidden!important}#akaa-gate,#akaa-gate *{visibility:visible!important}';
+  (document.head || document.documentElement).appendChild(st);
+  async function sha(t) {
+    var b = new TextEncoder().encode(t);
+    var h = await crypto.subtle.digest('SHA-256', b);
+    return Array.from(new Uint8Array(h)).map(function (x) { return x.toString(16).padStart(2, '0'); }).join('');
   }
-  function sha256Hex(str){
-    if(window.crypto && window.crypto.subtle){
-      var enc = new TextEncoder().encode(str);
-      return window.crypto.subtle.digest("SHA-256", enc).then(function(buf){
-        var bytes = new Uint8Array(buf), hex = "";
-        for(var i=0;i<bytes.length;i++){
-          var h = bytes[i].toString(16);
-          if(h.length === 1) h = "0" + h;
-          hex += h;
-        }
-        return hex;
-      });
-    }
-    return Promise.reject(new Error("crypto unavailable"));
-  }
-
-  if(isUnlocked()){ return; }
-
-  // Lock document
-  document.documentElement.classList.add("noah-locked");
-
-  function mount(){
-    if(document.getElementById("noah-gate")) return;
-    var gate = document.createElement("div");
-    gate.id = "noah-gate";
-    gate.innerHTML =
-      '<div class="box" role="dialog" aria-modal="true" aria-label="PIN access">'+
-        '<span class="eyebrow">Confidential · Конфиденциально</span>'+
-        '<h2>Платформа «Ноев Ковчег»</h2>'+
-        '<p>Доступ к материалам по PIN-коду. После ввода доступ сохранится на 30 дней. <span style="display:block;margin-top:.4em;opacity:.7">Access by PIN. Session: 30 days.</span></p>'+
-        '<label for="noah-gate-pin">PIN · 6 digits</label>'+
-        '<input id="noah-gate-pin" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="6" />'+
-        '<button class="submit" type="button" id="noah-gate-btn">Открыть · Unlock</button>'+
-        '<div class="msg" id="noah-gate-msg" aria-live="polite"></div>'+
-        '<div class="meta">Aslan Kaa · <a href="mailto:aslankaa@yandex.ru">aslankaa@yandex.ru</a></div>'+
-      '</div>';
-    document.body.appendChild(gate);
-
-    var input = document.getElementById("noah-gate-pin");
-    var btn = document.getElementById("noah-gate-btn");
-    var msg = document.getElementById("noah-gate-msg");
+  function build() {
+    var ov = document.createElement('div');
+    ov.id = 'akaa-gate';
+    ov.setAttribute('style', 'position:fixed;inset:0;z-index:2147483647;background:#0b1220;display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,Segoe UI,sans-serif');
+    ov.innerHTML = '<div style="background:#fff;padding:40px 32px;border-radius:16px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.45)">'
+      + '<h1 style="font-size:18px;margin:0 0 6px;color:#0b1220;font-weight:700">Доступ по паролю</h1>'
+      + '<p style="font-size:13px;color:#667085;margin:0 0 20px">Введите пароль</p>'
+      + '<input id="akaa-pin" type="password" inputmode="numeric" autocomplete="off" maxlength="10" '
+      + 'style="width:100%;padding:14px;font-size:20px;text-align:center;letter-spacing:4px;border:1px solid #ccd0dd;border-radius:10px;box-sizing:border-box;outline:none">'
+      + '<div id="akaa-msg" style="min-height:16px;color:#c0392b;font-size:12px;margin-top:10px"></div></div>';
+    document.body.appendChild(ov);
+    var inp = ov.querySelector('#akaa-pin'), msg = ov.querySelector('#akaa-msg');
+    try { inp.focus(); } catch (e) {}
     var busy = false;
-
-    function tryUnlock(){
-      if(busy) return;
-      var pin = (input.value || "").trim();
-      if(!/^[0-9]{4,8}$/.test(pin)){
-        msg.textContent = "Введите PIN (6 цифр) · Enter your 6-digit PIN";
-        input.classList.add("err");
-        setTimeout(function(){ input.classList.remove("err"); }, 400);
-        return;
-      }
-      busy = true;
-      msg.textContent = "Проверка… · Checking…";
-      sha256Hex(pin).then(function(hex){
-        busy = false;
-        if(HASHES.indexOf(hex) >= 0){
-          setUnlocked();
-          msg.textContent = "Доступ открыт · Access granted";
-          var g = document.getElementById("noah-gate");
-          document.documentElement.classList.remove("noah-locked");
-          if(g) g.parentNode.removeChild(g);
-        } else {
-          msg.textContent = "Неверный PIN · Wrong PIN";
-          input.classList.add("err");
-          input.value = "";
-          setTimeout(function(){ input.classList.remove("err"); input.focus(); }, 400);
-        }
-      }).catch(function(){
-        busy = false;
-        msg.textContent = "Браузер не поддерживает Web Crypto · Browser missing crypto API";
-      });
+    async function check() {
+      if (busy) return; var v = (inp.value || '').trim();
+      if (v.length < LEN) return; busy = true;
+      var h = await sha(v);
+      if (HASHES.indexOf(h) >= 0) {
+        try { localStorage.setItem(KEY, JSON.stringify({ ok: true, ts: Date.now() })); } catch (e) {}
+        var s = document.getElementById('akaa-gate-style'); if (s) s.parentNode.removeChild(s);
+        ov.parentNode.removeChild(ov);
+      } else { msg.textContent = 'Неверный пароль'; inp.value = ''; busy = false; try { inp.focus(); } catch (e) {} }
     }
-
-    btn.addEventListener("click", tryUnlock);
-    input.addEventListener("keydown", function(e){ if(e.key === "Enter") tryUnlock(); });
-    setTimeout(function(){ try{ input.focus(); }catch(e){} }, 50);
+    inp.addEventListener('input', function () { msg.textContent = ''; if (inp.value.length >= LEN) check(); });
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
   }
-
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", mount);
-  } else {
-    mount();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+  else build();
 })();
